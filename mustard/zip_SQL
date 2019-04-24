@@ -1,0 +1,12 @@
+create table zip(
+    code number(10) primary key,
+    shi nvarchar2(10),
+    gungu nvarchar2(10),
+    dong nvarchar2(10)
+    );
+alter table zip modify code number(11);
+select * from zip;
+select distinct gungu from zip where shi like '부산직할시';
+--직할시는 지우기
+delete from zip where shi like '%직할시';
+select distinct shi from zip order by shi;

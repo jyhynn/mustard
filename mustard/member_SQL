@@ -1,0 +1,21 @@
+create table member(
+	memNo number(5) primary key,
+	email varchar2(50) not null unique,
+	password varchar2(50) not null,
+	name nvarchar2(10) not null,
+	code number(10),
+	constraint FK_zipcode FOREIGN KEY(code) REFERENCES zip(code)
+);
+
+create sequence seq_member;
+
+--닉네임 컬럼 추가
+alter table member add nick nvarchar2(20) default '익명';
+
+alter table member modify code number(11);
+
+-- 이메일 인증관련 권한키(authkey), 권한상태(authstatus) 추가
+alter table member modify authkey varchar(50);
+alter table member add authstatus number(2) default 0;
+delete from member;
+select * from member;

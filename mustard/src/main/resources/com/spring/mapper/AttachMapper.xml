@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.mapper.AttachMapper">
+
+	<insert id="insert">
+		insert into notice_attach values(#{uuid},#{uploadPath},#{fileName},#{fileType},#{notice_no})
+	</insert>
+	
+	<select id="findByNo" resultType="com.spring.domain.AttachNoticeVO">
+		select * from notice_attach where notice_no=#{notice_no}
+	</select>
+	<!-- notice_no에 해당하는 첨부파일 목록 삭제 -->
+	<delete id="delete">
+		delete from notice_attach where notice_no=#{notice_no}	
+	</delete>
+	<!-- DB에 있는 첨부파일목록 전부 가져오기 -->
+	<select id="getOldFiles" resultType="com.spring.domain.AttachNoticeVO">
+		select * from notice_attach where uploadPath=to_char(sysdate-1, 'yyyy\mm\dd')
+	</select>
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- Appenders : 로그 출력방향/형태 지정 (화면) -->
+	<appender name="console"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} %5level %logger{36} - %msg%n
+			</pattern>
+		</layout>
+	</appender>
+
+	<!-- 로그를 파일에 기록 -->
+	<property name="LOG_ABSOLUTE_PATH" value="d:/log" />
+	<appender name="rolling"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_ABSOLUTE_PATH}/logback.log</file>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} %5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"><!-- 전날 저장한 로그파일은 전날 날짜로 저장하고 오늘껀 오늘날자로 기록 -->
+			<fileNamePattern>${LOG_ABSOLUTE_PATH}/logback.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern><!-- 날짜별로 파일을 쌓거나 -->
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>100MB</maxFileSize><!-- 사이즈가 100mb가 넘어가면 파일 새로 생성 -->
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+	</appender>
+
+	<!-- Application Loggers -->
+	<logger name="com.spring.controller" level="info" />
+	<logger name="com.spring.service" level="info" />
+	<logger name="com.spring.mapper" level="debug"/>
+	<logger name="com.spring.controller" level="debug"/>
+
+	<!-- 3rdparty Loggers -->
+	<logger name="org.springframework.core" level="info" />
+	<logger name="org.springframework.beans" level="info" />
+	<logger name="org.springframework.context" level="info" />
+	<logger name="org.springframework.web" level="info" />
+
+	<!-- Root Logger -->
+	<root level="warn">
+		<appender-ref ref="console" />
+		<appender-ref ref="rolling" />
+	</root>
+</configuration>

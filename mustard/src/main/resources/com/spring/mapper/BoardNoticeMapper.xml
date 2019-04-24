@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.mapper.BoardNoticeMapper">
+
+	<select id="getList" resultType="com.spring.domain.BoardNoticeVO">
+		select * from board_notice order by notice_no desc
+	</select>
+	
+	<select id="getNotice" resultType="com.spring.domain.BoardNoticeVO">
+		select * from board_notice where notice_no=#{notice_no}
+	</select>
+	
+	<insert id="insert">
+		<selectKey keyProperty="notice_no" order="BEFORE" resultType="int">
+			select seq_board_notice.nextVal from dual
+		</selectKey>
+			insert into board_notice(notice_no,title,writer,content) values(#{notice_no},#{title},#{writer},#{content})
+	</insert>
+</mapper>

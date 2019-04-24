@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.mapper.ZipMapper">
+	<select id="getShi" resultType="com.spring.domain.ZipVO">
+		select distinct shi from zip order by shi
+	</select>
+	<select id="getGungu" resultType="com.spring.domain.ZipVO">
+		select distinct gungu from zip where shi=#{shi} and gungu is not null order by gungu
+	</select>
+	<select id="getDong" resultType="com.spring.domain.ZipVO">
+		select distinct dong from zip where shi=#{shi} and gungu=#{gungu} and gungu is not null and dong is not null order by dong
+	</select>
+	<select id="getZip" resultType="com.spring.domain.ZipVO">
+		select * from zip where shi=#{shi} and gungu=#{gungu} and dong=#{dong} order by code
+	</select> 
+</mapper>

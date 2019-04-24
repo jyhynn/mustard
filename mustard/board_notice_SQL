@@ -1,0 +1,39 @@
+create table board_notice(
+	notice_no number(5) primary key,
+	title varchar2(50) not null,
+	writer varchar2(50) not null,
+	content clob not null,
+	notice_date date default sysdate,
+	notice_updatedate date default sysdate
+);
+
+create sequence seq_board_notice;
+insert into board_notice values(seq_board_notice.nextval,'공지 테스트','관리자','똑똑한 지펠 오븐의 친절한 레시피 100',sysdate,sysdate);
+
+-- 공지사항 첨부파일 테이블
+create table notice_attach(
+	uuid varchar2(100) not null,
+	uploadPath varchar2(200) not null,
+	fileName varchar2(100) not null,
+	fileType char(1) default 'I',
+	notice_no number(10,0)
+);
+
+alter table notice_attach add constraint pk_attach primary key(uuid);
+alter table notice_attach add constraint fk_notice_attach foreign key(notice_no) references board_notice(notice_no);
+
+create table board_info(
+	
+);
+
+
+
+create table board_free(
+	free_no number(5) primary key,
+	title varchar2(50) not null,
+	writer varchar(50) not null,
+	writer_no number(5) not null,
+	content clob not null,
+	notice_date date default sysdate,
+	notice_updatedate date default sysdate
+);
