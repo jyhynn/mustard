@@ -11,11 +11,15 @@ create sequence seq_member;
 
 --닉네임 컬럼 추가
 alter table member add nick nvarchar2(20) default '익명';
+--가입날짜 컬럼 추가
+alter table member add regdate date default sysdate;
 
 alter table member modify code number(11);
 
 -- 이메일 인증관련 권한키(authkey), 권한상태(authstatus) 추가
+alter table member add authkey varchar(50);
 alter table member modify authkey varchar(50);
 alter table member add authstatus number(2) default 0;
+drop table member;
 delete from member;
 select * from member;
