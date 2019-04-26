@@ -7,6 +7,7 @@
 <meta charset="utf-8">
 <title>Mustard</title>
 <link rel="stylesheet" type="text/css" href="/resources/css/boardmain.css" />
+<link rel="stylesheet" type="text/css" href="/resources/css/small-business.css" />
 <!-- Bootstrap core JavaScript -->
 <script src="/resources/vendor/jquery/jquery.min.js"></script>
 <script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -28,9 +29,9 @@
 					</div>
 				</div>
 			</div>
-			<!-- /.col-lg-8 -->
-			<div class="col-md-5 mb-3">
-				<div id="carouselExampleCaptions" class="carousel slide w-100" data-ride="carousel">
+			<!-- 슬라이드 이미지 -->
+			<div class="col-md-5">
+				<div id="carouselExampleCaptions" class="carousel slide w-100 mb-3" data-ride="carousel">
 					<ol class="carousel-indicators">
 						<li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
 						<li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
@@ -71,20 +72,19 @@
 						class="sr-only">Next</span>
 					</a>
 				</div>
+				<div id="notice-box">
+				<h5 class="font-weight-light">사이트 공지사항 
+					<a class="btn btn-primary" href="/board/noticeList">+</a></h5>
+					<ul></ul>
+				</div>
 			</div>
-			<h1 class="font-weight-light">사이트 공지사항</h1>
-			<p>This is a template that is great for small businesses. It
-				doesn't have too much fancy flare to it, but it makes a great use of
-				the standard Bootstrap core components. Feel free to use this
-				template for any project you want!</p>
-			<a class="btn btn-primary" href="#">Call to Action!</a>
 		</div>
 		<!-- /.col-md-4 -->
 	</div>
 	<!-- /.row -->
 
 	<!-- Call to Action Well -->
-	<nav class="navbar navbar-expand-lg navbar-light bg-light rounded">
+	<nav class="navbar navbar-expand-lg navbar-light bg-mustard rounded">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample10" aria-controls="navbarsExample10" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -223,6 +223,20 @@
 				// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
 				map.setCenter(coords);
 			}
+		});
+	</script>
+	<script>
+		$(function(){
+			$.getJSON({
+				url:'main_notice',
+				success:function(data){
+					var str = "";
+					$(data).each(i,obj){
+						str+="<li><a href=''>" + encodeURIComponent(obj.title) + "</a></li>";			
+					}			
+						$("#notice-box").append(obj);
+				}
+			});
 		});
 	</script>
 
