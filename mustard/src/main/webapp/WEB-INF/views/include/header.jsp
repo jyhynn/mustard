@@ -6,10 +6,9 @@
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <title>Mustard</title>
-<link rel="stylesheet" type="text/css" href="/resources/css/small-business.css" />
 <link rel="stylesheet" type="text/css" href="/resources/css/commons.css" />
 <!-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> -->
-<link rel="stylesheet" type="text/css" href="/resources/vendor/bootstrap/css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="/resources/vendor/bootstrap/css/bootstrap.min.css" />
 <!-- Bootstrap core JavaScript -->
 <script src="/resources/jquery-3.3.1.js"></script>
 <!-- <script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
@@ -30,8 +29,8 @@
 					<li class="nav-item active"><a class="nav-link" href="#">Home
 							<span class="sr-only">(current)</span>
 					</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">로그인</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">회원가입</a></li>
+					<li class="nav-item"><a class="nav-link" href="member/signin">로그인</a></li>
+					<li class="nav-item"><a class="nav-link" href="member/register">회원가입</a></li>
 				</ul>
 			</div>
 		</div>
