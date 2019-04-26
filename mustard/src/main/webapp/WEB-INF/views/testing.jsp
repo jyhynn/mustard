@@ -5,31 +5,39 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="/resources/vendor/bootstrap/css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="/resources/vendor/bootstrap/css/bootstrap.min.css" />
+<script src="/resources/vendor/jquery/jquery.min.js"></script>
+<script>
+	var request = require('request');
+	var cheerio = require('cheerio');
+	var url = "https://www.seoul.go.kr/thismteventfstvl/list.do";
+	request(url, function (err, res, html) {
+	    if (!err) {	//에러 안나면 정보 가져오기
+	        var $ = cheerio.load(html);
+	    
+	        $(".news-lst > .item").each(function () {
+	            var post = {"link": "", "image": "", "subject": "", "date": ,"txt" : ""};
+	            var data = $(this);
+	            
+	            post["subject"] = data.text();
+	          	console.log(post["subject"].val());
+	            post["link"] = data.attr("href");
+	        });
+	    }
+	})
+	
+</script>
 </head>
+<!-- https://www.seoul.go.kr/thismteventfstvl/list.do -->
 <body>
-	 <div class="container">
-    <!-- Example row of columns -->
-    <div class="row">
-      <div class="col-md-4">
-        <h2>Heading</h2>
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-        <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-      </div>
-      <div class="col-md-4">
-        <h2>Heading</h2>
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-        <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-      </div>
-      <div class="col-md-4">
-        <h2>Heading</h2>
-        <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-        <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-      </div>
-    </div>
-
-    <hr>
-
-  </div> <!-- /container -->
+	<div class="list-group">
+  <a href="#" class="list-group-item list-group-item-action active">
+    Cras justo odio
+  </a>
+  <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+  <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+  <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+  <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">Vestibulum at eros</a>
+</div>
 </body>
 </html>
