@@ -8,6 +8,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.spring.domain.LogOnVO;
 import com.spring.domain.MailUtils;
 import com.spring.domain.MemberVO;
 import com.spring.domain.TempKey;
@@ -88,10 +89,9 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public MemberVO signin(MemberVO vo) {
+	public LogOnVO signin(MemberVO vo) {
 		return mapper.signin(vo);
 	}
-
 	
 
 }

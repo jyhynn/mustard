@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.spring.domain.LogOnVO;
 import com.spring.domain.MemberVO;
 import com.spring.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
+import oracle.net.aso.l;
 
 @Slf4j
 @Controller
@@ -77,7 +79,7 @@ public class MemberController {
 	public String registMember(MemberVO vo) {
 		log.info("회원가입요청" + vo.getEmail() + vo.getDong());
 		service.registMember(vo);
-		return "signin";
+		return "redirect:signin";
 	}
 	
 	@RequestMapping("/signin")
@@ -86,7 +88,10 @@ public class MemberController {
 	}
 	
 	@PostMapping("/goSignin")
-	public void goSignin() {
+	public String goSignin(MemberVO vo, Model model) {
 		log.info("로그인하러 가요~~");
+		LogOnVO logon = service.signin(vo);
+		model.addAttribute("logon",logon);
+		return "/";
 	}
 }

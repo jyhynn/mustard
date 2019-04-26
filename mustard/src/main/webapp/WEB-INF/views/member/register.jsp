@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../include/header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,8 +8,6 @@
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="/resources/css/mainstyles.css">
 <link type="text/css" href="/resources/css/register.css" rel="stylesheet">
-<link rel="stylesheet" href="/resources/vendor/bootstrap/css/bootstrap.css">
-<script src="/resources/jquery-3.3.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.js"></script>
 <script src="/resources/js/messages_ko.js"></script>
 <script src="/resources/js/registValidation.js"></script>
@@ -21,7 +20,7 @@
 		</h1>
 				
 		<h1 class="h3 mb-3 font-weight-normal">[사이트이름]</h1>
-		<button class="btn btn-lg btn-primary btn-block m-2 start-email" type="button">이메일로 시작하기</button>
+		<button class="btn btn-lg btn-block m-2 start-email btn-warning" type="button">이메일로 시작하기</button>
 		<!-- <button class="btn btn-lg btn-primary btn-block m-2 start-kakao" type="button">카카오계정으로 시작하기</button> -->
 		<form class="form-signin" id="form-signin" action="reigstMember" method="post">
 			<div class="form-start-email">
@@ -29,7 +28,7 @@
 					<input type="email" id="email" name="email" class="form-control m-2" placeholder="이메일" required autofocus>
 					<label for="email" class="tip tip-email">비밀번호 찾기에 사용</label> <br>
 					<label for="email" class="tip email-msg"></label>
-					<button class="btn btn-lg btn-primary btn-block m-2 auth-email" type="button">이메일 인증하기</button> 
+					<button class="btn btn-lg btn-block m-2 auth-email btn-warning" type="button">이메일 인증하기</button> 
 				</c:if>
 				<c:if test="${email!='' }">
 				<input type="email" id="email" name="email" class="form-control m-2" placeholder="이메일" value="${email }" readonly>

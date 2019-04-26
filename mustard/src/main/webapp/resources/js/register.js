@@ -42,7 +42,11 @@ $(function() {
 	$(".auth-email").on("click", function(e) {
 		var emailReg = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 		if(!emailReg.test($("#email").val())){
-				e.preventDefault();
+			e.preventDefault();
+		}else if($("#email").val()==""){
+			e.preventDefault();
+			alert("이메일을 입력해주세요");
+			return;
 		}else{
 			$(".email-msg").show();
 			$.ajax({
