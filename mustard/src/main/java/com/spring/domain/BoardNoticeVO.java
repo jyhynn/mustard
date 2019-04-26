@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class BoardNoticeVO {
-	private int notice_no;
+	private int notice_no, memNo, board_no;
 	private String title, writer, content;
 	private Date notice_date, notice_updatedate;
 	
