@@ -21,8 +21,12 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<!-- 스프링에서 파일 업로드 담당하는 클래스 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>	
+	
 	<context:component-scan base-package="com.spring.controller" />
 	<context:component-scan base-package="com.spring.service" />
 	<context:component-scan base-package="com.spring.domain" />
+	<context:component-scan base-package="com.spring.scrapy" />
 	
 </beans:beans>
