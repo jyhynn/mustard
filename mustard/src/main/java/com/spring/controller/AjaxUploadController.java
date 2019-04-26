@@ -41,7 +41,7 @@ public class AjaxUploadController {
 	}
 	
 	@PostMapping(value="/uploadAjax", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@ResponseBody
+//	@ResponseBody
 	public ResponseEntity<List<AttachNoticeVO>> uploadAjaxPost(MultipartFile[] uploadFile){
 		log.info("ajax 파일 업로드 요청");
 		
@@ -62,6 +62,7 @@ public class AjaxUploadController {
 			log.info("--------------------");
 			log.info("File Name : " + f.getOriginalFilename());
 			log.info("File Size : " + f.getSize());
+			log.info("--------------------");
 			
 			//uuid붙여서 저장
 			UUID uuid = UUID.randomUUID();
@@ -76,17 +77,15 @@ public class AjaxUploadController {
 			
 			if(checkImageType(saveFile)) {
 				attach.setFileType(true);
-				// 썸네일작업하기
-				try {
-																						//s_를 붙여서 한번 더 저장해 썸네일이미지를 표시
-					FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath,"s_"+uploadFileName));
+				// 썸네일작업
+				try {															//thum_를 붙여서 한번 더 저장해 썸네일이미지를 표시
+					FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath,"thum_"+uploadFileName));
 					Thumbnailator.createThumbnail(f.getInputStream(),thumbnail,100,100);
 					thumbnail.close();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-			
 			// 파일저장
 			try {
 				f.transferTo(saveFile);

@@ -6,10 +6,17 @@ create table board_notice(
 	notice_date date default sysdate,
 	notice_updatedate date default sysdate
 );
-
+--글쓴이 회원번호 컬럼 추가
+alter table board_notice add memNo number(5);
+--게시판번호 컬럼 추가
+alter table board_notice add board_no number(2);
+alter table board_notice modify board_no number(2) default '1'; 
+update board_notice set board_no=1;
+alter table board_notice add constraint fk_notice_memNo foreign key(memNo) references member(memNo);
+alter table member add nick nvarchar2(20) default '익명';
 create sequence seq_board_notice;
 insert into board_notice values(seq_board_notice.nextval,'공지 테스트','관리자','똑똑한 지펠 오븐의 친절한 레시피 100',sysdate,sysdate);
-
+select * from board_notice;
 -- 공지사항 첨부파일 테이블
 create table notice_attach(
 	uuid varchar2(100) not null,
@@ -19,9 +26,27 @@ create table notice_attach(
 	notice_no number(10,0)
 );
 
+select notice_no, uuid,uploadpath,filename from notice_attach
+where rowid in (select min(rowid)from notice_attach group by notice_no) and rownum<11 order by notice_no desc;
+
+select * from notice_attach;
+alter table notice_attach add board_no number(2); --게시판번호컬럼 추가
+update NOTICE_ATTACH set board_no=1;
 alter table notice_attach add constraint pk_attach primary key(uuid);
 alter table notice_attach add constraint fk_notice_attach foreign key(notice_no) references board_notice(notice_no);
 
+create table reply(
+	reNo number(10,0) primary key,
+	board_no number(2) not null,
+	notice_no number(5) not null,
+	reply varchar2(1000) not null,
+	writer varchar2(50) not null,
+	replyDate date default sysdate
+);
+delete from reply;
+alter table reply add memNo number(5);
+create sequence seq_reply;
+select * from REPLY;
 create table board_info(
 	
 );

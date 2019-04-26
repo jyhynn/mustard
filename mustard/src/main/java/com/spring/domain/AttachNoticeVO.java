@@ -7,5 +7,5 @@ public class AttachNoticeVO {
 	
 	private String uuid, uploadPath, fileName;
 	private boolean fileType;
-	private int notice_no;
+	private int notice_no, board_no;
 }
