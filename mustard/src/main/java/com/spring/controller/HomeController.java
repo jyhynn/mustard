@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.domain.BoardNoticeVO;
 import com.spring.domain.ZipVO;
 import com.spring.service.ZipService;
 
@@ -77,8 +78,15 @@ public class HomeController {
 		return list;
 	}
 
-	@RequestMapping("/testing")
+	/*@RequestMapping("/testing")
 	public void testing() {
 		log.info("testing 나와라");
+	}*/
+	
+	@RequestMapping("/main_notice")
+	@ResponseBody
+	public List<BoardNoticeVO> main_notice() {
+		
+		return null;
 	}
 }
