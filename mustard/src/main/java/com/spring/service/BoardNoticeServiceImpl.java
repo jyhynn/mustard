@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.domain.AttachNoticeVO;
 import com.spring.domain.BoardNoticeVO;
+import com.spring.domain.Criteria;
 import com.spring.domain.MemberVO;
 import com.spring.mapper.AttachMapper;
 import com.spring.mapper.BoardNoticeMapper;
@@ -24,12 +25,15 @@ public class BoardNoticeServiceImpl implements BoardNoticeService{
 	private BoardNoticeMapper mapper;
 	@Autowired
 	private AttachMapper attachMapper;
-	@Autowired
-	private MemberMapper memberMapper;
+
 	
 	@Override
-	public List<BoardNoticeVO> getList(int board_no) {
-		return mapper.getList(board_no);
+	public List<BoardNoticeVO> getList(Criteria cri, int board_no) {
+		HashMap<String, Integer> hash = new HashMap<>();
+		hash.put("board_no", board_no);
+		hash.put("pageNum", cri.getPageNum());
+		hash.put("amount", cri.getAmount());
+		return mapper.getList(hash);
 	}
 	
 	@Override
@@ -95,6 +99,15 @@ public class BoardNoticeServiceImpl implements BoardNoticeService{
 	@Override
 	public List<AttachNoticeVO> getAttachs() {
 		return attachMapper.getAttachs();
+	}
+
+	@Override
+	public int countPage(Criteria cri, int board_no) {
+		HashMap<String, Integer> hash = new HashMap<>();
+		hash.put("board_no", board_no);
+		hash.put("pageNum", cri.getPageNum());
+		hash.put("amount", cri.getAmount());
+		return mapper.countPage(hash);
 	}
 
 }

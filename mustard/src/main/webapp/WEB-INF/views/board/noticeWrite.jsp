@@ -27,9 +27,9 @@
 			<form id="writeForm" action="noticeWrite" method="post">
 				<div class="list-group-item mb-3 p-0">
 					<input class="custom-form-control" type="text" id="title" name="title" placeholder="제목" required="required"/>
-					<input class="custom-form-control" type="hidden" name="board_no" value="1"/>
-					<input class="custom-form-control" type="hidden" name="writer" value="로그인된 회원 닉"/>	<!-- ${logon.nick } -->
-					<input class="custom-form-control" type="hidden" name="memNo" value="5"/><!-- ${logon.memNo } -->
+					<input class="custom-form-control" type="hidden" name="board_no" id="board_no" value="1"/>
+					<input class="custom-form-control" type="hidden" name="writer" value=관리자"/>	<!-- ${logon.nick } -->
+					<input class="custom-form-control" type="hidden" name="memNo" value="61"/><!-- ${logon.memNo } -->
 					</div>
 				<div class="list-group-item p-0 mb-3">
 					<textarea id="froala-editor" class="form-control m-0 h-50" placeholder="내용을 입력하세요" name="content" required="required" rows="50" cols=""></textarea>
@@ -74,6 +74,7 @@
 				str+="<input type='hidden' name='noticeAttach[" + i + "].uploadPath' value='" + job.data("path") + "'>";
 				str+="<input type='hidden' name='noticeAttach[" + i + "].fileName' value='" + job.data("filename") + "'>";
 				str+="<input type='hidden' name='noticeAttach[" + i + "].fileType' value='" + job.data("type") + "'>";
+				str+="<input type='hidden' name='noticeAttach[" + i + "].board_no' value='" + $("#board_no").val() + "'>";
 			});
 			if($("#title").val()!="" && $("#froala-editor").val()!=""){
 				$("#writeForm").append(str).submit();

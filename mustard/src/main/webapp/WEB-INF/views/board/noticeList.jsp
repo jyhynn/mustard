@@ -29,6 +29,25 @@
 						<small>${n.notice_date } <span>${n.writer }</span></small>
 					</a>
 				</c:forEach>
+				<!-- 페이징 -->
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-center">
+						<c:if test="${pageMaker.prev }">
+							<li class="page-item disabled"><a class="page-link" href="${pageMaker.startPage-1 }" tabindex="-1" aria-disabled="true">&laquo;</a></li>
+						</c:if>
+						<c:forEach var="idx" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
+							<li class="page-item ${pageMaker.cri.pageNum==idx?'active':'' }">
+								<a class="page-link" href="${idx }">${idx }</a>
+							</li>
+						</c:forEach>
+						<c:if test="${pageMaker.next }">
+							<li class="page-item"><a class="page-link" href="${pageMaker.endPage+1 }">&raquo;</a>
+						</c:if>
+						</li>
+					</ul>
+				</nav>
+				<!-- /페이징 -->
+
 				<button type="button" class="mt-4 mb-5 btn btn-warning btn-write">글쓰기</button>
 			</div>
 			<div class="col-md-3 order-md-2 mb-4 font-jeju">
@@ -37,7 +56,6 @@
 		</div>
 	</div>
 	<script>
-
 		$(function() {
 			var noticeNo = $(".notice_no").val();
 			var thum_image = $(".media");

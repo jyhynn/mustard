@@ -2,9 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.mapper.BoardNoticeMapper">
 
-	<select id="getList" resultType="com.spring.domain.BoardNoticeVO">
+	<!-- <select id="getList" resultType="com.spring.domain.BoardNoticeVO">
 		select * from board_notice where board_no=#{board_no} order by notice_no desc
+	</select> -->
+	
+	<select id="getList" resultType="com.spring.domain.BoardNoticeVO">	<!-- <![CDATA[이 안에 있는 꺽쇠가 태그가 아님을 명시]]> -->
+	<![CDATA[
+		select board_no, notice_no, title, writer, content, notice_date, notice_updatedate, replycnt
+			from (select /*+ INDEX_DESC(board_notice pk_board_notice) */ 
+					rownum rn, board_no, notice_no, title, writer, content, notice_date, notice_updatedate, replycnt from board_notice where ]]>
+	<![CDATA[	rownum <= #{pageNum} * #{amount} and board_no=#{board_no}) where rn > (#{pageNum}-1) * #{amount} and board_no=#{board_no}	]]>	
 	</select>
+	
+	<!-- 댓글 카운트 수 변경 -->
+	<update id="updateReplyCnt">
+		update board_notice set replycnt=replycnt+#{amount} where notice_no=#{notice_no} and board_no=#{board_no}
+	</update>
+	
+	<select id="countPage" resultType="int">
+		select count(*) from board_notice where notice_no > 0 and board_no=#{board_no}
+	</select>
+	
 	
 	<select id="getNotice" resultType="com.spring.domain.BoardNoticeVO">
 		select * from board_notice where notice_no=#{notice_no} and board_no=#{board_no}

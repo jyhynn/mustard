@@ -33,19 +33,6 @@
 					<button type="button" class="btn btn-warning btn-delete">삭제</button>
 					<button type="button" class="btn btn-danger btn-report">신고</button>
 				</div>
-				<!-- 댓글달기 -->
-				<div class="list-group mt-4 mb-5">
-					<div class="input-group mb-3">
-						<input id="reply" name="reply" type="text" class="form-control" placeholder="댓글">
-						<div class="input-group-append">
-							<span class="btn btn-warning btn-reply">등록</span>
-						</div>
-					</div>
-					<!-- 댓글리스트 -->
-					<div>
-						<ul class="replyBox"></ul>
-					</div>
-				</div>
 			</div>
 			<div class="col-md-3 order-md-2 mb-4 font-jeju">
 				<%@ include file="../include/trends.jsp" %>
@@ -62,8 +49,7 @@
 $(function(){
 	var noticeNo = ${notice.notice_no };
 	var boardNo = ${notice.board_no };
-	var re_box = $(".replyBox");
-	
+
 	$.getJSON({
 		url : 'getAttachList',
 		data : {notice_no:noticeNo,
@@ -101,76 +87,7 @@ $(function(){
 		$("#readNotice").attr("method","post")
 		$("#readNotice").attr("action","remove").submit();
 	});
-	showReply();
 
-	function showReply(){
-		 $.getJSON({
-			url : '/replies/getReplies',
-			data : {notice_no:noticeNo,
-					board_no:boardNo},
-			success:function(data){
-				var str = "";
-				console.log(data);
-				$(data).each(function(i,obj){
-					str += "<li class='list-group-item' data-reno='" + encodeURIComponent(obj.reNo) + "'>";
-					str += "<input type='hidden' name='reNo' data-reno='" + encodeURIComponent(obj.reNo) + "' value='" + obj.reNo + "' />";
-					str += "<input type='hidden' name='board_no' data-boardno='" + encodeURIComponent(obj.board_no) + "' value='" + obj.board_no + "' />";
-					str += "<input type='hidden' name='notice_no' data-noticeno='" + encodeURIComponent(obj.notice_no) + "' value='" + obj.notice_no + "' />";
-					str += "<input type='hidden' name='writer' value='" + obj.writer + "' />";
-					str += "<input type='hidden' name='memNo' value='" + obj.memNo + "' />";
-					str += "<input type='hidden' name='reply' value='" + obj.reply + "' />";
-					str += "<small class='re_writer'> " + obj.writer + " </small>";
-					str += "<small class='time'> " + obj.replyDate + " </small>";
-					str += "<small> 좋아요/싫어요 </small>";
-					str += "<button type='button'> X </button>";
-					str += "<br><p class='replyContent'>" + obj.reply + "</p></li>";					
-				});	
-			//	console.log(str);
-				re_box.html(str);
-			}
-		});//getJSON
-	 }//showReply
-	
-	//댓글 입력
-	$(".btn-reply").on("click",function(){
-		$.ajax({
-			type:"post",
-			url : '/replies/insertReply',
-			data : {notice_no : noticeNo,
-					reply : $("#reply").val(),
-					board_no : boardNo,
-					writer : "로그인한 사용자",
-					memNo : "1"},
-			success:function(data){
-				console.log(data);
-				 $("#reply").val("");
-			}
-		})
-		
-	});
-	 
-	 //댓글삭제
-	$(".replyBox").on("click","li",function(){
-		var reNo  =$(this).data("reno");
-		 $.ajax({
-			type:"post",
-			url : '/replies/deleteReply',
-			data : {notice_no : noticeNo,
-					reNo : reNo,
-					board_no : boardNo},
-			success:function(data){
-				console.log(data);
-				if(data=='reDelSuccess'){
-					alert("댓글이 삭제되었습니다.");
-					showReply();
-				}else{
-					alert("댓글 삭제 실패.");
-				}
-			}
-		});	//ajax	
-	}); 
-		
-	 
 });
 </script>
 <%@ include file="../include/footer.jsp"%>
