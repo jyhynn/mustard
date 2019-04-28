@@ -2,6 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../include/header.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:if test="${empty log }">
+	<script>
+		alert("로그인 후 이용가능합니다");
+		location.href="/member/signin";		
+	</script>
+</c:if>
 <!DOCTYPE html>
 <html>
 <head>

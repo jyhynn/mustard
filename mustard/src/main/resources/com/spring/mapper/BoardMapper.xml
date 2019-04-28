@@ -62,11 +62,18 @@
 		insert into scrap values(seq_scarp.nextval,#{board_no},#{article_no},#{memNo})
 	</insert>
 	
-	<select id="getScrapOne" resultType="com.spring.domain.ScrapVO">
-		select * from scrap where memNo=#{memNo} and board_no=#{board_no} and article_no=#{article_no}
+	<select id="getScrapOne" resultType="com.spring.domain.BoardVO">
+		select * from board_board b left outer join scrap s 
+			on b.board_no=s.board_no and b.article_no=s.article_no and b.memNo=s.memNo
+			where s.memNo=#{memNo} 
 	</select>
 	
-	<select id="getScraps" resultType="com.spring.domain.ScrapVO">
-		select * from scrap where memNo=#{memNo} 
+	<select id="getScraps" resultType="com.spring.domain.ScrapVO"> 
+		select * from scrap where memNo=#{memNo}
+	</select>
+	
+	<!-- 내가쓴글 -->
+	<select id="getIWrote" resultType="com.spring.domain.BoardVO">
+		select * from board_board where memNo=#{memNo}
 	</select>
 </mapper>

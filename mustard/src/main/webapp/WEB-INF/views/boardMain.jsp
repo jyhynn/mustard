@@ -25,7 +25,12 @@
 				<div class="hAddr">
 					<span class="map-title">우리 동네</span> <span id="centerAddr"></span>
 					<div class="bAddr">
-						<span class="title">${zip.shi } ${zip.gungu } ${zip.dong }</span>
+						<c:if test="${empty log }">
+							<span class="title selectedaddr">${zip.shi } ${zip.gungu } ${zip.dong }</span>
+						</c:if>
+						<c:if test="${!empty log }">
+							<span class="title selectedaddr">${log.shi } ${log.gungu } ${log.dong }</span>
+						</c:if>
 					</div>
 				</div>
 			</div>
@@ -195,7 +200,7 @@
 	</footer>
 	<!-- 로딩문제로 맨 아래 위치 -->
 	<script>
-		var selectedAddr = "${zip.shi}" + " ${zip.gungu}" + " ${zip.dong}";
+		var selectedAddr = $(".selectedaddr").text();
 		var container = document.getElementById('map');
 		var options = {
 			center : new daum.maps.LatLng(33.450701, 126.570667),
@@ -207,7 +212,7 @@
 		var geocoder = new daum.maps.services.Geocoder();
 
 		// 주소로 좌표를 검색합니다
-		geocoder.addressSearch('서울특별시 양천구 목2동', function(result, status) {
+		geocoder.addressSearch(selectedAddr, function(result, status) {
 
 			// 정상적으로 검색이 완료됐으면 
 			if (status === daum.maps.services.Status.OK) {

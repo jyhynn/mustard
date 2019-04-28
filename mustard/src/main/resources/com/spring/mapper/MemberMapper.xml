@@ -31,7 +31,7 @@
 	</update>
 	
 	<select id="signin" resultType="com.spring.domain.LogOnVO">
-		select memNo, nick, password from member where email=#{email} and password=#{password}
+		select memNo, memlevel, nick, password, email from member where email=#{email} and password=#{password}
 	</select>
 	
 	<update id="report">

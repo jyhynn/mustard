@@ -3,6 +3,7 @@ package com.spring.mapper;
 import java.util.HashMap;
 import java.util.List;
 
+import com.spring.domain.BoardVO;
 import com.spring.domain.ReplyVO;
 
 public interface ReplyMapper {
@@ -13,4 +14,5 @@ public interface ReplyMapper {
 	public int replyCount(HashMap<String, Integer> hash);
 	public int likeyReply(HashMap<String, Integer> hash);
 	public int reportReply(HashMap<String, Integer> hash);
+	public List<BoardVO> getMyReplies(int memNo);
 }

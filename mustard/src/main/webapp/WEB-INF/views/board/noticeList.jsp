@@ -47,8 +47,9 @@
 					</ul>
 				</nav>
 				<!-- /페이징 -->
-
-				<button type="button" class="mt-4 mb-5 btn btn-warning btn-write">글쓰기</button>
+				<c:if test="${log.memlevel==10 }">
+					<button type="button" class="mt-4 mb-5 btn btn-warning btn-write">글쓰기</button>
+				</c:if>
 			</div>
 			<div class="col-md-3 order-md-2 mb-4 font-jeju">
 				<%@ include file="../include/trends.jsp"%>

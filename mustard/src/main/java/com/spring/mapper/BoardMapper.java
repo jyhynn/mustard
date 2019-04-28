@@ -21,5 +21,7 @@ public interface BoardMapper {
 	public int likey(HashMap<String, Integer> hash);
 	public int getLikeyamount(HashMap<String, Integer> hash);
 	public int scrap(HashMap<String, Integer> hash);
-	public ScrapVO getScrapOne(HashMap<String, Integer> hash);
+	public BoardVO getScrapOne(HashMap<String, Integer> hash);
+	public List<ScrapVO> getScraps(int memNo);
+	public List<BoardVO> getIWrote(int memNo);
 }

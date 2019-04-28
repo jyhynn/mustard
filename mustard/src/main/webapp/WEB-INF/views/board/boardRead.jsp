@@ -44,10 +44,14 @@
 						</div>
 					</form>
 				<div class="mt-4">
-					<button type="button" class="btn btn-warning btn-modify">수정</button>
-					<button type="button" class="btn btn-warning btn-delete">삭제</button>
+					<c:if test="${log.memNo==board.memNo }">
+						<button type="button" class="btn btn-warning btn-modify">수정</button>
+						<button type="button" class="btn btn-warning btn-delete">삭제</button>
+					</c:if>
 					<button type="button" class="btn btn-outline-danger btn-likey">♥ 좋아요</button>
-					<button type="button" class="btn btn-outline-danger btn-scrap">★ 스크랩</button>
+					<c:if test="${!empty log }">
+						<button type="button" class="btn btn-outline-danger btn-scrap">★ 스크랩</button>
+					</c:if>
 					<button type="button" class="btn btn-danger btn-report">신고</button>
 				</div>
 				<!-- 댓글달기 -->
@@ -158,7 +162,7 @@ $(function(){
 			url : '/scrapBoard',
 			data : {article_no : articleNo,
 					board_no : boardNo,
-					memNo : 61},
+					memNo : ${log.memNo}},
 			success:function(data){
 				console.log(data);
 				if(data=='boardScrapSuccess'){
@@ -212,7 +216,7 @@ $(function(){
 					str += "<small class='time'> " + obj.replyDate + " </small>";
 					str += "<small><span class='btn badge badge-light re-likey' data-reno='" + obj.reNo +"'>♥ " + obj.likey + "</span>";
 					str += "<span class='btn badge badge-danger re-report' data-reno='" + obj.reNo +"' data-memno='" + obj.memNo + "'>신고</span>";
-					str += "<span class='btn badge badge-light re-del' data-reno='" + obj.reNo +"'> X 삭제 </span></small>";
+					str += "<c:if test='${log.memNo==" + obj.memNo + "}'><span class='btn badge badge-light re-del' data-reno='" + obj.reNo +"'> X 삭제 </span></c:if></small>";
 					str += "<br><p class='replyContent'>" + obj.reply + "</p></li>";					
 				});	
 			//	console.log(str);
@@ -223,22 +227,25 @@ $(function(){
 	
 	//댓글 입력
 	$(".btn-reply").on("click",function(){
-		$.ajax({
-			type:"post",
-			url : '/replies/insertReply',
-			data : {article_no : articleNo,
-					reply : $("#reply").val(),
-					board_no : boardNo,
-					writer : "관리자",
-					memNo : "61"},
-			success:function(data){
-				console.log(data);
-				 $("#reply").val("");
-				 getReplyamount();
-				 showReply();
-			}
-		})
-		
+		if(${log}==null){
+			alert("로그인 후 이용가능합니다");
+		}else{
+			$.ajax({
+				type:"post",
+				url : '/replies/insertReply',
+				data : {article_no : articleNo,
+						reply : $("#reply").val(),
+						board_no : boardNo,
+						writer : "${log.nick}",
+						memNo : ${log.memNo}},
+				success:function(data){
+					console.log(data);
+					 $("#reply").val("");
+					 getReplyamount();
+					 showReply();
+				}
+			});
+		}
 	});
 	 
 	 //댓글삭제

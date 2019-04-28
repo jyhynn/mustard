@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../include/header.jsp"%>
+<c:if test="${log.memlevel!=10 }">
+	<script>
+		alert("관리자만 접근가능합니다");
+		location.href="history.back();";		
+	</script>
+</c:if>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,8 +34,8 @@
 				<div class="list-group-item mb-3 p-0">
 					<input class="custom-form-control" type="text" id="title" name="title" placeholder="제목" required="required"/>
 					<input class="custom-form-control" type="hidden" name="board_no" id="board_no" value="1"/>
-					<input class="custom-form-control" type="hidden" name="writer" value=관리자"/>	<!-- ${logon.nick } -->
-					<input class="custom-form-control" type="hidden" name="memNo" value="61"/><!-- ${logon.memNo } -->
+					<input class="custom-form-control" type="hidden" name="writer" value=${log.nick }"/>	
+					<input class="custom-form-control" type="hidden" name="memNo" value="${log.memNo }"/>
 					</div>
 				<div class="list-group-item p-0 mb-3">
 					<textarea id="froala-editor" class="form-control m-0 h-50" placeholder="내용을 입력하세요" name="content" required="required" rows="50" cols=""></textarea>

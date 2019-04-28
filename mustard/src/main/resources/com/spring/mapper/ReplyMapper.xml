@@ -29,4 +29,10 @@
 	<update id="reportReply">
 		update reply set report=report+1 where board_no=#{board_no} and article_no=#{article_no} and reno=#{reNo}
 	</update>
+	
+	<select id="getMyReplies" resultType="com.spring.domain.BoardVO">
+		select * from board_board b left outer join reply r 
+			on b.memNo=r.memNo and b.board_no=r.board_no and b.article_no=r.article_no 
+			where r.memNo=#{memNo} 
+	</select>
 </mapper>

@@ -1,6 +1,10 @@
 package com.spring.service;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,12 +12,16 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.spring.domain.BoardVO;
 import com.spring.domain.LogOnVO;
 import com.spring.domain.MailUtils;
 import com.spring.domain.MemberVO;
+import com.spring.domain.ScrapVO;
 import com.spring.domain.TempKey;
 import com.spring.domain.ZipVO;
+import com.spring.mapper.BoardMapper;
 import com.spring.mapper.MemberMapper;
+import com.spring.mapper.ReplyMapper;
 import com.spring.mapper.ZipMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +36,10 @@ public class MemberServiceImpl implements MemberService{
 	private MemberMapper mapper;
 	@Autowired
 	private ZipMapper zipMapper;
+	@Autowired
+	private BoardMapper boardMapper;
+	@Autowired
+	private ReplyMapper replyMapper;
 	
 	@Override
 	@Transactional
@@ -93,5 +105,29 @@ public class MemberServiceImpl implements MemberService{
 		return mapper.signin(vo);
 	}
 	
-
+	@Override
+	public List<BoardVO> getScraps(int memNo) {
+		HashMap<String, Integer> hash = new HashMap<>();
+		hash.put("memNo", memNo);
+		List<ScrapVO> scarpList = boardMapper.getScraps(memNo);
+		List<BoardVO> list = new ArrayList<>();
+		for(ScrapVO scrap : scarpList) {
+			BoardVO boardvo = new BoardVO();
+			hash.put("board_no", scrap.getBoard_no());
+			hash.put("article_no",scrap.getArticle_no());
+			boardvo = boardMapper.getScrapOne(hash);
+			list.add(boardvo);
+		}
+		return list;
+	}
+	
+	@Override
+	public List<BoardVO> getIWrote(int memNo) {
+		return boardMapper.getIWrote(memNo);
+	}
+	
+	@Override
+	public List<BoardVO> getMyReplies(int memNo) {
+		return replyMapper.getMyReplies(memNo);
+	}
 }

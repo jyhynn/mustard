@@ -29,9 +29,10 @@
 						</div>
 					</form>
 				<div class="mt-4">
+				<c:if test="${log.memlevel==10 }">
 					<button type="button" class="btn btn-warning btn-modify">수정</button>
 					<button type="button" class="btn btn-warning btn-delete">삭제</button>
-					<button type="button" class="btn btn-danger btn-report">신고</button>
+				</c:if>
 				</div>
 			</div>
 			<div class="col-md-3 order-md-2 mb-4 font-jeju">

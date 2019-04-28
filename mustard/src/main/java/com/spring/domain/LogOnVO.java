@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class LogOnVO {
-	private int memNo;
-	private String nick, password;
+	private int memNo, memlevel;
+	private String nick, password, email;
 }

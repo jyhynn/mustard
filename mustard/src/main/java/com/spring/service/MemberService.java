@@ -1,5 +1,8 @@
 package com.spring.service;
 
+import java.util.List;
+
+import com.spring.domain.BoardVO;
 import com.spring.domain.LogOnVO;
 import com.spring.domain.MemberVO;
 
@@ -11,4 +14,7 @@ public interface MemberService {
 	public int registMember(MemberVO vo);
 	public MemberVO checkEmail(String email);	//이메일 중복체크시
 	public LogOnVO signin(MemberVO vo);		//로그인
+	public List<BoardVO> getScraps(int memNo);
+	public List<BoardVO> getIWrote(int memNo);
+	public List<BoardVO> getMyReplies(int memNo);
 }
