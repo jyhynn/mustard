@@ -13,4 +13,6 @@ public interface MemberMapper {
 	public int registMember(MemberVO vo);
 	public MemberVO checkEmail(String email);	//이메일 중복체크시
 	public LogOnVO signin(MemberVO vo);		//로그인
+	public int report(int memNo);
+	public MemberVO read(String email);
 }

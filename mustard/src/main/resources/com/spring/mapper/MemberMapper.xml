@@ -33,4 +33,31 @@
 	<select id="signin" resultType="com.spring.domain.LogOnVO">
 		select memNo, nick, password from member where email=#{email} and password=#{password}
 	</select>
+	
+	<update id="report">
+		update member set memreport=memreport+1 where memno=#{memNo}
+	</update>
+	
+	<!-- resultMap : 데이터베이스 결과 데이터를 객체에 로드시켜줌 -->
+	<resultMap type="com.spring.domain.MemberVO" id="memberMap">
+		<id property="email" column="email"/>
+		<result property="email" column="email"/>
+		<result property="password" column="password"/>
+		<result property="name" column="name"/>
+		<result property="regdate" column="regdate"/>	
+		<result property="memlevel" column="memlevel"/>	
+		<result property="memreport" column="memreport"/>	
+		<result property="authkey" column="authkey"/>	
+		<result property="authstatus" column="authstatus"/>	
+		<collection property="authList" resultMap="authMap"/>	
+	</resultMap>
+	<resultMap type="com.spring.domain.MemberAuthVO" id="authMap">
+		<result property="email" column="email"/>
+		<result property="auth" column="auth"/>	
+	</resultMap>	
+	<select id="read" resultMap="memberMap"> 
+		select mem.email, password, name, regdate, memlevel, memreport, authkey, authstatus, auth
+		from member mem left outer join member_auth auth on mem.email=auth.email
+		where mem.email=#{email}
+	</select>
 </mapper>
