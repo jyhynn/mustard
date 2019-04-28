@@ -3,22 +3,30 @@
 <mapper namespace="com.spring.mapper.ReplyMapper">
 
 	<insert id="insertReply">
-		insert into reply values(seq_reply.nextval,#{board_no},#{notice_no},#{reply},#{writer},sysdate,#{memNo})
+		insert into reply values(seq_reply.nextval,#{board_no},#{article_no},#{reply},#{writer},sysdate,#{memNo},0,0)
 	</insert>
 	
 	<select id="get" resultType="com.spring.domain.ReplyVO">
-		select * from reply where board_no=#{board_no} and notice_no=#{notice_no}
+		select * from reply where board_no=#{board_no} and article_no=#{article_no}
 	</select>
 	
 	<delete id="delete"> 
-		delete from reply where board_no=#{board_no} and notice_no=#{notice_no} and reNo=#{reNo}
+		delete from reply where board_no=#{board_no} and article_no=#{article_no} and reNo=#{reNo}
 	</delete>
 	
 	<select id="selected" resultType="com.spring.domain.ReplyVO">
-		select * from reply where board_no=#{board_no} and notice_no=#{notice_no} and reNo=#{reNo}
+		select * from reply where board_no=#{board_no} and article_no=#{article_no} and reNo=#{reNo}
 	</select>
 	
 	<select id="replyCount">
-		select count(*) from reply where board_no=#{board_no} and notice_no=#{notice_no}
+		select count(*) from reply where board_no=#{board_no} and article_no=#{article_no}
 	</select>
+	
+	<update id="likeyReply">
+		update reply set likey=likey+1 where board_no=#{board_no} and article_no=#{article_no} and reno=#{reNo}
+	</update>
+	
+	<update id="reportReply">
+		update reply set report=report+1 where board_no=#{board_no} and article_no=#{article_no} and reno=#{reNo}
+	</update>
 </mapper>

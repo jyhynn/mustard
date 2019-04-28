@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class ReplyVO {
-	private int reNo, board_no, notice_no, memNo;
+	private int reNo, board_no, article_no, memNo, likey, report;
 	private String reply, writer;
 	private Date replyDate;
 }

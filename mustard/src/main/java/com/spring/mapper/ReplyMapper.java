@@ -11,4 +11,6 @@ public interface ReplyMapper {
 	public int delete(HashMap<String, Integer> hash);
 	public ReplyVO selected(HashMap<String, Integer> hash);
 	public int replyCount(HashMap<String, Integer> hash);
+	public int likeyReply(HashMap<String, Integer> hash);
+	public int reportReply(HashMap<String, Integer> hash);
 }
