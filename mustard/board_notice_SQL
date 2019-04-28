@@ -1,22 +1,37 @@
 create table board_notice(
-	notice_no number(5) primary key,
+	board_no number(2),
+	notice_no number(5),
 	title varchar2(50) not null,
 	writer varchar2(50) not null,
+	memNo number(5) not null,
 	content clob not null,
+	replycnt number default 0,
 	notice_date date default sysdate,
 	notice_updatedate date default sysdate
 );
+
+drop table board_notice;
+drop table notice_attach;
 --글쓴이 회원번호 컬럼 추가
 alter table board_notice add memNo number(5);
 --게시판번호 컬럼 추가
 alter table board_notice add board_no number(2);
-alter table board_notice modify board_no number(2) default '1'; 
-update board_notice set board_no=1;
+--alter table board_notice modify board_no number(2) default '1'; 
+--update board_notice set board_no=1;
+alter table board_notice add constraint pk_board_notice primary key(notice_no);
 alter table board_notice add constraint fk_notice_memNo foreign key(memNo) references member(memNo);
-alter table member add nick nvarchar2(20) default '익명';
+--댓글수 표시 컬럼 추가
+alter table board_notice add(replycnt number default 0);
+-- 기존 게시물의 댓글 수 업데이트하기
+update board_notice set replycnt=(select count(reNo) from reply where reply.notice_no=board_notice.notice_no and reply.board_no=board_notice.board_no);
+
+
+
 create sequence seq_board_notice;
-insert into board_notice values(seq_board_notice.nextval,'공지 테스트','관리자','똑똑한 지펠 오븐의 친절한 레시피 100',sysdate,sysdate);
+
+insert into board_notice values(1,seq_board_notice.nextval,'공지 테스트','관리자',61,'똑똑한 지펠 오븐의 친절한 레시피 100',0,sysdate,sysdate);
 select * from board_notice;
+
 -- 공지사항 첨부파일 테이블
 create table notice_attach(
 	uuid varchar2(100) not null,
@@ -47,18 +62,42 @@ delete from reply;
 alter table reply add memNo number(5);
 create sequence seq_reply;
 select * from REPLY;
-create table board_info(
-	
-);
-
-
-
-create table board_free(
-	free_no number(5) primary key,
+alter table reply add likey number default 0;	--좋아요
+alter table reply add report number default 0;	--신고
+-- 게시판 테이블
+create table board_board(
+	board_no number(2),
+	article_no number(5),
 	title varchar2(50) not null,
-	writer varchar(50) not null,
-	writer_no number(5) not null,
+	writer varchar2(50) not null,
+	memNo number(5) not null,
 	content clob not null,
+	replycnt number default 0,
+	readhit number default 0,
+	likey number default 0,
+	report number default 0,
 	notice_date date default sysdate,
 	notice_updatedate date default sysdate
 );
+create sequence seq_board_board;
+alter table board_board add constraint pk_article_no primary key(article_no);
+--alter table board_board add constraint fk_notice_memNo foreign key(memNo) references member(memNo);
+select * from board_board;
+-- 일반게시판 첨부파일 테이블
+create table board_attach(
+	uuid varchar2(100) not null,
+	uploadPath varchar2(200) not null,
+	fileName varchar2(100) not null,
+	fileType char(1) default 'I',
+	article_no number(10,0)
+);
+alter table board_attach add board_no number(2);
+
+--스크랩 테이블
+create table scrap(
+	scrap_no number,
+	board_no number,	
+	article_no number,
+	memNo number	--member테이블의 memNo 참조
+);
+create sequence seq_scarp;

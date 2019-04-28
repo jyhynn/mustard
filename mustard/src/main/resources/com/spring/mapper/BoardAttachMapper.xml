@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.mapper.BoardAttachMapper">
+
+	<insert id="insert">
+		insert into board_attach values(#{uuid},#{uploadPath},#{fileName},#{fileType},#{article_no},#{board_no})
+	</insert>
+
+	<select id="findByNo" resultType="com.spring.domain.BoardAttachVO">
+		select * from board_attach where article_no=#{article_no} and board_no=#{board_no}
+	</select>
+	<!-- notice_no에 해당하는 첨부파일 목록 삭제 -->
+	<delete id="delete">
+		delete from board_attach where article_no=#{article_no} and board_no=#{board_no}
+	</delete>
+	<!-- DB에 있는 첨부파일목록 전부 가져오기 -->
+	<select id="getOldFiles" resultType="com.spring.domain.BoardAttachVO">
+		select * from board_attach where uploadPath=to_char(sysdate-1, 'yyyy\mm\dd') and board_no=#{board_no}
+	</select>
+	<select id="getAttachs" resultType="com.spring.domain.BoardAttachVO">
+		select * from board_attach where board_no=#{board_no}
+	</select>
+
+</mapper>

@@ -92,19 +92,19 @@
     <div class="collapse navbar-collapse bg-mustard justify-content-md-center" id="navbarsExample10">
       <ul class="navbar-nav">
         <li class="nav-item active">
-          <a class="nav-link" href="#">정보게시판<span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="/board/boardList?board_no=2">정보게시판<span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">지역게시판</a>
+          <a class="nav-link" href="/board/boardList?board_no=3">지역게시판</a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link" href="#">홍보게시판</a>
+          <a class="nav-link" href="/board/boardList?board_no=4">홍보게시판</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">자유게시판</a>
+          <a class="nav-link" href="/board/boardList?board_no=5">자유게시판</a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link" href="#">공지사항</a>
+          <a class="nav-link" href="/board/boardList?board_no=1">공지사항</a>
         </li>
       </ul>
     </div>
@@ -127,7 +127,7 @@
 			<div class="card h-100">
 				<div class="card-body">
 					<h2 class="card-title">
-						<a href="#">정보 게시판</a>
+						<a href="/board/boardList?board_no=2">정보 게시판</a>
 					</h2>
 					<p class="card-text">시청/군구청/읍면동사무소에서 발행한 공지사항</p>
 				</div>
@@ -141,7 +141,7 @@
 			<div class="card h-100">
 				<div class="card-body">
 					<h2 class="card-title">
-						<a href="#">지역 게시판</a>
+						<a href="/board/boardList?board_no=3">지역 게시판</a>
 					</h2>
 					<p class="card-text">우리 동네 소식(가게 개폐업/행사 등)</p>
 				</div>
@@ -155,7 +155,7 @@
 			<div class="card h-100">
 				<div class="card-body">
 					<h2 class="card-title">
-						<a href="#">홍보 게시판</a>
+						<a href="/board/boardList?board_no=4">홍보 게시판</a>
 					</h2>
 					<p class="card-text">사장님들의 홍보공간(행사/알바구함 등)</p>
 				</div>
@@ -168,7 +168,7 @@
 			<div class="card h-100">
 				<div class="card-body">
 					<h2 class="card-title">
-						<a href="#">자유 게시판</a>
+						<a href="/board/boardList?board_no=5">자유 게시판</a>
 					</h2>
 					<p class="card-text">우리동네 자유게시판(전국/동네 선택가능)</p>
 				</div>

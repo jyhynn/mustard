@@ -1,31 +1,34 @@
 package com.spring.controller;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.spring.domain.AttachNoticeVO;
-import com.spring.domain.BoardNoticeVO;
-import com.spring.service.BoardNoticeService;
+import com.spring.domain.BoardAttachVO;
+import com.spring.domain.BoardVO;
+import com.spring.domain.Criteria;
+import com.spring.domain.PageDTO;
+import com.spring.service.BoardService;
 import com.spring.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -36,102 +39,144 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardController {
 
 	@Autowired
-	BoardNoticeService service;
+	BoardService service;
 	@Autowired
 	MemberService memberService;
 
-	@RequestMapping("/noticeList")
-	public void noticelist(Model model) {
-		log.info("공지사항 페이지 나와라");
-		List<BoardNoticeVO> list = service.getList(1);
-		model.addAttribute("notice", list);
+	@RequestMapping("/boardList")
+	public void boardlist(int board_no, Model model, @ModelAttribute("cri")Criteria cri) {
+		log.info("게시판 페이지 나와라");
+		List<BoardVO> list = service.getList(cri,board_no);
+		model.addAttribute("board", list);
+		model.addAttribute("bno", board_no);
+		model.addAttribute("pageMaker", new PageDTO(cri,service.countPage(cri,1)));
 	}
 
-	@RequestMapping("/getAttachs")
-	@ResponseBody
-	public List<AttachNoticeVO> getAttachs(){
-		//첨부파일 전체목록
-		List<AttachNoticeVO> attachList = service.getAttachs();
-		//첨부파일 썸네일 경로만 편집해서 다시 리스트화
-		List<AttachNoticeVO> filepath = new ArrayList<>();
-		for(AttachNoticeVO attach : attachList) {
-			AttachNoticeVO vo = new AttachNoticeVO();
-			vo.setNotice_no(attach.getNotice_no());
-			//uploadPath에는 확장자명까지 완전경로 들어가게됨
-			vo.setUploadPath(attach.getUploadPath() + "\\thum_" + attach.getUuid() + "_" + attach.getFileName());
-			filepath.add(vo);
+	//게시글 읽기
+	@RequestMapping("/boardRead")
+	public String boardRead(int article_no, Integer board_no, Model model, HttpServletResponse response) {
+		log.info(article_no + "번째 글 읽기 나와라");
+		
+		//조회수
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+		Cookie cookies[] = request.getCookies();
+		Map<String, String> map = new HashMap<>();
+		if(request.getCookies()!=null) {
+			for(int i=0; i<cookies.length; i++) {
+				Cookie obj = cookies[i];
+				map.put(obj.getName(), obj.getValue());
+			}
 		}
-		return filepath;
-	}
-
-	@RequestMapping(value= {"/noticeRead", "noticeModify"})
-	public void noticeRead(int notice_no, int board_no, Model model) {
-		log.info(notice_no + "번째 공지사항 읽기 나와라");
-		BoardNoticeVO notice = service.getNotice(notice_no, board_no);
-		model.addAttribute("notice", notice);
+		String readCount = (String)map.get("readhit");
+		String newReadCount = "|" + article_no;
+		//저장된 쿠키에 새로운 쿠키값 존재하는지 검사
+		if(StringUtils.indexOfIgnoreCase(readCount, newReadCount)==-1) {
+			Cookie cookie = new Cookie("readhit", readCount+newReadCount);
+			response.addCookie(cookie);
+			service.updateReadhit(article_no, board_no);
+		}
+		
+		BoardVO board = service.getBaord(article_no, board_no);
+		model.addAttribute("bno", board_no);
+		model.addAttribute("board", board);
+		return "board/boardRead";
 	}
 	
-	@RequestMapping("/getAttachList")
+	//수정
+	@RequestMapping("/boardModify")
+	public void boardModify(int article_no, Integer board_no, Model model) {
+		log.info(article_no + "번째 글 수정 나와라");
+		BoardVO board = service.getBaord(article_no, board_no);
+		model.addAttribute("bno", board_no);
+		model.addAttribute("board", board);
+	}
+	
+	@RequestMapping("/BoardgetAttachList")
 	@ResponseBody
-	public List<AttachNoticeVO> getAttList(int notice_no, int board_no) {
-		List<AttachNoticeVO> list = service.attachList(notice_no, board_no);
+	public List<BoardAttachVO> getAttList(int article_no, int board_no, Model model) {
+		List<BoardAttachVO> list = service.attachList(article_no, board_no);
+		model.addAttribute("bno", board_no);
 		return list;
 	}
 	
-	@RequestMapping("/noticeWrite")
-	public void noticeWriteForm() {
-		log.info("공지사항 글쓰기 폼 나와라");
+	@RequestMapping("/boardWrite")
+	public void boardWriteForm(int board_no, Model model) {
+		log.info("게시판 글쓰기 폼 나와라");
+		model.addAttribute("bno", board_no);
 	}
 
-	@PostMapping("/noticeWrite")
-	public String noticeWrite(BoardNoticeVO notice, RedirectAttributes rttr) {
+	@PostMapping("/boardWrite")
+	public String boardWrite(BoardVO board, Model model) {
 		log.info("글 등록해줘라");
-		if (notice.getNoticeAttach() != null) {
-			for (AttachNoticeVO attach : notice.getNoticeAttach()) {
-				log.info("" + attach);
-			}
-			service.insert(notice);
-			rttr.addFlashAttribute("msg", "success");
-		}else {
-			log.info("암것도없어?ㅜ");
-		}
-		return "redirect:noticeList";
+		service.insert(board);
+		model.addAttribute("bno", board.getBoard_no());
+		return "/board/boardList";
 	}
 	
-	@PostMapping("/noticeModify")
-	public String noticeUpdate(@ModelAttribute("notice")BoardNoticeVO notice, RedirectAttributes rttr) {
+	@PostMapping("/boardModify")
+	public String boardUpdate(@ModelAttribute("board")BoardVO board, RedirectAttributes rttr) {
 		//제목, 글번호 , 글쓴닉, 글쓴회원번호, 내용, 첨부파일들
-		service.update(notice);
-		if (notice.getNoticeAttach() != null) {
-			for (AttachNoticeVO attach : notice.getNoticeAttach()) {
+		service.update(board);
+		if (board.getAttach() != null) {
+			for (BoardAttachVO attach : board.getAttach()) {
 				log.info(" 첨부파일목록 : " + attach);
 			}
 		}
-		rttr.addAttribute("notice_no", notice.getNotice_no());
-		return "redirect:noticeRead";
+		rttr.addAttribute("article_no", board.getArticle_no());
+		rttr.addAttribute("board_no", board.getBoard_no());
+		return "redirect:boardRead";
 	}
 	
-	@PostMapping("/remove")
-	public String remove(int notice_no, int board_no, RedirectAttributes rttr) {
+	@PostMapping("/removeBoard")
+	public String remove(int article_no, int board_no, RedirectAttributes rttr) {
 		
 		//첨부된 파일 폴더에서 삭제하기
-		List<AttachNoticeVO> attachList = service.attachList(notice_no,board_no);
-		if(service.delete(notice_no,board_no)==1) {
+		List<BoardAttachVO> attachList = service.attachList(article_no, board_no);
+		if(service.delete(article_no, board_no)==1) {
 			deleteFile(attachList);
 			rttr.addFlashAttribute("result","success");
+			rttr.addAttribute("board_no", board_no);
 		}
 		return "redirect:getAttachList";
 	}
 	
+	//신고
+	@PostMapping("/reportBoard")
+	@ResponseBody
+	public String reportBoard(int article_no, int board_no, int memNo ) {
+		return service.report(article_no,board_no,memNo)==1?"boardReportSuccess" : "boardReportFail";
+	}
+	
+	//좋아요
+	@PostMapping("/likeyBoard")
+	@ResponseBody
+	public String likeyBoard(int article_no, int board_no, int memNo ) {
+		return service.likey(article_no,board_no)==1?"boardLikeySuccess" : "boardLikeyFail";
+	}
+	
+	//좋아요 갯수
+	@RequestMapping("/getLikeyamount")
+	@ResponseBody
+	public int getLikeyamount(int article_no, int board_no) {
+		return service.getLikeyamount(article_no, board_no);
+	}
+	
+	//스크랩
+	@PostMapping("/scrapBoard")
+	@ResponseBody
+	public String scrapBoard(int article_no, int board_no, int memNo ) {
+		return service.scrap(article_no,board_no,memNo)==1?"boardScrapSuccess" : "boardScrapFail";
+	}
+	
 	// 첨부파일 삭제
-		private void deleteFile(List<AttachNoticeVO> attach) {
+		private void deleteFile(List<BoardAttachVO> attach) {
 			// type이 image라면 썸네일과 원본파일 삭제
 			// type이 file이라면 원본파일만 삭제
 			log.info("첨부파일 삭제요청...");
 			if(attach.size()==0 || attach==null) {
 				return;
 			}
-			for(AttachNoticeVO vo : attach) {
+			for(BoardAttachVO vo : attach) {
 				Path file = Paths.get("d:\\upload\\" + vo.getUploadPath() + "\\" + vo.getUuid() + "_" + vo.getFileName());
 			
 				try {
