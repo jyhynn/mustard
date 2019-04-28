@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.domain.AttachNoticeVO;
+import com.spring.domain.BoardAttachVO;
 
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnailator;
@@ -56,6 +57,7 @@ public class AjaxUploadController {
 		}
 		
 		List<AttachNoticeVO> attList = new ArrayList<AttachNoticeVO>();
+		List<BoardAttachVO> boardAttach = new ArrayList<BoardAttachVO>();
 		String uploadFileName = "";
 		
 		for(MultipartFile f : uploadFile) {

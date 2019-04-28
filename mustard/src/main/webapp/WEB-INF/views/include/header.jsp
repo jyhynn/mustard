@@ -18,7 +18,7 @@
 	<!-- Navigation -->
 	<nav class="navbar-expand-lg navbar-dark bg-mustard fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="#">Mustard</a>
+			<a class="navbar-brand" href="/">Mustard</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarResponsive" aria-controls="navbarResponsive"
 				aria-expanded="false" aria-label="Toggle navigation">
