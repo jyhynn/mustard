@@ -85,8 +85,13 @@ $(function(){
 		$("#readNotice").submit();
 	});
 	$(".btn-delete").on("click",function(){
-		$("#readNotice").attr("method","post")
-		$("#readNotice").attr("action","remove").submit();
+		var result = confirm('삭제하시겠습니까?'); 
+		if(result) {
+			$("#readNotice").attr("method","post")
+			$("#readNotice").attr("action","remove").submit();
+		} else {
+			return;
+		}
 	});
 
 });

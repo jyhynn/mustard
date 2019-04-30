@@ -12,7 +12,7 @@ public class MemberVO {
 	private long code;
 	private String authkey;
 	private int authstatus;
-	private String shi, gungu, dong;
 	private Date regdate;
+	private ZipVO zip;
 	private List<MemberAuthVO> authList;
 }

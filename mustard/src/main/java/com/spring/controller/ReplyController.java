@@ -28,7 +28,6 @@ public class ReplyController {
 	@PostMapping("/insertReply")
 	@ResponseBody
 	public String insertReply(ReplyVO vo) {
-		vo.setMemNo(61);
 		return service.insert(vo)==1 ? "ReplySuccess" : "ReplyFail";
 	}
 	

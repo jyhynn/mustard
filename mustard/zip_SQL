@@ -5,8 +5,10 @@ create table zip(
     dong nvarchar2(10)
     );
 alter table zip modify code number(11);
+alter table zip modify code varchar2(15);
 select * from zip;
 select distinct gungu from zip where shi like '부산직할시';
 --직할시는 지우기
-delete from zip where shi like '%직할시';
-select distinct shi from zip order by shi;
+delete from zip where code=4178031021;
+select distinct shi,code from zip order by shi;
+select * from zip where shi='경기도' and gungu='고양군' and dong='송포면' ;

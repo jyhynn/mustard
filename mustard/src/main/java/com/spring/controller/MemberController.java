@@ -20,6 +20,7 @@ import com.spring.domain.BoardVO;
 import com.spring.domain.LogOnVO;
 import com.spring.domain.MemberVO;
 import com.spring.domain.ScrapVO;
+import com.spring.domain.ZipVO;
 import com.spring.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -85,7 +86,7 @@ public class MemberController {
 	
 	@PostMapping("/reigstMember")
 	public String registMember(MemberVO vo) {
-		log.info("회원가입요청" + vo.getEmail() + vo.getDong());
+		log.info("회원가입요청");
 		service.registMember(vo);
 		return "redirect:signin";
 	}
@@ -103,26 +104,27 @@ public class MemberController {
 		if(check!=null) {
 			if(check.getAuthstatus()==1) {
 				LogOnVO log = service.signin(vo);
-				session.setAttribute("log", log);
+				session.removeAttribute("guest");	//게스트모드 세션 삭제(위치정보 담겨있음)
+				session.setAttribute("log", log);	
 			}else if(check.getAuthstatus()==0) {
-				model.addAttribute("err", "인증되지 않은 이메일입니다. 이메일 인증 후 가입을 완료하시기 바랍니다.");
+				model.addAttribute("err", "인증되지 않은 이메일입니다. 이메일 인증 후 가입절차를 완료하시기 바랍니다.");
 				return "/member/signin";
 			}
 		}else {
-			model.addAttribute("err", "존재하지 않는 이메일입니다.");
+			model.addAttribute("err", "이메일 혹은 비밀번호를 확인해주세요");
 			return "/member/signin";
 		}
-		return "/";
+		return "boardMain";
 	}
 	
-	@PostMapping("/signout")
+	@GetMapping("/signout")
 	public String signout(MemberVO vo, Model model, HttpSession session) {
 		log.info("로그아웃~");
 		session.invalidate();
-		return "/";
+		return "boardMain";
 	}
 	
-	@GetMapping("/mypage/myList")
+	@GetMapping("/mypage/mylist")
 	public void myList(int memNo, int mylistno, Model model) {
 		List<BoardVO> list = new ArrayList<>();
 		if(mylistno==1) {	// 내가쓴글
@@ -133,12 +135,61 @@ public class MemberController {
 			list = service.getScraps(memNo);
 		}
 		model.addAttribute("mylist", list);	
-		model.addAttribute("mylistno", memNo);
+		model.addAttribute("mylistno", mylistno);
+		model.addAttribute("memNo", memNo);
 	}
 	
 	@GetMapping("/mypage/myInfo")
-	public void myInfo() {
-		
+	public void myInfo() {}
+	
+	@GetMapping("/mypage/changeMyInfo")
+	public void changeMyInfo() {}
+	
+	@PostMapping("/changePwd")
+	@ResponseBody
+	public String changePwd(int memNo, String newPassword, HttpSession session) {
+		log.info("새비번 : " + newPassword);
+		String str = "";
+		if(service.changePwd(memNo, newPassword)==1) {
+			session.invalidate();
+			str = "changeSuccess";
+		}else {
+			str = "changeFail";
+		}
+		return str;
 	}
 	
+	@PostMapping("/changeLoc")
+	@ResponseBody
+	public String changeLoc(int memNo, ZipVO zip, String email, String password, HttpSession session) {
+		String str = "";
+		if(service.changeLoc(memNo, zip)==1) {
+			MemberVO vo = new MemberVO();
+			vo.setEmail(email);
+			vo.setPassword(password);
+			LogOnVO logon = service.signin(vo);
+			str = "changeSuccess";
+			session.removeAttribute("log");
+			session.setAttribute("log", logon);
+		}else {
+			str = "changeFail";
+		}
+		return str;
+	}
+	
+	@GetMapping("/mypage/removeMember")
+	public void removeMemberPage() {}
+	
+	@PostMapping("/removeMember")
+	@ResponseBody
+	public String removeMember(int memNo, String reason, HttpSession session) {
+		String str = "";		
+		if(service.removeMember(memNo)==1) {
+			session.invalidate();
+			str = "removeSuccess";
+		}else {
+			str = "removeFail";
+		}
+		return str; 
+	}
 }

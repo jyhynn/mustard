@@ -110,4 +110,9 @@ public class BoardNoticeServiceImpl implements BoardNoticeService{
 		return mapper.countPage(hash);
 	}
 
+	@Override
+	public List<BoardNoticeVO> getListforMain() {
+		return mapper.getListforMain();
+	}
+
 }

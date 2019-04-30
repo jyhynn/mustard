@@ -4,6 +4,6 @@ import lombok.Data;
  
 @Data
 public class ZipVO {
-	private int code;
+	private long code;
 	private String shi, gungu, dong;
 }

@@ -11,6 +11,9 @@
 		select distinct dong from zip where shi=#{shi} and gungu=#{gungu} and gungu is not null and dong is not null order by dong
 	</select>
 	<select id="getZip" resultType="com.spring.domain.ZipVO">
-		select * from zip where shi=#{shi} and gungu=#{gungu} and dong=#{dong} order by code
+		select * from zip where shi=#{shi} and gungu=#{gungu} and dong=#{dong}
 	</select> 
+	<select id="getZipByCode" resultType="com.spring.domain.ZipVO">
+		select * from zip where code=#{code}
+	</select>
 </mapper>

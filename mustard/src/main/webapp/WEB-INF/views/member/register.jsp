@@ -47,13 +47,13 @@
 			</div>
 			<div class="select-location">
 				<p class="tip tip-loc">나중에 선택 가능</p>
-				<select name="shi" id="shi">
+				<select name="zip.shi" id="shi">
 					<option value="">-----시-----</option>
 				</select>
-				<select name="gungu" id="gungu">
+				<select name="zip.gungu" id="gungu">
 					<option value="">----군/구----</option>
 				</select>
-				<select name="dong" class="donglist" id="donglist"></select>
+				<select name="zip.dong" class="donglist" id="donglist"></select>
 			</div>
 		<div id="step4" class="step">
 			<h2>약관</h2>

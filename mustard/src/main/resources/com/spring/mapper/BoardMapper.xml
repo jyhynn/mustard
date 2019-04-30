@@ -10,6 +10,13 @@
 	<![CDATA[	rownum <= #{pageNum} * #{amount} and board_no=#{board_no}) where rn > (#{pageNum}-1) * #{amount} and board_no=#{board_no}	]]>	
 	</select>
 	
+	<select id="getListforMain" resultType="com.spring.domain.BoardVO">
+		<![CDATA[
+		select board_no, article_no, title from board_board where 
+		rowid in (select max(rowid)from board_board group by article_no, board_no having board_no=#{board_no}) and rownum<6 order by article_no desc
+		 ]]>
+	</select>
+	
 	<!-- 댓글 카운트 수 변경 -->
 	<update id="updateReplyCnt"> 
 		update board_board set replycnt=replycnt+1 where article_no=#{article_no} and board_no=#{board_no}
@@ -42,7 +49,11 @@
 	<update id="report">
 		update board_board set report=report+1 where article_no=#{article_no} and board_no=#{board_no}
 	</update>
-
+	
+	<select id="getReported">
+		select * from board_board where report!=0;
+	</select>
+	
 	<!-- 조회수 -->
 	<update id="updateReadhit">
 		update board_board set readhit=readhit+1 where article_no=#{article_no} and board_no=#{board_no}
@@ -76,4 +87,50 @@
 	<select id="getIWrote" resultType="com.spring.domain.BoardVO">
 		select * from board_board where memNo=#{memNo}
 	</select>
+	
+	<!-- 문의게시판 -->
+	<select id="getQnaList" resultType="com.spring.domain.QnaVO">
+		<![CDATA[
+		select board_no, qna_no, title, writer, content, memNo, classify, qna_date
+			from (select /*+ INDEX_DESC(qna pk_qna_no) */ 
+					rownum rn, board_no, qna_no, title, writer, content, memNo, classify, qna_date from qna where ]]>
+	<![CDATA[	rownum <= #{pageNum} * #{amount}) where rn > (#{pageNum}-1) * #{amount}	]]>	
+	</select>
+	
+	<select id="getAsk" resultType="com.spring.domain.QnaVO">
+		select * from qna where qna_no=#{qna_no}
+	</select>
+	
+	<insert id="insertQna">
+		<selectKey keyProperty="qna_no" order="BEFORE" resultType="int">
+			select seq_qna.nextVal from dual
+		</selectKey>
+			insert into qna(qna_no,title,writer,content,memNo,board_no) values(#{qna_no},#{title},#{writer},#{content},#{memNo},#{board_no})
+	</insert>
+	
+	<update id="updateQna"> 
+		update qna set title=||'(수정)'||#{title}, content=#{content} where qna_no=#{qna_no}
+	</update>
+	
+	<delete id="deleteAsk">
+		delete from qna where qna_no=#{qna_no}
+	</delete>
+	
+	<select id="getWatingList" resultType="com.spring.domain.QnaVO">
+		select * from qna where classify=0
+	</select>
+	
+	<update id="updateAnswer">
+		update qna set classify=classfiy+1 where qna_no=#{qna_no}
+	</update>
+	
+	<!-- 실시간 인기글 -->
+	<select id="getTrends" resultType="com.spring.domain.BoardVO">
+		<![CDATA[ 
+			select article_no, board_no, title from ( 
+				select board_no, title, article_no, sum(readhit + replycnt + likey) as hap, 
+				row_number() over (order by sum(readhit + replycnt + likey) desc) num
+ 				from board_board group by article_no, board_no, title ) where num < 5]]>
+	</select>
+	
 </mapper>

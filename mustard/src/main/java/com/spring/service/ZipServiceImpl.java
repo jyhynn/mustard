@@ -34,4 +34,9 @@ public class ZipServiceImpl implements ZipService {
 		return mapper.getDong(vo);
 	}
 
+	@Override
+	public ZipVO getZip(ZipVO vo) {
+		return mapper.getZip(vo);
+	}
+
 }

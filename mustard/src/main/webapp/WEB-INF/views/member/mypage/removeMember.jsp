@@ -18,23 +18,14 @@
 		<div class="row">
 			<div class="col-md-9 order-md-1 font-jeju">
 				<div class="list-group-item mb-3">
-						<h5>기본 정보</h5>
+						<h5>회원탈퇴</h5>
 				</div>
 				<ul class="list-group">
 					<li class="list-group-item"><b>이메일 </b> <br>${log.email }</li>
 					<li class="list-group-item"><b>닉네임 </b> <br>${log.nick }</li>
-					<li class="list-group-item"><b>지역 </b> 
-					<div class="select-location">
-						<select name="zip.shi" id="shi" disabled="disabled">
-							<option value="">${log.zip.shi }</option>
-						</select> 
-						<select name="zip.gungu" id="gungu" disabled="disabled">
-							<option value="">${log.zip.gungu }</option>
-						</select>
-						<select name="zip.dong" id="dong" disabled="disabled">
-							<option value="">${log.zip.dong }</option>
-						</select>
-					</div>
+					<li class="list-group-item"><b>정말로 탈퇴하시겠습니까? 탈퇴사유를 간략히 적어주세요. </b>
+						<textarea id="reason" rows="" cols=""></textarea>
+						<button type="button" class="btn go-remove">탈퇴하기</button>
 					</li>
 				</ul>
 			</div>
@@ -43,4 +34,23 @@
 			</div>
 		</div>
 	</div>
+	<script>
+		$(function(){
+			$(".go-remove").on("click",function(){
+				$.ajax({
+					url: '/member/removeMember',
+					type : 'post',
+					data : {memNo : logedMemNo,
+							reason : $("#reason").val();},
+					success:function(data){
+						if(data=="removeSuccess"){
+							alert("탈퇴처리되었습니다. 이용해주셔서 감사합니다.");
+						}else{
+							alert("탈퇴처리실패.");
+						}
+					}
+				})//ajax
+			});
+		})
+	</script>
 <%@ include file="../../include/footer.jsp"%>

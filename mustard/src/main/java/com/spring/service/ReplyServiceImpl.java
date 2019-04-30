@@ -31,6 +31,9 @@ public class ReplyServiceImpl implements ReplyService{
 		hash.put("article_no", vo.getArticle_no());
 		hash.put("board_no", vo.getBoard_no());
 		boardMapper.updateReplyCnt(hash);
+		if(vo.getBoard_no()==6) {
+			boardMapper.updateAnswer(vo.getArticle_no());
+		}
 		return mapper.insertReply(vo);
 	}
 

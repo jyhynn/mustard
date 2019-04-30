@@ -14,50 +14,23 @@
 		<div class="row">
 			<div class="col-md-9 order-md-1 font-jeju">
 				<div class="list-group-item mb-3">
-					<c:if test="${bno==2 }">
-						<h3>정보게시판</h3>
-					</c:if>
-					<c:if test="${bno==3 }">
-						<h3>지역게시판</h3>
-					</c:if>
-					<c:if test="${bno==4 }">
-						<h3>홍보게시판</h3>
-					</c:if>
-					<c:if test="${bno==5 }">
-						<h3>자유게시판</h3>
-					</c:if>
+					<h3>문의게시판</h3>
 				</div>
-				<c:if test="${bno==2 }">
-					<div class="list-group-item mb-3">
-						<h5>클릭하시면 해당 링크로 이동합니다.</h5>
-					</div>
-					<div class="list-group">
-						<c:forEach var="l" items="${link }">
-							<a href="${l.href }"
-								class="list-group-item list-group-item-action"> 
-								<h6 class="mb-1">${l.title }</h6>
-							</a>
-						</c:forEach>
-					</div>
-				</c:if>
-				<c:if test="${bno!=2}">	
-					<c:forEach var="b" items="${board }">
-						<a href="boardRead?article_no=${b.article_no }&board_no=${b.board_no}" class="list-group-item list-group-item-action">
-							<div class="d-flex w-100 justify-content-between">
-								<input class="article_no" type="hidden" name="article_no" value="${n.article_no }"/>
-								<h4 class="mb-1">${b.title }</h4>
-								<%-- <c:if test="${!empty b.attach }">
-									<div class="media"></div>
-								</c:if> --%>
-							</div>
-							<p class="mb-1">${b.content }</p> 
-							<small>${b.notice_date } <span>${b.writer }</span></small>
-							<span class="badge badge-light">조회수 ${b.readhit }</span>
-							<span class="badge badge-light">댓글 ${b.replycnt }</span>
-							<span class="badge badge-light">♥ ${b.likey }</span>
-						</a>
-					</c:forEach>
-				</c:if>
+				<c:forEach var="a" items="${ask }">
+					<a href="askRead?qna_no=${a.qna_no }" class="list-group-item list-group-item-action">
+						<div class="d-flex w-100 justify-content-between">
+							<input class="qna_no" type="hidden" name="qna_no" value="${a.qna_no }"/>
+							<h4 class="mb-1">${a.title }</h4>
+						</div>
+						<small>${b.notice_date } <span>${a.writer }</span></small>
+						<c:if test="${a.classify==0 }">
+							<span class="badge badge-light">답변대기중</span>
+						</c:if>
+						<c:if test="${a.classify==1 }">
+							<span class="badge badge-light">답변완료</span>
+						</c:if>
+					</a>
+				</c:forEach>
 				<!-- 페이징 -->
 				<nav aria-label="Page navigation example">
 					<ul class="pagination justify-content-center">
@@ -76,9 +49,7 @@
 					</ul>
 				</nav>
 				<!-- /페이징 -->
-				<c:if test="${bno!=2}">	
-					<button type="button" class="mt-4 mb-5 btn btn-warning btn-write">글쓰기</button>
-				</c:if>
+				<button type="button" class="mt-4 mb-5 btn btn-warning btn-write">문의하기</button>
 			</div>
 			<div class="col-md-3 order-md-2 mb-4 font-jeju">
 				<%@ include file="../include/trends.jsp"%>
@@ -87,11 +58,10 @@
 	</div>
 	<script>
 		$(function() {
-			var articleNo = $(".article_no").val();
-			var thum_image = $(".media");
-
+			var qnaNo = $(".qna_no").val();
+			//var thum_image = $(".media");
 			$(".btn-write").on("click", function() {
-				location.href = 'boardWrite?board_no=' + ${bno};
+				location.href = '/board/askWrite';
 			});
 
 			//이미지 첨부 글일경우 리스트에 이미지 같이 표시

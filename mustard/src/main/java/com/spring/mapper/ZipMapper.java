@@ -9,4 +9,5 @@ public interface ZipMapper {
 	public List<ZipVO> getGungu(String shi);
 	public List<ZipVO> getDong(ZipVO vo);
 	public ZipVO getZip(ZipVO vo);
+	public ZipVO getZipByCode(long code);
 }

@@ -8,4 +8,5 @@ public interface ZipService {
 	public List<ZipVO> getShi();
 	public List<ZipVO> getGungu(String shi);
 	public List<ZipVO> getDong(ZipVO vo);
+	public ZipVO getZip(ZipVO vo);
 }

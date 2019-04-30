@@ -9,6 +9,7 @@ import com.spring.domain.Criteria;
 public interface BoardNoticeService {
 
 	public List<BoardNoticeVO> getList(Criteria cri, int board_no); 
+	public List<BoardNoticeVO> getListforMain(); 
 	public BoardNoticeVO getNotice(int notice_no, int board_no);
 	public void insert(BoardNoticeVO notice);
 	public int update(BoardNoticeVO notice);

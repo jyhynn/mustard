@@ -8,6 +8,7 @@ import com.spring.domain.BoardNoticeVO;
 public interface BoardNoticeMapper {
 
 	public List<BoardNoticeVO> getList(HashMap<String, Integer> hash); 
+	public List<BoardNoticeVO> getListforMain(); 
 	public BoardNoticeVO getNotice(HashMap<String, Integer> hash);
 	public int insert(BoardNoticeVO notice);
 	public int update(BoardNoticeVO notice);

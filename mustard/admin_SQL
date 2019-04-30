@@ -1,0 +1,21 @@
+--amdin
+
+--문의
+create table qna(
+	qna_no number,
+	title varchar2(50) not null,
+	writer varchar2(50) not null,
+	memNo number,
+	content clob not null,
+	classify number(2),	--0 답변대기 1답변완료
+	qna_date date default sysdate
+);
+alter table qna modify classify number(2) default '0'; 
+alter table qna add board_no number(2) default '6' ;
+alter table qna add constraint pk_qna_no primary key(qna_no);
+create sequence seq_qna;
+
+--회원관리(
+create table mng_mem(
+
+);

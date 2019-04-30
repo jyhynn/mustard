@@ -22,6 +22,16 @@
 		select * from member where email=#{email}
 	</select>
 	
+	<select id="getAllMembers" resultType="com.spring.domain.MemberVO">
+		<![CDATA[ select memNo, name, email, nick, code, regdate, authstatus, memlevel, memreport 
+		from (select rownum rn, memNo, name, email, nick, code, regdate, authstatus, memlevel, memreport from member where
+			rownum <= #{pageNum} * #{amount}) where rn > (#{pageNum}-1) * #{amount} ]]>	
+	</select>
+
+	<select id="countPage" resultType="int">
+		select count(*) from spring_board where memNo > 0
+	</select>
+
 	<select id="getEmail" resultType="com.spring.domain.MemberVO">
 		select * from member where memNo=#{memNo}
 	</select>
@@ -31,33 +41,34 @@
 	</update>
 	
 	<select id="signin" resultType="com.spring.domain.LogOnVO">
-		select memNo, memlevel, nick, password, email from member where email=#{email} and password=#{password}
+		select memNo, memlevel, nick, password, email, code from member where email=#{email} and password=#{password}
 	</select>
 	
 	<update id="report">
 		update member set memreport=memreport+1 where memno=#{memNo}
 	</update>
 	
-	<!-- resultMap : 데이터베이스 결과 데이터를 객체에 로드시켜줌 -->
-	<resultMap type="com.spring.domain.MemberVO" id="memberMap">
-		<id property="email" column="email"/>
-		<result property="email" column="email"/>
-		<result property="password" column="password"/>
-		<result property="name" column="name"/>
-		<result property="regdate" column="regdate"/>	
-		<result property="memlevel" column="memlevel"/>	
-		<result property="memreport" column="memreport"/>	
-		<result property="authkey" column="authkey"/>	
-		<result property="authstatus" column="authstatus"/>	
-		<collection property="authList" resultMap="authMap"/>	
-	</resultMap>
-	<resultMap type="com.spring.domain.MemberAuthVO" id="authMap">
-		<result property="email" column="email"/>
-		<result property="auth" column="auth"/>	
-	</resultMap>	
-	<select id="read" resultMap="memberMap"> 
-		select mem.email, password, name, regdate, memlevel, memreport, authkey, authstatus, auth
-		from member mem left outer join member_auth auth on mem.email=auth.email
-		where mem.email=#{email}
+	<update id="controlDown"> 
+		update member set memlevel=memlevel-1 where memno=#{memNo}
+	</update>
+
+	<update id="controlUp"> 
+		update member set memlevel=memlevel+1 where memno=#{memNo}
+	</update>
+		
+	<select id="memberReported">
+		select * from member where memreport!=0
 	</select>
+	
+	<update id="changePwd">
+		update member set password=#{password} where memno=#{memNo}
+	</update>
+	
+	<update id="changeLoc">
+		update member set code=#{code} where memno=#{memNo}
+	</update>
+	
+	<delete id="removeMember">
+		delete from member where memno=#{memNo}
+	</delete>
 </mapper>

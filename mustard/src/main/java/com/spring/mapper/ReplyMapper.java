@@ -14,5 +14,5 @@ public interface ReplyMapper {
 	public int replyCount(HashMap<String, Integer> hash);
 	public int likeyReply(HashMap<String, Integer> hash);
 	public int reportReply(HashMap<String, Integer> hash);
-	public List<BoardVO> getMyReplies(int memNo);
+	public List<ReplyVO> getMyReplies(int memNo);
 }

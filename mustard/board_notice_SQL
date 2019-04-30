@@ -9,7 +9,8 @@ create table board_notice(
 	notice_date date default sysdate,
 	notice_updatedate date default sysdate
 );
-
+select board_no, notice_no, title from board_notice where 
+		rowid in (select max(rowid)from board_notice group by notice_no) and rownum<3 order by notice_no desc;
 drop table board_notice;
 drop table notice_attach;
 --글쓴이 회원번호 컬럼 추가
@@ -24,7 +25,8 @@ alter table board_notice add constraint fk_notice_memNo foreign key(memNo) refer
 alter table board_notice add(replycnt number default 0);
 -- 기존 게시물의 댓글 수 업데이트하기
 update board_notice set replycnt=(select count(reNo) from reply where reply.notice_no=board_notice.notice_no and reply.board_no=board_notice.board_no);
-
+select board_no, article_no, title from board_board where 
+		rowid in (select max(rowid)from board_board group by article_no) and rownum<6 order by article_no desc
 
 
 create sequence seq_board_notice;
@@ -60,6 +62,7 @@ create table reply(
 );
 delete from reply;
 alter table reply add memNo number(5);
+alter table reply rename column notice_no to article_no;
 create sequence seq_reply;
 select * from REPLY;
 alter table reply add likey number default 0;	--좋아요
@@ -79,6 +82,14 @@ create table board_board(
 	notice_date date default sysdate,
 	notice_updatedate date default sysdate
 );
+
+select article_no, board_no, title from ( 
+	select board_no, title, article_no, sum(readhit + replycnt + likey) as hap, row_number() over (order by sum(readhit + replycnt + likey) desc) num
+ 	from board_board group by article_no, board_no, title ) where num < 5;
+
+select board_no, article_no, title, (readhit + replycnt + likey) as rank from board_board;
+			where rank (select max(readhit + replycnt + likey) from board_board); 
+
 create sequence seq_board_board;
 alter table board_board add constraint pk_article_no primary key(article_no);
 --alter table board_board add constraint fk_notice_memNo foreign key(memNo) references member(memNo);

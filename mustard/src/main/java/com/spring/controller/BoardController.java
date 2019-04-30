@@ -1,8 +1,10 @@
 package com.spring.controller;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,10 +14,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,9 +34,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.spring.domain.BoardAttachVO;
 import com.spring.domain.BoardVO;
 import com.spring.domain.Criteria;
+import com.spring.domain.LinkVO;
 import com.spring.domain.PageDTO;
+import com.spring.domain.QnaVO;
+import com.spring.domain.ZipVO;
 import com.spring.service.BoardService;
 import com.spring.service.MemberService;
+import com.spring.service.ZipService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,12 +53,124 @@ public class BoardController {
 	BoardService service;
 	@Autowired
 	MemberService memberService;
+	@Autowired
+	ZipService zipservice;
 
 	@RequestMapping("/boardList")
-	public void boardlist(int board_no, Model model, @ModelAttribute("cri")Criteria cri) {
-		log.info("게시판 페이지 나와라");
-		List<BoardVO> list = service.getList(cri,board_no);
-		model.addAttribute("board", list);
+	public void boardlist(int board_no, Model model, ZipVO zip, @ModelAttribute("cri")Criteria cri) throws IOException {
+		log.info("게시판 페이지 나와라 + " + zip.getShi());
+		long code = (int)zipservice.getZip(zip).getCode();
+		//정보게시판 호출시
+		if(board_no==2) {
+			String classify = Long.toString(code);
+			String url = "";
+			List<LinkVO> link = new ArrayList<LinkVO>();
+			Document doc = null;
+			Elements element = null;
+			switch (classify.substring(0, 2)) {
+			case "11"://서울
+				url = "http://www.seoul.go.kr/thismteventfstvl/list.do";
+				doc = Jsoup.connect(url).get();
+				element = doc.select("div.news-lst");
+				for(Element el : element.select("div.item")) {
+					LinkVO vo = new LinkVO();
+					vo.setHref(el.select("a").attr("href"));
+					vo.setTitle(el.select("em.subject").text());
+					link.add(vo);
+				}
+				break;
+			case "26"://부산
+				url = "http://www.busan.go.kr/nbnews";
+				break;
+			case "27"://대구
+				
+				break;
+			case "28"://인천
+				url = "http://www.incheon.go.kr/posts/incheon-news/";
+				doc = Jsoup.connect(url).get();
+				element = doc.select("div.cms_content");
+				for(Element el : element.select("div.post_list")) {
+					LinkVO vo = new LinkVO();
+					vo.setHref("http://www.incheon.go.kr/posts/incheon-news/ " + el.select("a").attr("href"));
+					vo.setTitle(el.select("a").text());
+					link.add(vo);
+				}
+				break;
+			case "29"://광주
+				url = "https://www.gwangju.go.kr/BD_0000000022/boardList.do?menuId=gwangju0306000000";
+				doc = Jsoup.connect(url).get();
+				element = doc.select("tbody");
+				for(Element el : element.select("th.title")) {
+					LinkVO vo = new LinkVO();
+					vo.setHref(" https://www.gwangju.go.kr/" + el.select("a").attr("href"));
+					vo.setTitle(el.select("div").text());
+					link.add(vo);
+				}
+				break;
+			case "30"://대전
+				
+				break;
+			case "31"://울산
+				
+				break;
+			case "36"://세종
+				
+				break;
+			case "41"://경기
+				url = "https://www.gg.go.kr/integrated-board";
+				doc = Jsoup.connect(url).get();
+				element = doc.select("tbody");
+				for(Element el : element.select("td")) {
+					LinkVO vo = new LinkVO();
+					vo.setHref("https://www.gg.go.kr/" + el.select("a").attr("href"));
+					vo.setTitle(el.select("a").text());
+					link.add(vo);
+				}
+				break;
+			case "42"://강원
+				url = "http://www.provin.gangwon.kr/gw/portal/sub05_01";
+				doc = Jsoup.connect(url).get();
+				element = doc.select("tbody");
+				for(Element el : element.select("td")) {
+					//경로가 2개임. 나중꺼는 문서다운로드링크.
+					LinkVO vo = new LinkVO();
+					vo.setHref("http://www.provin.gangwon.kr/gw/portal/sub05_01" + el.select("a").attr("href"));
+					vo.setTitle(el.select("a").text());
+					link.add(vo);
+				}
+				break;
+			case "43"://충북
+				
+				break;
+			case "44"://충남
+				
+				break;
+			case "45"://전북
+				
+				break;
+			case "46"://전남
+				
+				break;
+			case "47"://경북
+				
+				break;
+			case "48"://경남
+				
+				break;
+			case "50"://제주
+				
+				break;
+
+			default:
+				break;
+			}
+			model.addAttribute("link",link);
+		}else {
+			//zip정보 추가연동해야함-아직안함
+			List<BoardVO> list = service.getList(cri,board_no);
+			model.addAttribute("board", list);
+		}
+		
 		model.addAttribute("bno", board_no);
 		model.addAttribute("pageMaker", new PageDTO(cri,service.countPage(cri,1)));
 	}
@@ -140,6 +263,55 @@ public class BoardController {
 		return "redirect:getAttachList";
 	}
 	
+	//문의
+	@GetMapping("/askList")
+	public void askList(Model model, @ModelAttribute("cri")Criteria cri) {
+		log.info("문의 페이지 나와라");
+		List<QnaVO> list = service.getQnaList(cri);
+		model.addAttribute("board", list);
+		model.addAttribute("pageMaker", new PageDTO(cri,service.countPage(cri,6)));
+	}
+	
+	@RequestMapping(value= {"/askRead","/askModify"})
+	public void askRead(int qna_no, Model model) {
+		log.info(qna_no + "번째 문의글 나와라");
+		QnaVO ask = service.getAsk(qna_no);
+		model.addAttribute("ask", ask);
+	}
+	
+	@GetMapping("/askWrite")
+	public void ask() {
+		log.info("게시판 글쓰기 폼 나와라");
+	}
+
+	@PostMapping("/askWrite")
+	public String askWrite(QnaVO qna) {
+		log.info("글 등록해줘라");
+		service.insertQna(qna);
+		return "/board/askList";
+	}
+	
+	@PostMapping("/askModify")
+	public String askUpdate(@ModelAttribute("board")QnaVO qna, RedirectAttributes rttr) {
+		//제목, 글번호 , 글쓴닉, 글쓴회원번호, 내용, 첨부파일들
+		service.updateQna(qna);
+		rttr.addAttribute("qna_no", qna.getQna_no());
+		rttr.addAttribute("board_no", qna.getBoard_no());
+		return "redirect:askRead";
+	}
+	
+	@PostMapping("/removeAsk")
+	public String askRemove(int qna_no, int board_no, RedirectAttributes rttr) {
+		service.deleteAsk(qna_no);
+		return "/board/askList";
+	}
+	
+	//실시간인기글
+	@GetMapping("/getTrends")
+	@ResponseBody
+	public List<BoardVO> getTrends(){
+		return service.getTrends();
+	}
 	//신고
 	@PostMapping("/reportBoard")
 	@ResponseBody

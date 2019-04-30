@@ -8,6 +8,8 @@
 <meta charset="utf-8">
 <title>Mustard</title>
 <link rel="stylesheet" type="text/css" href="/resources/css/commons.css" />
+<link rel="stylesheet" type="text/css" href="/resources/css/boardmain.css" />
+<link rel="stylesheet" type="text/css" href="/resources/css/small-business.css" />
 <!-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> -->
 <link rel="stylesheet" type="text/css" href="/resources/vendor/bootstrap/css/bootstrap.min.css" />
 <!-- Bootstrap core JavaScript -->
@@ -17,7 +19,7 @@
 <body>
 
 	<!-- Navigation -->
-	<nav class="navbar-expand-lg navbar-dark bg-mustard fixed-top">
+	<nav class="navbar navbar-expand-md bg-mustard fixed-top mb-5">
 		<div class="container">
 			<a class="navbar-brand" href="/">Mustard</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -31,11 +33,15 @@
 						<a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
 					</li>
 					<c:if test="${empty log }">
-						<li class="nav-item"><a class="nav-link" href="member/signin">로그인</a></li>
-						<li class="nav-item"><a class="nav-link" href="member/register">회원가입</a></li>
+						<li class="nav-item"><a class="nav-link" href="/member/signin">로그인</a></li>
+						<li class="nav-item"><a class="nav-link" href="/member/register">회원가입</a></li>
 					</c:if>
 					<c:if test="${!empty log }">
-						<li class="nav-item"><a class="nav-link" href="member/signout">로그아웃</a></li>
+						<li class="nav-item"><a class="nav-link" href="/member/signout">로그아웃</a></li>
+						<li class="nav-item"><a class="nav-link" href="/member/mypage/myInfo">마이페이지</a></li>
+						<c:if test="${log.memlevel==10 }">
+							<li class="nav-item"><a class="nav-link" href="/admin/adminMain">관리자페이지</a></li>
+						</c:if>
 					</c:if>
 				</ul>
 			</div>

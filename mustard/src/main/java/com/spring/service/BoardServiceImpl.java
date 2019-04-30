@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.spring.domain.BoardAttachVO;
 import com.spring.domain.BoardVO;
 import com.spring.domain.Criteria;
+import com.spring.domain.QnaVO;
 import com.spring.domain.ScrapVO;
 import com.spring.mapper.BoardAttachMapper;
 import com.spring.mapper.BoardMapper;
@@ -121,6 +122,11 @@ public class BoardServiceImpl implements BoardService{
 		hash.put("board_no", board_no);
 		return mapper.report(hash);
 	}
+	
+	@Override
+	public List<BoardVO> getReported() {
+		return mapper.getReported();
+	}
 
 	@Override
 	public int updateReadhit(int article_no, int board_no) {
@@ -153,5 +159,45 @@ public class BoardServiceImpl implements BoardService{
 		hash.put("article_no", article_no);
 		hash.put("board_no", board_no);
 		return mapper.getLikeyamount(hash);
+	}
+
+	@Override
+	public List<BoardVO> getListforMain(int board_no) {
+		return mapper.getListforMain(board_no);
+	}
+
+	@Override
+	public List<QnaVO> getQnaList(Criteria cri) {
+		return mapper.getQnaList(cri);
+	}
+	
+	@Override
+	public QnaVO getAsk(int qna_no) {
+		return mapper.getAsk(qna_no);
+	}
+	
+	@Override
+	public int insertQna(QnaVO qna) {
+		return mapper.insertQna(qna);
+	}
+
+	@Override
+	public List<BoardVO> getTrends() {
+		return mapper.getTrends();
+	}
+
+	@Override
+	public int updateQna(QnaVO qna) {
+		return mapper.updateQna(qna);
+	}
+
+	@Override
+	public int deleteAsk(int qna_no) {
+		return mapper.deleteAsk(qna_no);
+	}
+
+	@Override
+	public List<QnaVO> getWatingList() {
+		return mapper.getWatingList();
 	}
 }

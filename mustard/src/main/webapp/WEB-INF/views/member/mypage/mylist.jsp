@@ -46,6 +46,13 @@
 						<span class="badge badge-light">♥ ${m.likey }</span>
 					</a>
 				</c:forEach>
+				<c:if test="${empty mylist }">
+					<a href="#" class="list-group-item list-group-item-action" aria-disabled="true">
+						<div class="d-flex w-100 justify-content-between">
+							<h4 class="mb-1">작성한 글이 없습니다.</h4>
+						</div>
+					</a>
+				</c:if>
 				<!-- 페이징 -->
 				<nav aria-label="Page navigation example">
 					<ul class="pagination justify-content-center">
@@ -68,7 +75,7 @@
 				<button type="button" class="mt-4 mb-5 btn btn-warning btn-write">글쓰기</button>
 			</div>
 			<div class="col-md-3 order-md-2 mb-4 font-jeju">
-				<%@ include file="../../include/trends.jsp"%>
+				<%@ include file="../../include/mypagetab.jsp"%>
 			</div>
 		</div>
 	</div>

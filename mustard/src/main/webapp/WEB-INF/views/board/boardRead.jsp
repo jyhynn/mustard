@@ -29,7 +29,13 @@
 					<form action="boardModify" id="readBoard">
 						<div class="list-group-item">
 							<h4 class="display-7 mb-3">${board.title }</h4>
-						  	<p>${board.notice_date} ${board.writer }
+						  	<p>${board.notice_date}
+						  		<span class="btn" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+						  			${board.writer } </span>
+						  	<c:if test="${log.memlevel==10 }">		
+							  	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+								    <a class="dropdown-item controlmember" href="#">회원 관리</a>
+								</div></c:if>
 						  		<span class="badge badge-light">조회수 ${board.readhit }</span>
 								<span class="badge badge-light badge-recnt">댓글 ${board.replycnt }</span>
 								<span class="badge badge-light badge-likey">♥ ${board.likey }</span></p>
@@ -84,6 +90,8 @@ $(function(){
 	var articleNo = ${board.article_no };
 	var boardNo = ${board.board_no };
 	var re_box = $(".replyBox");
+	var logedMemNo = ${log.memNo};
+	var logedNick = "${log.nick}";
 	
 	$.getJSON({
 		url : 'BoardgetAttachList',
@@ -119,8 +127,13 @@ $(function(){
 		$("#readBoard").submit();
 	});
 	$(".btn-delete").on("click",function(){
-		$("#readBoard").attr("method","post")
-		$("#readBoard").attr("action","removeBoard").submit();
+		var result = confirm('삭제하시겠습니까?'); 
+		if(result) {
+			$("#readBoard").attr("method","post")
+			$("#readBoard").attr("action","removeBoard").submit();
+		} else {
+			return;
+		}
 	});
 
 	//신고
@@ -146,8 +159,7 @@ $(function(){
 			type:"post",
 			url : '/likeyBoard',
 			data : {article_no : articleNo,
-					board_no : boardNo,
-					memNo : 61},
+					board_no : boardNo},
 			success:function(data){
 				console.log(data);
 				getLikeyamount();
@@ -162,7 +174,7 @@ $(function(){
 			url : '/scrapBoard',
 			data : {article_no : articleNo,
 					board_no : boardNo,
-					memNo : ${log.memNo}},
+					memNo : logedMemNo},
 			success:function(data){
 				console.log(data);
 				if(data=='boardScrapSuccess'){
@@ -208,7 +220,7 @@ $(function(){
 					str += "<li class='list-group-item' data-reno='" + obj.reNo + "'>";
 					str += "<input type='hidden' name='reNo' data-reno='" + obj.reNo + "' value='" + obj.reNo + "' />";
 					str += "<input type='hidden' name='board_no' data-boardno='" + obj.board_no + "' value='" + obj.board_no + "' />";
-					str += "<input type='hidden' name='article_no' data-noticeno='" + obj.article_no + "' value='" + obj.article_no + "' />";
+					str += "<input type='hidden' name='article_no' data-article='" + obj.article_no + "' value='" + obj.article_no + "' />";
 					str += "<input type='hidden' name='writer' value='" + obj.writer + "' />";
 					str += "<input type='hidden' name='memNo' value='" + obj.memNo + "' />";
 					str += "<input type='hidden' name='reply' value='" + obj.reply + "' />";
@@ -227,7 +239,7 @@ $(function(){
 	
 	//댓글 입력
 	$(".btn-reply").on("click",function(){
-		if(${log}==null){
+		if(logedMemNo==null){
 			alert("로그인 후 이용가능합니다");
 		}else{
 			$.ajax({
@@ -236,8 +248,8 @@ $(function(){
 				data : {article_no : articleNo,
 						reply : $("#reply").val(),
 						board_no : boardNo,
-						writer : "${log.nick}",
-						memNo : ${log.memNo}},
+						writer : logedNick,
+						memNo : logedMemNo},
 				success:function(data){
 					console.log(data);
 					 $("#reply").val("");
@@ -306,6 +318,11 @@ $(function(){
 			}
 		});	//ajax	
 	}); 
+	
+	//회원관리
+	$(".controlmember").on("click",function(){
+		$("#formRead").action("/admin/adminControlMember").submit();
+	});
 });
 </script>
 <%@ include file="../include/footer.jsp"%>

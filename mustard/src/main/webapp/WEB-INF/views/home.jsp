@@ -27,7 +27,6 @@
     </div>
     <form class="search">
       <p>우리 동네 커뮤니티 둘러보기</p>
-      <!-- <input type="text" name="name" placeholder="찾으시는 지역을 검색하세요." autocomplete="off"> -->
 	<select name="shi" id="shi">
 		<option value="">-----시-----</option>
 	</select>

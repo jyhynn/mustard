@@ -14,10 +14,7 @@ alter table member add nick nvarchar2(20) default '익명';
 --가입날짜 컬럼 추가
 alter table member add regdate date default sysdate;
 alter table member modify code number(11);
---스크랩 컬럼 추가(스크랩테이블 참조)
-alter table member add scrap number;
---좋아요 컬럼 삭제해야됨
-alter table member add likey number;
+
 --회원등급 컬럼 추가(관리자10,스탭8,일반회원3)
 alter table member add memlevel number default 3;
 --회원작성 글/댓글 신고접수(3번이면 강탈)
@@ -26,7 +23,7 @@ alter table member add memreport number default 0;
 alter table member add authkey varchar(50);
 alter table member modify authkey varchar(50);
 alter table member add authstatus number(2) default 0;
-update member set memlevel=10 where memNo=61;
+update member set memlevel=10 where memNo=1;
 create table member_auth(
 	email varchar2(50) not null,
 	auth varchar2(50) not null,

@@ -13,9 +13,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.domain.BoardVO;
+import com.spring.domain.Criteria;
 import com.spring.domain.LogOnVO;
 import com.spring.domain.MailUtils;
 import com.spring.domain.MemberVO;
+import com.spring.domain.ReplyVO;
 import com.spring.domain.ScrapVO;
 import com.spring.domain.TempKey;
 import com.spring.domain.ZipVO;
@@ -86,12 +88,7 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int registMember(MemberVO vo) {
 		//선택지역코드 zip에서 불러와서 member에 넣기
-		ZipVO zip = new ZipVO();
-		zip.setShi(vo.getShi());
-		zip.setGungu(vo.getGungu());
-		zip.setDong(vo.getDong());;
-		int code = zipMapper.getZip(zip).getCode();
-		vo.setCode((long)code);
+		vo.setCode(zipMapper.getZip(vo.getZip()).getCode());
 		return mapper.registMember(vo);
 	}
 
@@ -102,7 +99,10 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public LogOnVO signin(MemberVO vo) {
-		return mapper.signin(vo);
+		LogOnVO log = mapper.signin(vo);
+		ZipVO zip = zipMapper.getZipByCode(log.getCode());
+		log.setZip(zip);
+		return log;
 	}
 	
 	@Override
@@ -128,6 +128,64 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Override
 	public List<BoardVO> getMyReplies(int memNo) {
-		return replyMapper.getMyReplies(memNo);
+		HashMap<String, Integer> hash = new HashMap<>();
+		List<ReplyVO> replies = replyMapper.getMyReplies(memNo);
+		List<BoardVO> list = new ArrayList<>();
+		hash.put("memNo", memNo);
+		for(ReplyVO vo : replies) {
+			BoardVO boardvo = new BoardVO();
+			hash.put("board_no", vo.getBoard_no());
+			hash.put("article_no",vo.getArticle_no());
+			boardvo = boardMapper.getScrapOne(hash);
+			list.add(boardvo);
+		}
+		return list;
+	}
+
+	@Override
+	public int changePwd(int memNo, String newpassword) {
+		HashMap<String, Object> hash = new HashMap<>();
+		hash.put("memNo", (int)memNo);
+		hash.put("password", newpassword);
+		return mapper.changePwd(hash);
+	}
+	
+	@Override
+	public int changeLoc(int memNo, ZipVO zip) {
+		log.info("long값" + zipMapper.getZip(zip).getCode());
+		HashMap<String, Object> hash = new HashMap<>();
+		hash.put("memNo", memNo);
+		hash.put("code", (long)zipMapper.getZip(zip).getCode());
+		return mapper.changeLoc(hash);
+	}
+	
+	@Override
+	public int removeMember(int memNo) {
+		return mapper.removeMember(memNo);
+	}
+
+	@Override
+	public List<MemberVO> getAllMembers() {
+		return mapper.getAllMembers();
+	}
+
+	@Override
+	public int countPage(Criteria cri) {
+		return mapper.countPage(cri);
+	}
+
+	@Override
+	public List<MemberVO> memberReported() {
+		return mapper.memberReported();
+	}
+
+	@Override
+	public int controlDown(int memNo) {
+		return mapper.controlDown(memNo);
+	}
+
+	@Override
+	public int controlUp(int memNo) {
+		return mapper.controlUp(memNo);
 	}
 }

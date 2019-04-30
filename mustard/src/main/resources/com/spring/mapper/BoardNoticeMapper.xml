@@ -42,4 +42,10 @@
 	<delete id="delete">
 		delete from board_notice where notice_no=#{notice_no} and board_no=#{board_no}
 	</delete>
+	
+	<select id="getListforMain" resultType="com.spring.domain.BoardNoticeVO">
+		<![CDATA[
+		select board_no, notice_no, title from board_notice where 
+		rowid in (select max(rowid)from board_notice group by notice_no) and rownum<3 order by notice_no desc ]]>
+	</select>
 </mapper>
