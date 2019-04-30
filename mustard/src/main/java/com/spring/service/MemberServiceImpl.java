@@ -165,8 +165,8 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public List<MemberVO> getAllMembers() {
-		return mapper.getAllMembers();
+	public List<MemberVO> getAllMembers(Criteria cri) {
+		return mapper.getAllMembers(cri);
 	}
 
 	@Override

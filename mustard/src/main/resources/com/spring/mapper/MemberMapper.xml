@@ -29,7 +29,7 @@
 	</select>
 
 	<select id="countPage" resultType="int">
-		select count(*) from spring_board where memNo > 0
+		select count(*) from member where memNo > 0
 	</select>
 
 	<select id="getEmail" resultType="com.spring.domain.MemberVO">

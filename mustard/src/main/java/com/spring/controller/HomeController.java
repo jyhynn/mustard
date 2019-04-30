@@ -104,5 +104,10 @@ public class HomeController {
 		List<ZipVO> list = service.getDong(vo);
 		return list;
 	}
+	
+	@RequestMapping("/mainTest")
+	public void mainTest2() {
+		log.info("메인화면 요청");
+	}
 
 }

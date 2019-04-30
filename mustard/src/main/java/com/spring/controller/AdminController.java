@@ -63,7 +63,7 @@ public class AdminController {
 	@RequestMapping("/adminMember")
 	public void adminMember(Model model, @ModelAttribute("cri") Criteria cri) {
 		//회원 전체 목록
-		List<MemberVO> members = memberservice.getAllMembers();
+		List<MemberVO> members = memberservice.getAllMembers(cri);
 		model.addAttribute("members", members);
 		model.addAttribute("pageMaker", new PageDTO(cri, memberservice.countPage(cri)));
 	}

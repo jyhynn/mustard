@@ -43,8 +43,8 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/admin/adminNote">
-              	관리자 노트
+            <a class="nav-link" href="/admin/adminControlMember">
+              	개별회원관리
             </a>
           </li>
         </ul>

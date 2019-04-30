@@ -23,7 +23,7 @@ public interface MemberMapper {
 	public int changePwd(HashMap<String, Object> hash);
 	public int changeLoc(HashMap<String, Object> hash);
 	public int removeMember(int memNo);
-	public List<MemberVO> getAllMembers();
+	public List<MemberVO> getAllMembers(Criteria cri);
 	public int countPage(Criteria cri);
 	public int controlDown(int memNo);
 	public int controlUp(int memNo);

@@ -22,7 +22,7 @@ public interface MemberService {
 	public int changePwd(int memNo, String newpassword);
 	public int changeLoc(int memNo, ZipVO zip);
 	public int removeMember(int memNo);
-	public List<MemberVO> getAllMembers();
+	public List<MemberVO> getAllMembers(Criteria cri);
 	public int countPage(Criteria cri);
 	public List<MemberVO> memberReported();
 	public int controlDown(int memNo);

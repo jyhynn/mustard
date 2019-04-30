@@ -36,17 +36,21 @@
 						<select name="zip.dong" id="dong" >
 							<option value="${log.zip.dong }">${log.zip.dong }</option>
 						</select>
-						<button type="button" class="btn change-loc">위치 변경</button>
-						<button type="button" class="btn go-change-loc">위치 변경</button>
+						<button type="button" class="btn btn-outline-info change-loc">위치 변경</button>
+						<button type="button" class="btn btn-outline-info go-change-loc">위치 변경</button>
 					</div>
 					</li>
 					<li class="list-group-item"><b>비밀번호 </b> 
-						<button type="button" class="btn change-pw">비밀번호 변경</button>
-						<input type="password" name="passwordCheck" id="passwordCheck" placeholder="비밀번호 확인" required/>
-						<label for="passwordCheck" id="passwordCheck"></label>
-						<input type="password" name="newPassword" id="newPassword" placeholder="새 비밀번호" required/>
-						<label for="passwordCheck" id="newPassword"></label>
-						<button type="button" class="btn go-change-pw">비밀번호 변경하기</button>
+						<form id="chpw">
+							<button type="button" class="btn btn-outline-info change-pw">비밀번호 변경</button><br>
+							<input type="password" name="passwordCheck" id="passwordCheck" class="currentPassword mt-2" placeholder="현재 비밀번호" required/>
+							<label for="passwordCheck" id="passwordCheck" class="currentPassword"></label>
+							<button type="button" class="btn btn-outline-info currentPasswordCheck">현재 비밀번호 확인</button><br>
+							
+							<input type="password" name="newPassword" id="newPassword" class="mt-2" placeholder="새 비밀번호" required/>
+							<label for="passwordCheck" id="newPassword"></label>
+							<button type="button" class="btn btn-outline-info go-change-pw">비밀번호 변경하기</button>
+						</form>
 				</ul>
 			</div>
 			<div class="col-md-3 order-md-2 mb-4 font-jeju">
@@ -61,16 +65,19 @@
 			$("#passwordCheck").css("display","none");
 			$("#newPassword").css("display","none");
 			$(".go-change-loc").css("display","none");
+			$(".go-change-pw").css("display","none");
+			$(".currentPassword").css("display","none");
+			$(".currentPasswordCheck").css("display","none");
 			var currentPwd = '${log.password}';
-			 $("select[name='zip.shi']").attr("disable",true);
-			 $("select[name='zip.gungu']").attr("disable",true);
-			 $("select[name='zip.dong']").attr("disable",true);
+			 $("select[name='zip.shi']").attr("disabled",true);
+			 $("select[name='zip.gungu']").attr("disabled",true);
+			 $("select[name='zip.dong']").attr("disabled",true);
 			
 			//지역변경
 			$(".change-loc").on("click",function(){
-				 $("select[name='zip.shi']").attr("disable",false);
-				 $("select[name='zip.gungu']").attr("disable",false);
-				 $("select[name='zip.dong']").attr("disable",false);
+				 $("select[name='zip.shi']").attr("disabled",false);
+				 $("select[name='zip.gungu']").attr("disabled",false);
+				 $("select[name='zip.dong']").attr("disabled",false);
 				 $(".change-loc").css("display","none");
 				 $(".go-change-loc").show();
 				 $.getJSON({
@@ -147,19 +154,20 @@
 			
 			//비밀번호 변경
 			$(".change-pw").on("click",function(){
+				$(".change-pw").fadeOut(500);
 				$("#passwordCheck").fadeIn(500);
-				$("#passwordCheck").on("change",function(){
+				$(".currentPasswordCheck").fadeIn(500);
+				$(".currentPasswordCheck").on("click",function(){
 					if(currentPwd!=$("#passwordCheck").val()){
-						$("#passwordCheck").html("비밀번호 불일치");
+						alert("현재 비밀번호와 일치하지 않습니다.");
 					}else{
-						$(".change-pw").fadeOut(500);
+						$(".go-change-pw").fadeIn(500);
 						$("#newPassword").fadeIn(500);
 					}
 				})
 			});
 					
 			$(".go-change-pw").on("click",function(){
-				validation();
 				$.ajax({
 					url: '/member/changePwd',
 					type : 'post',
@@ -177,8 +185,7 @@
 				})//ajax
 				
 			})
-	function validation(){
-		$("#form-signin").validate({
+	$("#chpw").validate({
 			rules:{ newPassword:{required: true, minlength: 8, maxlength: 15, validPassword:true} },
 			messages:{newPassword:{required:"새 비밀번호를 입력해주세요"}},
 			//에러메시지 위치 지정
@@ -187,7 +194,6 @@
 				$( element ).closest( "form" ).find( "label[for='" + element.attr( "id" ) + "']" ).html( error );
 			}
 		});
-	}
 		
 	$.validator.addMethod("validPassword",function(value, element){
 		return this.optional( element ) || /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,12}$/.test( value );

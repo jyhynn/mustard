@@ -4,114 +4,131 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Small Business - Start Bootstrap Template</title>
+<!-- Bootstrap core CSS -->
+<link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="/resources/css/small-business.css" rel="stylesheet">
 <script src="/resources/jquery-3.3.1.js"></script>
 </head>
 <body>
-	<link rel="stylesheet" type="text/css" href="/resources/fonts.css">
-<link rel="stylesheet" type="text/css" href="/resources/css/mainstyles.css">
-<script src="/resources/vendor/jquery/jquery.js"></script>
-</head>
-<body>
-	<aside>
-    <div class="login">
-      <a href="/" class="logo"><img src="" alt="사이트로고"></a>
-      <a href="/login" class="button login">로그인</a>
-      <a href="/register" class="button register">[사이트이름] 회원가입</a>
-      <p id="facebookLogin" class="facebook">
-        <span class="text">페이스북으로 시작하기</span>
-        <img src="" class="loading">
-      </p>
-      <p class="find">
-        <a href="/forgot">아이디/비밀번호 찾기</a>
-      </p>
-      <hr>
-    </div>
-    <form class="search">
-      <p>우리 동네 커뮤니티 둘러보기</p>
-      <!-- <input type="text" name="name" placeholder="찾으시는 지역을 검색하세요." autocomplete="off"> -->
-	<select name="shi" id="shi">
-		<option value="">-----시-----</option>
-	</select>
-	<select name="gungu" id="gungu">
-		<option value="">----군/구----</option>
-	</select>
-    </form> 
-    <div class="donglist" id="donglist"> </div>
-     </aside>
-  <section class="init withaside">
-    <div class="wrap">
-      <h1>~~~~~~~어쩌고<br><strong>[사이트이름]</strong></h1>
-      <div class="stores">
-        <a href="/page/mlink?lid=web_about&store=playstore"><img src="/resources/playstore.png" alt="Play Store - Google"></a>
-        <a href="/page/mlink?lid=web_about&store=appstore"><img src="/resources/appstore.png" alt="AppStore - Apple"></a>
-      </div>
-      <hr>
-      <div class="device">
-        <div class="screen">
-          <div class="image frame home-frame"></div>
-          <div class="image content home-content"></div>
-          <div class="image frame board-frame"></div>
-          <div class="image content board-content"></div>
-          <div class="image frame timetable-status"></div>
-          <div class="image frame timetable-frame"></div>
-          <div class="image content timetable-content"></div>
-        </div>
+<!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Start Bootstrap</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+        </ul>
       </div>
     </div>
-  </section>
-    <section class="footer white withaside">
-    <ul class="links">
-      <li class="copyright"><a href="/about">&copy; [사이트이름]</a></li>
-      <li><a href="/page/faq">문의하기</a></li>
-      <li><a href="/page/rules">커뮤니티이용규칙</a></li>
-      <li><a href="/page/privacy">개인정보처리방침</a></li>
-    </ul>
-  </section>
-	<script>
-  	$(function(){
-  		//호출과 동시에 시 목록 가져오기
-  		$.getJSON({
-  			url : "/getShi",
-  			success:function(data){
-  				console.log(data)
-  				 $.each(data, function(i, zip){
-  					$("#shi").append("<option value='" + zip.shi + "'>" + zip.shi + "</option>");
-  				});
-  			}
-  		});
-  		//선택한 시에 따라 군구 목록 가져오기
-  		$("#shi").on("change",function(){
-  			$("#gungu option").remove();
-  			$("#gungu").append("<option value=''>---------군/구---------</option>")
-  			$.getJSON({
-  	  			url : "/getGungu",
-  	  			data : {shi:$("#shi").val()},
-  	  			success:function(data){
-  	  				console.log(data)
-  	  				 $.each(data, function(i, g){
-  	  					$("#gungu").append("<option value='" + g.gungu + "'>" + g.gungu + "</option>");
-  	  				});
-  	  			}
-  	  		});
-  		});
-  		//선택값에 따른 읍동면 목록 가져오기
-  		$("#gungu").on("change",function(){
-  			$.getJSON({
-  	  			url : "/getDong",
-  	  			data : {shi:$("#shi").val(), gungu:$("#gungu").val()},
-  	  			success:function(data){
-  	  				console.log(data)
-  	  				 $.each(data, function(i, d){
-  	  					$("#donglist").html("마우마어림ㄹ랴먀");
-  	  				});
-  	  			}
-  	  		});
-  			
-  		});
-  		
-  		
-  	});
-  </script>
+  </nav>
+
+  <!-- Page Content -->
+	<div class="container">
+		<!-- Heading Row -->
+		<div class="row my-5">
+			<div class="col-lg-7">
+				<img class="img-fluid rounded mb-4 mb-lg-0"
+					src="http://placehold.it/900x400" alt="">
+			</div>
+			<!-- /.col-lg-8 -->
+			<div class="col-lg-5">
+				<div class="list-group">
+				  <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+				  <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+			</div>
+			<!-- /.col-md-4 -->
+		</div>
+		</div>
+		<!-- /.row -->
+
+		<!-- Call to Action Well -->
+		<div class="card text-white bg-secondary my-5 py-4 text-center">
+			<ul class="nav nav-pills nav-fill">
+			  <li class="nav-item">
+			    <a class="text-white active" href="#">정보게시판</a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="text-white" href="#">지역게시판</a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="text-white" href="#">홍보게시판</a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="text-white" href="#">자유게시판</a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="text-white" href="#">공지사항</a>
+			  </li>
+			</ul>			
+		</div>
+	
+		<!-- Content Row -->
+		<div class="row align-items-center my-5">
+			<div class="col-md-3 mb-5">
+				<div class="list-group">
+				  <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+				  <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+				  <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+				  <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">Vestibulum at eros</a>
+				</div>
+			</div>
+			<div class="col-md-3 mb-5">
+				<div class="list-group">
+				  <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+				  <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+				  <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+				  <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">Vestibulum at eros</a>
+				</div>
+			</div>
+			<div class="col-md-3 mb-5">
+				<div class="list-group">
+				  <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+				  <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+				  <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+				  <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">Vestibulum at eros</a>
+				</div>
+			</div>
+			<div class="col-md-3 mb-5">
+				<div class="list-group">
+				  <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+				  <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+				  <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+				  <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">Vestibulum at eros</a>
+				</div>
+			</div>
+		</div>
+	<!-- /.row -->
+	</div>
+  <!-- /.container -->
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

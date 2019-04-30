@@ -23,6 +23,11 @@
 			<param-name>contextConfigLocation</param-name>
 			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
 		</init-param>
+		<!-- No mapping found for~~하는 exception 처리 위한 코드 -->
+		<init-param>
+			<param-name>throwExceptionIfNoHandlerFound</param-name>
+			<param-value>true</param-value>
+		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
@@ -30,6 +35,33 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	
+	<error-page>
+		<error-code>400</error-code>
+		<location>/WEB-INF/views/except/error_page.jsp</location>
+		</error-page>
+		
+		<error-page>
+		<error-code>403</error-code>
+		<location>/WEB-INF/views/except/error_page.jsp</location>
+		</error-page>
+		
+		<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/views/except/url404.jsp</location>
+		</error-page>
+		
+		<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/views/except/error_page.jsp</location>
+		</error-page>
+		
+		<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/WEB-INF/views/error/error.jsp</location>
+	</error-page>
+	
+	
 	<!-- 한글인코딩 -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
