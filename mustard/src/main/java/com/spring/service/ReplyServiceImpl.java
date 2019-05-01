@@ -31,7 +31,8 @@ public class ReplyServiceImpl implements ReplyService{
 		hash.put("article_no", vo.getArticle_no());
 		hash.put("board_no", vo.getBoard_no());
 		boardMapper.updateReplyCnt(hash);
-		if(vo.getBoard_no()==6) {
+		if(vo.getBoard_no()==6) {	//문의게시판
+			//문의게시판에 단 댓글은 답변이므로, 답변완료로 상태변경
 			boardMapper.updateAnswer(vo.getArticle_no());
 		}
 		return mapper.insertReply(vo);
@@ -42,6 +43,7 @@ public class ReplyServiceImpl implements ReplyService{
 		HashMap<String, Integer> hash = new HashMap<>();
 		hash.put("article_no", article_no);
 		hash.put("board_no", board_no);
+		boardMapper.updateReplyDeleted(hash);//해당 글 댓글수-1
 		hash.put("reNo", reNo);
 		return mapper.delete(hash);
 	}

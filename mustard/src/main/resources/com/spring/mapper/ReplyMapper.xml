@@ -18,7 +18,7 @@
 		select * from reply where board_no=#{board_no} and article_no=#{article_no} and reNo=#{reNo}
 	</select>
 	
-	<select id="replyCount">
+	<select id="replyCount" resultType="java.lang.Integer">
 		select count(*) from reply where board_no=#{board_no} and article_no=#{article_no}
 	</select>
 	

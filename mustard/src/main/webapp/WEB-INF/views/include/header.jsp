@@ -14,28 +14,36 @@
 <script src="/resources/jquery-3.3.1.js"></script>
 <script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </head>
-<body>
+<body class="bg-gray">
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg bg-mustard fixed-top font-jeju">
+<nav class="navbar navbar-expand-lg white fixed-top font-jeju">
 	<div class="container">
-		<a class="navbar-brand" href="/">우리동네</a>
+		<a class="navbar-brand" href="/">
+		<img src="/resources/icons/uri.png" class="logos mr-0" alt="..."></a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item active">
-					<a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
-				</li>
+					<a class="nav-link" href=
+					<c:if test="${!empty log }">"/?shi=${log.zip.shi }&gungu=${log.zip.gungu}&dong=${log.zip.dong}" </c:if>
+					<c:if test="${empty log }">"/" </c:if>
+					><img src="/resources/icons/home.png" class="icons mr-0 mb-1" alt="...">Home</span></a></li>
 				<c:if test="${empty log }">
-				<li class="nav-item"><a class="nav-link" href="/member/signin">로그인</a></li>
-				<li class="nav-item"><a class="nav-link" href="/member/register">회원가입</a></li>
+				<li class="nav-item"><a class="nav-link" href="/member/signin">
+				 <img src="/resources/icons/user.png" class="icons mr-0 mb-1" alt="...">로그인</a></li>
+				<li class="nav-item"><a class="nav-link" href="/member/register">
+					<img src="/resources/icons/userplus.png" class="icons mr-0 mb-1" alt="...">회원가입</a></li>
 			</c:if>
 			<c:if test="${!empty log }">
-				<li class="nav-item"><a class="nav-link" href="/member/signout">로그아웃</a></li>
-				<li class="nav-item"><a class="nav-link" href="/member/mypage/myInfo">마이페이지</a></li>
+				<li class="nav-item"><a class="nav-link" href="/member/signout">
+					<img src="/resources/icons/logout.png" class="icons mr-0" alt="...">로그아웃</a></li>
+				<li class="nav-item"><a class="nav-link" href="/member/mypage/myInfo">
+					<img src="/resources/icons/mypage.png" class="icons mr-0" alt="...">마이페이지</a></li>
 				<c:if test="${log.memlevel==10 }">
-					<li class="nav-item"><a class="nav-link" href="/admin/adminMain">관리자페이지</a></li>
+					<li class="nav-item"><a class="nav-link" href="/admin/adminMain">
+					<img src="/resources/icons/setting.png" class="icons mr-0" alt="...">관리자페이지</a></li>
 				</c:if>
 			</c:if>
 			</ul>

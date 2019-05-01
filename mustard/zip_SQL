@@ -11,4 +11,6 @@ select distinct gungu from zip where shi like '부산직할시';
 --직할시는 지우기
 delete from zip where code=4178031021;
 select distinct shi,code from zip order by shi;
-select * from zip where shi='경기도' and gungu='고양군' and dong='송포면' ;
+select * from zip where shi='서울특별시' and gungu='관악구' and dong='본동';
+select * from zip where code=1162000500;
+select * from zip where code=1114010400;

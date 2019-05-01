@@ -12,9 +12,11 @@ import com.spring.domain.BoardVO;
 import com.spring.domain.Criteria;
 import com.spring.domain.QnaVO;
 import com.spring.domain.ScrapVO;
+import com.spring.domain.ZipVO;
 import com.spring.mapper.BoardAttachMapper;
 import com.spring.mapper.BoardMapper;
 import com.spring.mapper.MemberMapper;
+import com.spring.mapper.ZipMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,10 +30,13 @@ public class BoardServiceImpl implements BoardService{
 	private BoardAttachMapper attachMapper;
 	@Autowired
 	private MemberMapper memberMapper;
+	@Autowired
+	private ZipMapper zipmapper;
 
 	@Override
-	public List<BoardVO> getList(Criteria cri, int board_no) {
-		HashMap<String, Integer> hash = new HashMap<>();
+	public List<BoardVO> getList(Criteria cri, int board_no, ZipVO zip) {
+		HashMap<String, Object> hash = new HashMap<>();
+		hash.put("code", zipmapper.getZip(zip).getCode());
 		hash.put("board_no", board_no);
 		hash.put("pageNum", cri.getPageNum());
 		hash.put("amount", cri.getAmount());
@@ -49,6 +54,7 @@ public class BoardServiceImpl implements BoardService{
 	@Transactional
 	@Override
 	public void insert(BoardVO board) {
+		board.setCode(zipmapper.getZip(board.getZip()).getCode());
 		mapper.insert(board);
 		if(board.getAttach()==null || board.getAttach().size()<=0) {
 			return;
@@ -105,8 +111,9 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public int countPage(Criteria cri, int board_no) {
-		HashMap<String, Integer> hash = new HashMap<>();
+	public int countPage(Criteria cri, int board_no, ZipVO zip) {
+		HashMap<String, Object> hash = new HashMap<>();
+		hash.put("code", zipmapper.getZip(zip).getCode());
 		hash.put("board_no", board_no);
 		hash.put("pageNum", cri.getPageNum());
 		hash.put("amount", cri.getAmount());
@@ -162,8 +169,11 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public List<BoardVO> getListforMain(int board_no) {
-		return mapper.getListforMain(board_no);
+	public List<BoardVO> getListforMain(int board_no, ZipVO zip) {
+		HashMap<String, Object> hash = new HashMap<>();
+		hash.put("code", zipmapper.getZip(zip).getCode());
+		hash.put("board_no", board_no);
+		return mapper.getListforMain(hash);
 	}
 
 	@Override
@@ -199,5 +209,23 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public List<QnaVO> getWatingList() {
 		return mapper.getWatingList();
+	}
+
+	@Override
+	public int count(Criteria cri, int board_no) {
+		HashMap<String, Integer> hash = new HashMap<>();
+		hash.put("board_no", board_no);
+		hash.put("pageNum", cri.getPageNum());
+		hash.put("amount", cri.getAmount());
+		return mapper.count(hash);
+	}
+
+	@Override
+	public List<BoardVO> getListforAdmin(int board_no, Criteria cri) {
+		HashMap<String, Integer> hash = new HashMap<>();
+		hash.put("board_no", board_no);
+		hash.put("pageNum", cri.getPageNum());
+		hash.put("amount", cri.getAmount());
+		return mapper.getListforAdmin(hash);
 	}
 }

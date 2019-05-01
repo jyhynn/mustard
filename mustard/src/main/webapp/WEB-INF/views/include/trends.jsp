@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <ul class="list-group">
 	<li class="list-group-item"><a href=
 			<c:if test="${empty log}">
@@ -42,7 +43,7 @@
 				console.log(data);
 				var str = "";
 				$(data).each(function(i,obj){
-					str += "<li class='list-group-item'><a href='/board/boardRead?board_no=" + obj.board_no + "&article_no=" + obj.article_no + "'>" + encodeURIComponent(obj.title) + "</a></li>";		
+					str += "<li><a class='list-group-item list-group-item-action' href='/board/boardRead?board_no=" + obj.board_no + "&article_no=" + obj.article_no + "'>" + obj.title + "</a></li>";		
 				});	
 				$(".trends").append(str);
 			}

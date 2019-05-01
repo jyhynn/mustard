@@ -43,7 +43,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/admin/adminControlMember">
+            <a class="nav-link disabled" href="/admin/adminControlMember" >
               	개별회원관리
             </a>
           </li>

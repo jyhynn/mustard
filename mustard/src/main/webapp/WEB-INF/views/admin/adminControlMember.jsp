@@ -56,9 +56,9 @@
 			    		회원등급 조정
 			  		</button>
 					 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-					   <a class="dropdown-item controlDOWN" href="#">등급 올리기</a>
-					   <a class="dropdown-item controlUP" href="#">등급 내리기</a>
-					   <a class="dropdown-item controlREMOVE" href="#">강제 탈퇴</a>
+					   <button class="dropdown-item controlUP">등급 올리기</button>
+					   <button class="dropdown-item controlDOWN">등급 내리기</button>
+					   <button class="dropdown-item controlREMOVE">강제 탈퇴</button>
 					 </div>
 				</div>
               </td>
@@ -70,7 +70,7 @@
   </div>
 </div>
 <form action="control" method="post" id="memInfo">
-	<input type="hidden" name="memNo" value="${m.memlevel }" />
+	<input type="hidden" name="memNo" value="${m.memNo }" />
 	<input type="hidden" name="how" id="how"/>
 </form>
 <script>
@@ -79,11 +79,11 @@
 			$("#how").val(0);
 			$("#memInfo").submit();
 		});
-		$(".controlDOWN").on("click", function(){
+		$(".controlUP").on("click", function(){
 			$("#how").val(1);
 			$("#memInfo").submit();
 		});
-		$(".controlDOWN").on("click", function(){
+		$(".controlREMOVE").on("click", function(){
 			$("#how").val(2);
 			$("#memInfo").submit();
 		});

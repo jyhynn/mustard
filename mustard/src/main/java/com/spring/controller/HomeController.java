@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.domain.BoardNoticeVO;
 import com.spring.domain.BoardVO;
@@ -51,18 +52,25 @@ public class HomeController {
 	@Autowired
 	private BoardService boardService;
 
-	@RequestMapping(value= {"/","boardMain"})
-	public String boardMain(@ModelAttribute("zip")ZipVO zip, Model model, HttpSession session) {
+	@RequestMapping(value= {"/","/boardMain"})
+	public String boardMain(ZipVO zip, Model model, HttpSession session) {
 		List<BoardNoticeVO> noticeMain = noticeService.getListforMain();
-		List<BoardVO> board2 = boardService.getListforMain((int)2);
-		List<BoardVO> board3 = boardService.getListforMain((int)3);
-		List<BoardVO> board4 = boardService.getListforMain((int)4);
-		List<BoardVO> board5 = boardService.getListforMain((int)5);
-		session.setAttribute("guest", zip);
+		log.info(zip.getDong());
+		if(zip.getGungu()==null || zip.getShi()==null || zip.getDong()==null) {
+			zip.setShi("서울특별시");
+			zip.setGungu("중구");
+			zip.setDong("을지로1가");
+		}
+		List<BoardVO> board2 = boardService.getListforMain((int)2, zip);
+		List<BoardVO> board3 = boardService.getListforMain((int)3, zip);
+		List<BoardVO> board4 = boardService.getListforMain((int)4, zip);
+		List<BoardVO> board5 = boardService.getListforMain((int)5, zip);
 		model.addAttribute("board2",board2);
 		model.addAttribute("board3",board3);
 		model.addAttribute("board4",board4);
 		model.addAttribute("board5",board5);
+		session.setAttribute("guest", zip);
+		
 		model.addAttribute("noticeMain",noticeMain);
 		return "boardMain";
 	}
@@ -78,7 +86,7 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-		return "home";
+		return "/home";
 	}
 	
 	@RequestMapping("/main")

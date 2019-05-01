@@ -59,11 +59,11 @@ $(function() {
 				success : function(result) {
 					if (result == "requestCheckEmailSuccess") {
 						console.log(result);
-						$(".email-msg").html("메일 수신함에서 인증버튼을 클릭해주시면 다음단계로 넘어갑니다.");
+						$(".auth-email").html("<small>메일 수신함에서 인증버튼을 클릭해주시면 다음단계로 넘어갑니다.</small>");
 					} else if (result == "exist") {
-						$(".email-msg").html("이미 존재하는 이메일입니다.");
+						$(".auth-email").html("<small>이미 존재하는 이메일입니다.</small>");
 					} else if(result=="notyetauth"){
-						$(".email-msg").html("메일 수신함에서 인증버튼을 클릭해주세요.");
+						$(".auth-email").html("<small>메일 수신함에서 인증버튼을 클릭해주세요.</small>");
 					}
 				}
 	

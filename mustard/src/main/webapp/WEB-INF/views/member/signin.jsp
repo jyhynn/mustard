@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body class="text-center">
-  <form class="form-signin" action="goSignin" method="post">
+  <form class="form-signin" action="signin" method="post">
   <!-- <img class="mb-4" src="" alt="" width="72" height="72"> -->
   <h1 class="h3 mb-3 font-weight-normal">Mustard</h1>
   <div class="form-label-group">
@@ -19,13 +19,21 @@
   </div>
   <button class="btn btn-lg btn-block m-2 start-email btn-warning" type="submit">로그인</button>
   <div class="checkbox mb-3">
-    <label>
-      <input type="checkbox" value="remember-me"> Remember me
-    </label>
-    <p><a href="#">아이디/비밀번호 찾기</a></p>
+     <p class="find">
+        <a href="/forgot">아이디/비밀번호 찾기</a>
+      </p>
   </div>
   
   <p class="mt-5 mb-3 text-muted">처음이신가요? <a href="register"><span>회원가입</span></a>하기</p>
 </form>
-</body>
-</html>
+<script>
+	$(function(){
+		var error = '${error}';
+		if(error=='LogFailed'){
+			alert('이메일 혹은 비밀번호를 확인해주세요.');
+			return;
+		}	
+	})
+	
+</script>
+<%@ include file="../include/footer.jsp"%>

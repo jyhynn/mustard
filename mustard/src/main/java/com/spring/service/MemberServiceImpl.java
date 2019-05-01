@@ -70,7 +70,7 @@ public class MemberServiceImpl implements MemberService{
 				.append(authkey)
 				.append("' target='_blenk'>이메일 인증 확인</a>")
 				.toString());
-		sendMail.setFrom("mustard ", "MUSTARD");
+		sendMail.setFrom("우리동네 ", "우리동네");
 		sendMail.setTo(vo.getEmail());
 		sendMail.send();
 	}
@@ -85,6 +85,7 @@ public class MemberServiceImpl implements MemberService{
 		return mapper.getEmail(memNo);
 	}
 
+	@Transactional
 	@Override
 	public int registMember(MemberVO vo) {
 		//선택지역코드 zip에서 불러와서 member에 넣기
@@ -97,12 +98,17 @@ public class MemberServiceImpl implements MemberService{
 		return mapper.checkEmail(email);
 	}
 
+	@Transactional
 	@Override
 	public LogOnVO signin(MemberVO vo) {
-		LogOnVO log = mapper.signin(vo);
-		ZipVO zip = zipMapper.getZipByCode(log.getCode());
-		log.setZip(zip);
-		return log;
+		LogOnVO logon = mapper.signin(vo);
+		if(logon==null) {
+			log.info("service에서 못받ㅇ음");
+		}else {
+			ZipVO zip = zipMapper.getZipByCode(logon.getCode());
+			logon.setZip(zip);
+		}
+		return logon;
 	}
 	
 	@Override
@@ -126,6 +132,7 @@ public class MemberServiceImpl implements MemberService{
 		return boardMapper.getIWrote(memNo);
 	}
 	
+	@Transactional
 	@Override
 	public List<BoardVO> getMyReplies(int memNo) {
 		HashMap<String, Integer> hash = new HashMap<>();
@@ -150,6 +157,7 @@ public class MemberServiceImpl implements MemberService{
 		return mapper.changePwd(hash);
 	}
 	
+	@Transactional
 	@Override
 	public int changeLoc(int memNo, ZipVO zip) {
 		log.info("long값" + zipMapper.getZip(zip).getCode());
@@ -180,7 +188,21 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public int controlDown(int memNo) {
+	public int controlDown(int memNo) throws Exception {
+		
+		//안내메일 보내기
+		MailUtils sendMail = new MailUtils(mailSender);
+
+		sendMail.setSubject("[우리동네] 회원등급변경 안내");
+		sendMail.setText(new StringBuffer().append("<h1>[우리동네] 회원등급변경 안내</h1>")
+				.append("<p>고객님이 작성하신 글/댓글이 신고 접수되어 확인 후 등급을 조정하였습니다.</p>")
+				.append("<p>이 메일을 총 3번 받으신다면 강제탈퇴처리됩니다. 감사합니다.</p>")
+				.toString());
+		sendMail.setFrom("우리동네", "우리동네");
+		sendMail.setTo(mapper.getEmail(memNo).getEmail());
+		sendMail.send();
+		
+		
 		return mapper.controlDown(memNo);
 	}
 

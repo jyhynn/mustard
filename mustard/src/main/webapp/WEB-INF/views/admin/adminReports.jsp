@@ -23,7 +23,7 @@
     </nav>
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
     <h2>신고된 글 목록</h2>
-      <div class="table-responsive">
+      <div class="table-responsive mb-5">
         <table class="table table-striped table-sm">
           <thead>
            <tr>
@@ -42,6 +42,9 @@
               <td>${b.notice_date }</td>
             </tr>
           </c:forEach>
+          <c:if test="${empty br }">
+          	<td colspan="4">신고된 글이 없습니다.</td>
+          </c:if>
           </tbody>
         </table>
   		</div> 

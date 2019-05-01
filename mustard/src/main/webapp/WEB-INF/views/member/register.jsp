@@ -19,7 +19,7 @@
 			<a href="#">Mustard 회원가입</a>
 		</h1>
 				
-		<h1 class="h3 mb-3 font-weight-normal">[사이트이름]</h1>
+		<h1 class="h3 mb-3 font-weight-normal"></h1>
 		<button class="btn btn-lg btn-block m-2 start-email btn-warning" type="button">이메일로 시작하기</button>
 		<!-- <button class="btn btn-lg btn-primary btn-block m-2 start-kakao" type="button">카카오계정으로 시작하기</button> -->
 		<form class="form-signin" id="form-signin" action="reigstMember" method="post">
@@ -27,7 +27,7 @@
 				<c:if test="${email=='' }">
 					<input type="email" id="email" name="email" class="form-control m-2" placeholder="이메일" required autofocus>
 					<label for="email" class="tip tip-email">비밀번호 찾기에 사용</label> <br>
-					<label for="email" class="tip email-msg"></label>
+					<!-- <label for="email" class="tip email-msg"></label> -->
 					<button class="btn btn-lg btn-block m-2 auth-email btn-warning" type="button">이메일 인증하기</button> 
 				</c:if>
 				<c:if test="${email!='' }">
@@ -94,13 +94,4 @@
 		<button class="btn btn-lg btn-primary btn-block m-2 goRegist" type="submit">Mustard 가입하기</button> 
 		</form>
 	</div>
-	<address>
-		<ul class="links">
-			<li class="copyright"><a href="#">&copy; Mustard</a></li>
-			<li><a href="#">문의하기</a></li>
-			<li><a href="#">개인정보처리방침</a></li>
-		</ul>
-	</address>
-
-</body>
-</html>
+<%@ include file="../include/footer.jsp"%>

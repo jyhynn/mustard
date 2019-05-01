@@ -10,7 +10,9 @@ create table member(
 create sequence seq_member;
 
 --닉네임 컬럼 추가
-alter table member add nick nvarchar2(20) default '익명';
+alter table member modify nick nvarchar2(20) default '익명';
+update MEMBER set nick='익명' where memNo=22;
+select * from MEMBER;
 --가입날짜 컬럼 추가
 alter table member add regdate date default sysdate;
 alter table member modify code number(11);

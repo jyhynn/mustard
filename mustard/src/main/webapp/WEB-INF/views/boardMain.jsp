@@ -75,10 +75,12 @@
 				</div>
 				<!-- 공지사항 -->
 				<div class="list-group">
-				  <h7 class="font-weight-light">공지사항 <a class="btn btn-info" href="/board/noticeList">+</a></h7>
+				  <h7 class="font-weight-light">
+				  <img src="/resources/icons/info.png" class="icons mr-1 mb-1" alt="...">공지사항 
 				  <c:forEach var="n" items="${noticeMain }">
-				  	<a href="board/boardRead?article_no=${n.notice_no }&board_no=${n.board_no}" class="list-group-item list-group-item-action">${n.title }</a>
+				  	<a href="/board/noticeRead?notice_no=${n.notice_no }&board_no=${n.board_no}" class="list-group-item list-group-item-action">${n.title }</a>
 				  </c:forEach>
+				  <a href="/board/noticeList"><img src="/resources/icons/plus.png" class="icons mr-1 mb-1" alt="..."></a></h7>
 				</div>
 			</div>
 		</div>
@@ -88,8 +90,8 @@
 	<div class="card text-white bg-secondary my-5 py-4 text-center">
 		<ul class="nav nav-pills nav-fill">
 		  <li class="nav-item">
-		    <a href= <c:if test="${empty log}">"board/boardList?board_no=2&shi=${guest.shi}&gungu=${guest.gungu }&dong=${guest.dong }"</c:if>
-					 <c:if test="${!empty log}">"board/boardList?board_no=2&shi=${log.zip.shi }&gungu=${log.zip.gungu }&dong=${log.zip.dong }"</c:if>
+		    <a href= <c:if test="${empty log}">"/board/boardList?board_no=2&shi=${guest.shi}&gungu=${guest.gungu }&dong=${guest.dong }"</c:if>
+					 <c:if test="${!empty log}">"/board/boardList?board_no=2&shi=${log.zip.shi }&gungu=${log.zip.gungu }&dong=${log.zip.dong }"</c:if>
 				class="text-white" >정보게시판</a>
 		  </li>
 		  <li class="nav-item">
@@ -118,9 +120,11 @@
 			<!-- 정보게시판 -->
 			<div class="col-md-3 mb-5">
 				<div class="list-group">
-				  <a href=<c:if test="${empty log}">"board/boardList?&board_no=2&shi=${guest.shi}&gungu=${guest.gungu }&dong=${guest.dong }"</c:if>
-						  <c:if test="${!empty log}">"board/boardList?&board_no=2&zip=${log.zip.shi}&gungu=${log.zip.gungu }&dong=${log.zip.dong }"</c:if>
-						  class="list-group-item list-group-item-action">정보 게시판</a>
+				  <a href=<c:if test="${empty log}">"/board/boardList?&board_no=2&shi=${guest.shi}&gungu=${guest.gungu }&dong=${guest.dong }"</c:if>
+						  <c:if test="${!empty log}">"/board/boardList?&board_no=2&zip=${log.zip.shi}&gungu=${log.zip.gungu }&dong=${log.zip.dong }"</c:if>
+						  class="list-group-item list-group-item-action">
+						  <img src="/resources/icons/web.png" class="icons mr-1 mb-1" alt="...">정보 게시판
+						  <br><small>게시판으로 바로 이동합니다.</small></a>
 				</div>
 			</div>
 			<!-- 지역게시판 -->
@@ -128,11 +132,12 @@
 				<div class="list-group">
 				<a href=<c:if test="${empty log}">"/board/boardList?board_no=3&shi=${guest.shi}&gungu=${guest.gungu }&dong=${guest.dong }"</c:if>
 						<c:if test="${!empty log}">"/board/boardList?board_no=3&shi=${log.zip.shi}&gungu=${log.zip.gungu }&dong=${log.zip.dong }"</c:if>
-						class="list-group-item list-group-item-action">지역 게시판<small>우리 동네 소식(가게 개폐업/행사 등)</small></a>
-				<a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+						class="list-group-item list-group-item-action">
+					<img src="/resources/icons/store.png" class="icons mr-1 mb-1" alt="...">
+						지역 게시판<br><small>우리 동네 소식(가게 개폐업/행사 등)</small></a>
 				<c:forEach var="b" items="${board3 }">
 					<a href="board/boardRead?article_no=${b.article_no }&board_no=${b.board_no}" class="list-group-item list-group-item-action">
-						${b.title }</a>
+						<small>${b.title }</small></a>
 				</c:forEach>
 				</div>
 			</div>
@@ -141,10 +146,11 @@
 				<div class="list-group">
 				<a href=<c:if test="${empty log}">"/board/boardList?board_no=4&shi=${guest.shi}&gungu=${guest.gungu }&dong=${guest.dong }"</c:if>
 						<c:if test="${!empty log}">"/board/boardList?board_no=4&shi=${log.zip.shi}&gungu=${log.zip.gungu }&dong=${log.zip.dong }"</c:if>
-						class="list-group-item list-group-item-action">홍보 게시판<small>사장님들의 홍보공간(행사/알바구함 등)</small></a>
+						class="list-group-item list-group-item-action">
+						<img src="/resources/icons/bullhorn.png" class="icons mr-1 mb-1" alt="...">홍보 게시판<br><small>사장님들의 홍보공간(행사/알바구함 등)</small></a>
 				<c:forEach var="b" items="${board4 }">
 					<a href="board/boardRead?article_no=${b.article_no }&board_no=${b.board_no}" class="list-group-item list-group-item-action">
-						${b.title }</a>
+						<small>${b.title }</small></a>
 				</c:forEach>
 				</div>
 			</div>
@@ -153,10 +159,11 @@
 				<div class="list-group">
 				<a href=<c:if test="${empty log}">"/board/boardList?board_no=5&shi=${guest.shi}&gungu=${guest.gungu }&dong=${guest.dong }"</c:if>
 						<c:if test="${!empty log}">"/board/boardList?board_no=5&shi=${log.zip.shi}&gungu=${log.zip.gungu }&dong=${log.zip.dong }"</c:if>
-						class="list-group-item list-group-item-action">자유 게시판</a>
+						class="list-group-item list-group-item-action">
+					<img src="/resources/icons/standup.png" class="icons mr-1 mb-1" alt="...">자유 게시판</a>
 				<c:forEach var="b" items="${board5 }">
 					<a href="board/boardRead?article_no=${b.article_no }&board_no=${b.board_no}" class="list-group-item list-group-item-action">
-						${b.title }</a>
+						<small>${b.title }</small></a>
 				</c:forEach>
 				</div>
 			</div>

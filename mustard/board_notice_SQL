@@ -45,7 +45,6 @@ create table notice_attach(
 
 select notice_no, uuid,uploadpath,filename from notice_attach
 where rowid in (select min(rowid)from notice_attach group by notice_no) and rownum<11 order by notice_no desc;
-
 select * from notice_attach;
 alter table notice_attach add board_no number(2); --게시판번호컬럼 추가
 update NOTICE_ATTACH set board_no=1;
@@ -83,6 +82,16 @@ create table board_board(
 	notice_updatedate date default sysdate
 );
 
+select board_no, article_no, title, writer, content, notice_date, notice_updatedate, replycnt, readhit, likey, report, code
+from (select /*+ INDEX_DESC(board_notice pk_board_notice) */ 
+rownum rn, board_no, article_no, title, writer, content, notice_date, notice_updatedate, replycnt, readhit, likey, report, code from board_board where
+rownum <= 1 * 6 and board_no=3 and code=1147090200) where rn > (1-1) * 6 and board_no=3 and code=1147090200;
+
+
+
+alter table board_board add code number;
+alter table board_board modify title nvarchar2(100);
+alter table board_board rename column zipcode to code;
 select article_no, board_no, title from ( 
 	select board_no, title, article_no, sum(readhit + replycnt + likey) as hap, row_number() over (order by sum(readhit + replycnt + likey) desc) num
  	from board_board group by article_no, board_no, title ) where num < 5;
@@ -94,6 +103,26 @@ create sequence seq_board_board;
 alter table board_board add constraint pk_article_no primary key(article_no);
 --alter table board_board add constraint fk_notice_memNo foreign key(memNo) references member(memNo);
 select * from board_board;
+
+select board_no, article_no, title, code from board_board where rowid in (select max(rowid)from board_board group by article_no, board_no, code having board_no=5 and code=1162000500 ) and rownum<6 order by article_no desc;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 -- 일반게시판 첨부파일 테이블
 create table board_attach(
 	uuid varchar2(100) not null,

@@ -29,16 +29,17 @@
 					<form action="boardModify" id="readBoard">
 						<div class="list-group-item">
 							<h4 class="display-7 mb-3">${board.title }</h4>
-						  	<p>${board.notice_date}
-						  		<span class="btn" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
-						  			${board.writer } </span>
-						  	<c:if test="${log.memlevel==10 }">		
-							  	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-								    <a class="dropdown-item controlmember" href="#">회원 관리</a>
-								</div></c:if>
-						  		<span class="badge badge-light">조회수 ${board.readhit }</span>
-								<span class="badge badge-light badge-recnt">댓글 ${board.replycnt }</span>
-								<span class="badge badge-light badge-likey">♥ ${board.likey }</span></p>
+						  	<p class="div-inline">${board.notice_date}
+								<div class="dropdown div-inline">
+								  <span class="btn btn-light btn-small" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								    ${board.writer }</span>
+								  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+								    <button class="dropdown-item controlmember">회원 관리</button>
+								  </div>
+								</div>
+						  		<span class="badge badge-light div-inline">조회수 ${board.readhit }</span>
+								<div class="etcRe div-inline"></div>
+								<div class="etcLike div-inline"></div>
 						  	<input type="hidden" name="article_no" value="${board.article_no }"/>
 						  	<input type="hidden" name="memNo" id="memNo" value="${board.memNo }"/>
 						  	<input type="hidden" name="board_no" value="${board.board_no }"/>
@@ -79,6 +80,7 @@
 			</div>
 		</div>
 	</div>
+	
  <%--	<form id="operForm" action="noticeModify">
         <input type="hidden" name="pageNum" value="${cri.pageNum }" />
 		<input type="hidden" name="amount" value="${cri.amount }" />
@@ -90,7 +92,8 @@ $(function(){
 	var articleNo = ${board.article_no };
 	var boardNo = ${board.board_no };
 	var re_box = $(".replyBox");
-	var logedMemNo = ${log.memNo};
+	var logedMemNo = '${log.memNo}';
+	var logedmemNo = $("#logedmemNo").val();
 	var logedNick = "${log.nick}";
 	
 	$.getJSON({
@@ -140,7 +143,7 @@ $(function(){
 	$("#btn-report").on("click",function(){
 		 $.ajax({
 			type:"post",
-			url : '/reportBoard',
+			url : '/board/reportBoard',
 			data : {article_no : articleNo,
 					board_no : boardNo,
 					memNo : $("#memNo").val()},
@@ -157,55 +160,73 @@ $(function(){
 	$(".btn-likey").on("click",function(){
 		 $.ajax({
 			type:"post",
-			url : '/likeyBoard',
+			url : '/board/likeyBoard',
 			data : {article_no : articleNo,
 					board_no : boardNo},
 			success:function(data){
 				console.log(data);
-				getLikeyamount();
+				showLikeCnt();
 			}
 		});	//ajax	
 	});
 	
 	//스크랩
 	$(".btn-scrap").on("click",function(){
-		 $.ajax({
-			type:"post",
-			url : '/scrapBoard',
-			data : {article_no : articleNo,
-					board_no : boardNo,
-					memNo : logedMemNo},
-			success:function(data){
-				console.log(data);
-				if(data=='boardScrapSuccess'){
-					alert("스크랩된 글은 마이페이지 > 내 스크랩 에서 확인가능합니다.");
+		if(logedMemNo==""){
+			alert("로그인 후 이용가능합니다");
+			$("#reply").blur();
+			return false;
+		}else{
+			 $.ajax({
+				type:"post",
+				url : '/board/scrapBoard',
+				data : {article_no : articleNo,
+						board_no : boardNo,
+						memNo : Number($("#logedmemNo").val())},
+				success:function(data){
+					console.log(data);
+					if(data=='boardScrapSuccess'){
+						alert("스크랩된 글은 마이페이지 > 내 스크랩 에서 확인가능합니다.");
+					}
 				}
-			}
-		});	//ajax	
+			});	//ajax	
+		}
 	});
 	
-	function getLikeyamount(){
-		$.getJSON({
-			url : '/getLikeyamount',
-			data : {article_no:articleNo,
-					board_no:boardNo},
+	function showReCnt(){
+		 $.getJSON({
+			 url : '/replies/getReplyamount',
+				data : {article_no:articleNo,
+						board_no:boardNo},
 			success:function(data){
-				$(".badge-likey").html("♥ " + data);
+				var str = "";
+				console.log(data);
+				$(data).each(function(i,obj){
+					str += "<span class='badge badge-light badge-recnt'>댓글 " + obj.replycnt + "</span>";
+				});	
+				$(".etcRe").html(str);
 			}
-		});
-	}
+		});//getJSON
+	 }//showReCnt
 	
-	function getReplyamount(){
-		$.getJSON({
-			url : '/replies/getReplyamount',
-			data : {article_no:articleNo,
-					board_no:boardNo},
+	function showLikeCnt(){
+		 $.getJSON({
+			 url : '/board/getLikeyamount',
+			 data : {article_no:articleNo,
+						board_no:boardNo},
 			success:function(data){
-				$(".badge-recnt").html("댓글 " + data);
+				var str = "";
+				console.log(data);
+				$(data).each(function(i,obj){
+					str += "<span class='badge badge-light badge-likey'>♥ " + obj.likey + "</p></span>";
+				});	
+				$(".etcLike").html(str);
 			}
-		});
-	}
-	
+		});//getJSON
+	 }//showLikeCnt
+	 
+	showLikeCnt();
+	showLikeCnt();
 	showReply();
 
 	function showReply(){
@@ -228,7 +249,9 @@ $(function(){
 					str += "<small class='time'> " + obj.replyDate + " </small>";
 					str += "<small><span class='btn badge badge-light re-likey' data-reno='" + obj.reNo +"'>♥ " + obj.likey + "</span>";
 					str += "<span class='btn badge badge-danger re-report' data-reno='" + obj.reNo +"' data-memno='" + obj.memNo + "'>신고</span>";
-					str += "<c:if test='${log.memNo==" + obj.memNo + "}'><span class='btn badge badge-light re-del' data-reno='" + obj.reNo +"'> X 삭제 </span></c:if></small>";
+					if(logedMemNo==obj.memNo){
+						str += "<span class='btn badge badge-light re-del' data-reno='" + obj.reNo +"'> X 삭제 </span></small>";
+					}
 					str += "<br><p class='replyContent'>" + obj.reply + "</p></li>";					
 				});	
 			//	console.log(str);
@@ -237,10 +260,19 @@ $(function(){
 		});//getJSON
 	 }//showReply
 	
+	 
+	 $("#reply").on("focus",function(){
+		if(logedMemNo==""){
+			alert("로그인 후 이용가능합니다");
+			$("#reply").blur();
+			return false;
+		} 
+	 });
 	//댓글 입력
 	$(".btn-reply").on("click",function(){
-		if(logedMemNo==null){
+		if(logedMemNo==""){
 			alert("로그인 후 이용가능합니다");
+			return false;
 		}else{
 			$.ajax({
 				type:"post",
@@ -249,12 +281,12 @@ $(function(){
 						reply : $("#reply").val(),
 						board_no : boardNo,
 						writer : logedNick,
-						memNo : logedMemNo},
+						memNo : Number(logedMemNo)},
 				success:function(data){
 					console.log(data);
 					 $("#reply").val("");
-					 getReplyamount();
 					 showReply();
+					 showReCnt();
 				}
 			});
 		}
@@ -273,6 +305,7 @@ $(function(){
 				console.log(data);
 				if(data=='reDelSuccess'){
 					alert("댓글이 삭제되었습니다.");
+					showEtc();
 					showReply();
 				}else{
 					alert("댓글 삭제 실패.");
@@ -321,7 +354,7 @@ $(function(){
 	
 	//회원관리
 	$(".controlmember").on("click",function(){
-		$("#formRead").action("/admin/adminControlMember").submit();
+		$("#readBoard").attr("action","/admin/adminControlMember").submit();
 	});
 });
 </script>

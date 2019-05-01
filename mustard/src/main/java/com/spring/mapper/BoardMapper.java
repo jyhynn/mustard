@@ -11,13 +11,15 @@ import com.spring.domain.ScrapVO;
 
 public interface BoardMapper {
 
-	public List<BoardVO> getList(HashMap<String, Integer> hash); 
-	public List<BoardVO> getListforMain(int board_no); 
+	public List<BoardVO> getList(HashMap<String, Object> hash); 
+	public List<BoardVO> getListforMain(HashMap<String, Object> hash); 
+	public List<BoardVO> getListforAdmin(HashMap<String, Integer> hash); 
 	public BoardVO getBoard(HashMap<String, Integer> hash);
 	public int insert(BoardVO board);
 	public int update(BoardVO board);
 	public int delete(HashMap<String, Integer> hash);
-	public int countPage(HashMap<String, Integer> hash);
+	public int countPage(HashMap<String, Object> hash);
+	public int count(HashMap<String, Integer> hash);
 	public int report(HashMap<String, Integer> hash);
 	public List<BoardVO> getReported();
 	public int updateReplyCnt(HashMap<String, Integer> hash);
@@ -28,6 +30,7 @@ public interface BoardMapper {
 	public BoardVO getScrapOne(HashMap<String, Integer> hash);
 	public List<ScrapVO> getScraps(int memNo);
 	public List<BoardVO> getIWrote(int memNo);
+	public int updateReplyDeleted(HashMap<String, Integer> hash);
 	//문의게시판
 	public List<QnaVO> getQnaList(Criteria cri);
 	public QnaVO getAsk(int qna_no);

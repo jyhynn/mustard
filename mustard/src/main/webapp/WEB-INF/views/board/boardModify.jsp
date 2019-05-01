@@ -53,7 +53,7 @@
 					<input class="custom-form-control" type="text" id="title" name="title" placeholder="제목" required="required" value="${board.title }"/>
 					<input class="custom-form-control" type="hidden" name="board_no" id="board_no" value="${board.board_no}"/>
 					<input class="custom-form-control" type="hidden" id="article_no" name="article_no" value="${board.article_no }"/>
-					<input class="custom-form-control" type="hidden" name="writer" value="${board.nick}"/>	<!-- ${logon.nick } -->
+					<input class="custom-form-control" type="hidden" name="writer" value="${board.writer}"/>	<!-- ${logon.nick } -->
 					<input class="custom-form-control" type="hidden" name="memNo" value="${board.memNo}"/><!-- ${logon.memNo } -->
 					</div>
 				<div class="list-group-item p-0 mb-3">

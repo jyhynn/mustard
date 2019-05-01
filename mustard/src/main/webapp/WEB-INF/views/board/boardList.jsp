@@ -15,21 +15,21 @@
 			<div class="col-md-9 order-md-1 font-jeju">
 				<div class="list-group-item mb-3">
 					<c:if test="${bno==2 }">
-						<h3>정보게시판</h3>
+						<h5>정보게시판</h5>
 					</c:if>
 					<c:if test="${bno==3 }">
-						<h3>지역게시판</h3>
+						<h5>지역게시판</h5>
 					</c:if>
 					<c:if test="${bno==4 }">
-						<h3>홍보게시판</h3>
+						<h5>홍보게시판</h5>
 					</c:if>
 					<c:if test="${bno==5 }">
-						<h3>자유게시판</h3>
+						<h5>자유게시판</h5>
 					</c:if>
 				</div>
 				<c:if test="${bno==2 }">
 					<div class="list-group-item mb-3">
-						<h5>클릭하시면 해당 링크로 이동합니다.</h5>
+						<small>클릭하시면 해당 링크로 이동합니다.</small>
 					</div>
 					<div class="list-group">
 						<c:forEach var="l" items="${link }">
@@ -77,7 +77,7 @@
 				</nav>
 				<!-- /페이징 -->
 				<c:if test="${bno!=2}">	
-					<button type="button" class="mt-4 mb-5 btn btn-warning btn-write">글쓰기</button>
+					<button type="button" class="mt-4 mb-5 btn btn-warning btn-write"><small>글쓰기</small></button>
 				</c:if>
 			</div>
 			<div class="col-md-3 order-md-2 mb-4 font-jeju">

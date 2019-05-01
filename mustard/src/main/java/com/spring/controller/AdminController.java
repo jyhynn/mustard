@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import com.spring.domain.Criteria;
 import com.spring.domain.MemberVO;
 import com.spring.domain.PageDTO;
 import com.spring.domain.QnaVO;
+import com.spring.domain.ZipVO;
 import com.spring.service.BoardService;
 import com.spring.service.MemberService;
 
@@ -28,14 +30,13 @@ public class AdminController {
 	private MemberService memberservice;
 	@Autowired
 	private BoardService boardservice;
-	
 	@RequestMapping(value= {"/adminQna", "/adminMain"})
 	public void adminQna(Model model, @ModelAttribute("cri") Criteria cri) {
 		//새로 올라온 문의
 		//답변한 문의 필터링 기능
 		List<QnaVO> qnas = boardservice.getQnaList(cri);
 		model.addAttribute("qnas", qnas);
-		model.addAttribute("pageMaker", new PageDTO(cri, boardservice.countPage(cri, 6)));
+		model.addAttribute("pageMaker", new PageDTO(cri, boardservice.count(cri, 6)));
 	}
 	
 	@RequestMapping("/adminWatingAnswer")
@@ -43,21 +44,21 @@ public class AdminController {
 		//답변대기중인 문의들
 		List<QnaVO> qnas = boardservice.getWatingList();
 		model.addAttribute("qnas", qnas);
-		model.addAttribute("pageMaker", new PageDTO(cri, boardservice.countPage(cri, 6)));
+		model.addAttribute("pageMaker", new PageDTO(cri, boardservice.count(cri, 6)));
 	}
 	
 	@RequestMapping("/adminBoard")
-	public void adminBoard(Model model, @ModelAttribute("cri") Criteria cri) {
+	public void adminBoard(Model model, @ModelAttribute("cri") Criteria cri, ZipVO zip) {
 		//게시판별 전체 목록
-		List<BoardVO> board3 = boardservice.getList(cri, 3);
-		List<BoardVO> board4 = boardservice.getList(cri, 4);
-		List<BoardVO> board5 = boardservice.getList(cri, 5);
+		List<BoardVO> board3 = boardservice.getListforAdmin(3, cri);
+		List<BoardVO> board4 = boardservice.getListforAdmin(4, cri);
+		List<BoardVO> board5 = boardservice.getListforAdmin(5, cri);
 		model.addAttribute("board3", board3);
 		model.addAttribute("board4", board4);
 		model.addAttribute("board5", board5);
-		model.addAttribute("pageMaker3", new PageDTO(cri, boardservice.countPage(cri, 3)));
-		model.addAttribute("pageMaker4", new PageDTO(cri, boardservice.countPage(cri, 4)));
-		model.addAttribute("pageMaker5", new PageDTO(cri, boardservice.countPage(cri, 5)));
+		model.addAttribute("pageMaker3", new PageDTO(cri, boardservice.count(cri, 3)));
+		model.addAttribute("pageMaker4", new PageDTO(cri, boardservice.count(cri, 4)));
+		model.addAttribute("pageMaker5", new PageDTO(cri, boardservice.count(cri, 5)));
 	}
 	
 	@RequestMapping("/adminMember")
@@ -78,7 +79,7 @@ public class AdminController {
 		model.addAttribute("mr", memberReported);
 	}
 	
-	@PostMapping("/adminControlMember")
+	@GetMapping("/adminControlMember")
 	public void controlMember(@ModelAttribute("board")BoardVO board, int memNo, Model model) {
 		MemberVO m = new MemberVO();
 		if(board==null) {
@@ -88,9 +89,10 @@ public class AdminController {
 		model.addAttribute("m", m);
 	}
 	
-	@RequestMapping("/control")
-	public String control(int memNo, int how, Model model) {
+	@PostMapping("/control")
+	public String control(int memNo, int how, Model model) throws Exception {
 		//개별회원등급관리
+		log.info(""+memNo);
 		switch (how) {
 		case 0:
 			 memberservice.controlDown(memNo);

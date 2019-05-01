@@ -13,12 +13,7 @@
 					rownum rn, board_no, notice_no, title, writer, content, notice_date, notice_updatedate, replycnt from board_notice where ]]>
 	<![CDATA[	rownum <= #{pageNum} * #{amount} and board_no=#{board_no}) where rn > (#{pageNum}-1) * #{amount} and board_no=#{board_no}	]]>	
 	</select>
-	
-	<!-- 댓글 카운트 수 변경 -->
-	<update id="updateReplyCnt">
-		update board_notice set replycnt=replycnt+#{amount} where notice_no=#{notice_no} and board_no=#{board_no}
-	</update>
-	
+		
 	<select id="countPage" resultType="int">
 		select count(*) from board_notice where notice_no > 0 and board_no=#{board_no}
 	</select>
@@ -46,6 +41,6 @@
 	<select id="getListforMain" resultType="com.spring.domain.BoardNoticeVO">
 		<![CDATA[
 		select board_no, notice_no, title from board_notice where 
-		rowid in (select max(rowid)from board_notice group by notice_no) and rownum<3 order by notice_no desc ]]>
+		rowid in (select max(rowid)from board_notice group by notice_no) and rownum<2 order by notice_no desc ]]>
 	</select>
 </mapper>

@@ -1,11 +1,27 @@
 @charset "UTF-8";
+.div-inline{
+	display: inline;
+}
+.bg-gray{
+	background-color: #f5f5f5;
+}
+.logos{
+	width: 50px;
+	height: 50px;
+}
+
+.icons{
+	width: 20px;
+	height: 20px;
+}
+
 .font-jeju{
 	font-family: 'Jeju Gothic', sans-serif;
 }
 
 .footer {
-    background-color: #f5f5f5;
-    right: 0;
+	background-color: #fff;
+	right: 0;
     bottom:0;
     left: 0;
     z-index: 1030;
@@ -29,7 +45,22 @@
   background-clip: padding-box;
   border-style: none;
 }
+section {
+	display: block;
+}
+section {
+	width: 100%; box-sizing: border-box; word-break: break-all; font-family: NanumSquare; text-align: center;
+}
+section.withaside {
+		padding-right: 301px;
+}
+.white{
+	background-color: #fff;
+}
 
+section.white {
+	background-color: #fff;
+}	
 @media (prefers-reduced-motion: reduce) {
   .form-control {
     transition: none;

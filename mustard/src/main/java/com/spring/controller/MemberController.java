@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -28,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequestMapping("/member/*")
+@SessionAttributes("log")
 public class MemberController {
 
 	@Autowired
@@ -87,41 +89,49 @@ public class MemberController {
 	@PostMapping("/reigstMember")
 	public String registMember(MemberVO vo) {
 		log.info("회원가입요청");
+		if(vo.getNick()==null) {
+			vo.setNick("익명");
+		}
 		service.registMember(vo);
 		return "redirect:signin";
 	}
 	
 	@RequestMapping("/signin")
-	public void showSignin(String error) {
+	public String showSignin(String error) {
 		log.info("signin page 나와라");
-		
+		return "/member/signin";
 	}
 	
-	@PostMapping("/goSignin")
-	public String goSignin(MemberVO vo, Model model, HttpSession session) {
+	@PostMapping("/signin")
+	public String goSignin(MemberVO vo, RedirectAttributes rttr,Model model, HttpSession session) {
 		log.info("로그인하러 가요~~");
-		MemberVO check = service.checkEmail(vo.getEmail());
-		if(check!=null) {
-			if(check.getAuthstatus()==1) {
-				LogOnVO log = service.signin(vo);
-				session.removeAttribute("guest");	//게스트모드 세션 삭제(위치정보 담겨있음)
-				session.setAttribute("log", log);	
-			}else if(check.getAuthstatus()==0) {
-				model.addAttribute("err", "인증되지 않은 이메일입니다. 이메일 인증 후 가입절차를 완료하시기 바랍니다.");
+			//session.invalidate();	//게스트모드 세션 삭제(위치정보 담겨있음)
+			LogOnVO logon = service.signin(vo);
+			if(logon==null) {
+				log.info("로그인실패");
+				rttr.addFlashAttribute("error", "LogFailed");
+				//rttr.addFlashAttribute("error", "LogFailed");
 				return "/member/signin";
-			}
-		}else {
-			model.addAttribute("err", "이메일 혹은 비밀번호를 확인해주세요");
-			return "/member/signin";
-		}
-		return "boardMain";
+			}else {
+				model.addAttribute("log", logon);				
+				rttr.addAttribute("shi", logon.getZip().getShi());
+				rttr.addAttribute("gungu", logon.getZip().getGungu());
+				rttr.addAttribute("dong", logon.getZip().getDong());
+				
+				return "redirect:/boardMain";
+			}	
+	}
+	
+	@GetMapping("/forgot")
+	public void forgot() {
+		
 	}
 	
 	@GetMapping("/signout")
 	public String signout(MemberVO vo, Model model, HttpSession session) {
 		log.info("로그아웃~");
 		session.invalidate();
-		return "boardMain";
+		return "redirect:/home";
 	}
 	
 	@GetMapping("/mypage/mylist")

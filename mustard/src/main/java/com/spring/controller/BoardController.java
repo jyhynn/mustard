@@ -59,7 +59,7 @@ public class BoardController {
 	@RequestMapping("/boardList")
 	public void boardlist(int board_no, Model model, ZipVO zip, @ModelAttribute("cri")Criteria cri) throws IOException {
 		log.info("게시판 페이지 나와라 + " + zip.getShi());
-		long code = (int)zipservice.getZip(zip).getCode();
+		long code = zipservice.getZip(zip).getCode();
 		//정보게시판 호출시
 		if(board_no==2) {
 			String classify = Long.toString(code);
@@ -167,12 +167,12 @@ public class BoardController {
 			model.addAttribute("link",link);
 		}else {
 			//zip정보 추가연동해야함-아직안함
-			List<BoardVO> list = service.getList(cri,board_no);
+			List<BoardVO> list = service.getList(cri,board_no,zip);
 			model.addAttribute("board", list);
 		}
 		
 		model.addAttribute("bno", board_no);
-		model.addAttribute("pageMaker", new PageDTO(cri,service.countPage(cri,1)));
+		model.addAttribute("pageMaker", new PageDTO(cri,service.countPage(cri,1,zip)));
 	}
 
 	//게시글 읽기
@@ -265,11 +265,11 @@ public class BoardController {
 	
 	//문의
 	@GetMapping("/askList")
-	public void askList(Model model, @ModelAttribute("cri")Criteria cri) {
+	public void askList(Model model, @ModelAttribute("cri")Criteria cri, ZipVO zip) {
 		log.info("문의 페이지 나와라");
 		List<QnaVO> list = service.getQnaList(cri);
 		model.addAttribute("board", list);
-		model.addAttribute("pageMaker", new PageDTO(cri,service.countPage(cri,6)));
+		model.addAttribute("pageMaker", new PageDTO(cri,service.countPage(cri,6, zip)));
 	}
 	
 	@RequestMapping(value= {"/askRead","/askModify"})
@@ -322,7 +322,7 @@ public class BoardController {
 	//좋아요
 	@PostMapping("/likeyBoard")
 	@ResponseBody
-	public String likeyBoard(int article_no, int board_no, int memNo ) {
+	public String likeyBoard(int article_no, int board_no ) {
 		return service.likey(article_no,board_no)==1?"boardLikeySuccess" : "boardLikeyFail";
 	}
 	

@@ -4,16 +4,24 @@
 
 	<select id="getList" resultType="com.spring.domain.BoardVO">	<!-- <![CDATA[이 안에 있는 꺽쇠가 태그가 아님을 명시]]> -->
 	<![CDATA[
-		select board_no, article_no, title, writer, content, notice_date, notice_updatedate, replycnt, readhit, likey, report
+		select board_no, article_no, title, writer, content, notice_date, notice_updatedate, replycnt, readhit, likey, report, code
 			from (select /*+ INDEX_DESC(board_notice pk_board_notice) */ 
-					rownum rn, board_no, article_no, title, writer, content, notice_date, notice_updatedate, replycnt, readhit, likey, report from board_board where ]]>
+					rownum rn, board_no, article_no, title, writer, content, notice_date, notice_updatedate, replycnt, readhit, likey, report, code from board_board where ]]>
+	<![CDATA[	rownum <= #{pageNum} * #{amount} and board_no=#{board_no} and code=#{code}) where rn > (#{pageNum}-1) * #{amount} and board_no=#{board_no} and code=#{code}	]]>	
+	</select>
+	
+	<select id="getListforAdmin" resultType="com.spring.domain.BoardVO">	<!-- <![CDATA[이 안에 있는 꺽쇠가 태그가 아님을 명시]]> -->
+	<![CDATA[
+		select board_no, article_no, title, writer, memNo, content, notice_date, notice_updatedate, replycnt, readhit, likey, report, code
+			from (select /*+ INDEX_DESC(board_notice pk_board_notice) */ 
+					rownum rn, board_no, article_no, title, writer, memNo, content, notice_date, notice_updatedate, replycnt, readhit, likey, report, code from board_board where ]]>
 	<![CDATA[	rownum <= #{pageNum} * #{amount} and board_no=#{board_no}) where rn > (#{pageNum}-1) * #{amount} and board_no=#{board_no}	]]>	
 	</select>
 	
 	<select id="getListforMain" resultType="com.spring.domain.BoardVO">
 		<![CDATA[
 		select board_no, article_no, title from board_board where 
-		rowid in (select max(rowid)from board_board group by article_no, board_no having board_no=#{board_no}) and rownum<6 order by article_no desc
+		rowid in (select max(rowid)from board_board group by article_no, board_no, code having board_no=#{board_no} and code=#{code}) and rownum<6 order by article_no desc
 		 ]]>
 	</select>
 	
@@ -22,10 +30,17 @@
 		update board_board set replycnt=replycnt+1 where article_no=#{article_no} and board_no=#{board_no}
 	</update>
 	
-	<select id="countPage" resultType="int">
-		select count(*) from board_board where article_no > 0 and board_no=#{board_no}
+	<update id="updateReplyDeleted">
+		update board_board set replycnt=replycnt-1 where article_no=#{article_no} and board_no=#{board_no}
+	</update>
+	
+	<select id="countPage" resultType="java.lang.Integer">
+		select count(*) from board_board where article_no > 0 and board_no=#{board_no} and code=#{code}
 	</select>
 	
+	<select id="count" resultType="java.lang.Integer">
+		select count(*) from board_board where article_no > 0 and board_no=#{board_no}
+	</select>
 	
 	<select id="getBoard" resultType="com.spring.domain.BoardVO">
 		select * from board_board where article_no=#{article_no} and board_no=#{board_no}
@@ -35,7 +50,7 @@
 		<selectKey keyProperty="article_no" order="BEFORE" resultType="int">
 			select seq_board_board.nextVal from dual
 		</selectKey>
-			insert into board_board(article_no,title,writer,content,memNo,board_no) values(#{article_no},#{title},#{writer},#{content},#{memNo},#{board_no})
+			insert into board_board(article_no,title,writer,content,memNo,board_no,code) values(#{article_no},#{title},#{writer},#{content},#{memNo},#{board_no},#{code})
 	</insert>
 	
 	<update id="update">
@@ -50,8 +65,8 @@
 		update board_board set report=report+1 where article_no=#{article_no} and board_no=#{board_no}
 	</update>
 	
-	<select id="getReported">
-		<![CDATA[ select * from board_board where report<>0; ]]>
+	<select id="getReported" resultType="com.spring.domain.BoardVO">
+		<![CDATA[ select * from board_board where report<>0 ]]>
 	</select>
 	
 	<!-- 조회수 -->
@@ -61,10 +76,10 @@
 	
 	<!-- 좋아요 -->
 	<update id="likey">
-		update board_board set likey=likey+1 where article_no=#{article_no} and board_no=#{board_no}
+		update board_board set likey=likey+1 where article_no=#{article_no} and board_no=#{board_no} 
 	</update>
 	
-	<select id="getLikeyamount"> 
+	<select id="getLikeyamount" resultType="java.lang.Integer"> 
 		select count(likey) from board_board where article_no=#{article_no} and board_no=#{board_no}
 	</select>
 	

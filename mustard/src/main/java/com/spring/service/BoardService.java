@@ -7,11 +7,13 @@ import com.spring.domain.BoardAttachVO;
 import com.spring.domain.BoardVO;
 import com.spring.domain.Criteria;
 import com.spring.domain.QnaVO;
+import com.spring.domain.ZipVO;
 
 public interface BoardService {
 
-	public List<BoardVO> getList(Criteria cri, int board_no); 
-	public List<BoardVO> getListforMain(int board_no); 
+	public List<BoardVO> getList(Criteria cri, int board_no, ZipVO zip); 
+	public List<BoardVO> getListforMain(int board_no, ZipVO zip); 
+	public List<BoardVO> getListforAdmin(int board_no, Criteria cri); 
 	public BoardVO getBaord(int article_no, int board_no);
 	public void insert(BoardVO board);
 	public int update(BoardVO board);
@@ -25,7 +27,8 @@ public interface BoardService {
 	public List<BoardAttachVO> attachList(int notice_no, int board_no);
 	public List<BoardAttachVO> getAttachs();
 	//페이지 카운팅
-	public int countPage(Criteria cri, int board_no);
+	public int count(Criteria cri, int board_no);
+	public int countPage(Criteria cri, int board_no, ZipVO zip);
 	public int updateReadhit(int article_no, int board_no);
 	//문의게시판
 	public List<QnaVO> getQnaList(Criteria cri);

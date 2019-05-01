@@ -48,6 +48,9 @@
 					<input class="custom-form-control" type="hidden" name="board_no" id="board_no" value="${bno}"/>
 					<input class="custom-form-control" type="hidden" name="writer" value="${log.nick }"/>
 					<input class="custom-form-control" type="hidden" name="memNo" value="${log.memNo }"/>
+					<input class="custom-form-control" type="hidden" name="zip.shi" value="${log.zip.shi }"/>
+					<input class="custom-form-control" type="hidden" name="zip.gungu" value="${log.zip.gungu }"/>
+					<input class="custom-form-control" type="hidden" name="zip.dong" value="${log.zip.dong }"/>
 					</div>
 				<div class="list-group-item p-0 mb-3">
 					<textarea id="froala-editor" class="form-control m-0 h-50" placeholder="내용을 입력하세요" name="content" required="required" rows="50" cols=""></textarea>

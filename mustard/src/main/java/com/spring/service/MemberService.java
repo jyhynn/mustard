@@ -25,6 +25,6 @@ public interface MemberService {
 	public List<MemberVO> getAllMembers(Criteria cri);
 	public int countPage(Criteria cri);
 	public List<MemberVO> memberReported();
-	public int controlDown(int memNo);
+	public int controlDown(int memNo)  throws Exception ;
 	public int controlUp(int memNo);
 }
