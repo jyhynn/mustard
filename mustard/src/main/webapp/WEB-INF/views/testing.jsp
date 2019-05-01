@@ -10,12 +10,29 @@
 <script src="/resources/vendor/jquery/jquery.min.js"></script>
 </head>
 <body>
-	<div class="list-group">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<%-- <div class="list-group">
 	<c:forEach var="l" items="${link }">
 		<a href="${l.href }" 
 			class="list-group-item list-group-item-action">
 			${l.title } </a> 	
 	</c:forEach>
-	</div>
+	</div> --%>
 </body>
 </html>
