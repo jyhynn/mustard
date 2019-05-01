@@ -70,8 +70,8 @@
 				</ul>
 				<!-- 등록 -->
 				<div class="mt-4">
-					<button type="submit" class="btn btn-warning btn-modify">수정</button>
-					<button type="button" class="btn btn-warning btn-return" onclick="history.back();">취소</button>
+					<button type="submit" class="btn btn-warning btn-modify btn-sm">수정</button>
+					<button type="button" class="btn btn-warning btn-return btn-sm" onclick="history.back();">취소</button>
 				</div>
 			</form>
 		</div>

@@ -107,6 +107,9 @@ select * from board_board;
 select board_no, article_no, title, code from board_board where rowid in (select max(rowid)from board_board group by article_no, board_no, code having board_no=5 and code=1162000500 ) and rownum<6 order by article_no desc;
 
 
+select board_no, article_no, title, writer, content, notice_date, notice_updatedate, replycnt, readhit, likey, report, code
+	from (select rownum rn, board_no, article_no, title, writer, content, notice_date, notice_updatedate, replycnt, readhit, likey, report, code from board_board where
+					 rownum <= 1 * 5 and board_no=5 and code=1162000500 )where rn > (1-1) * 5  and board_no=5 and code=1162000500 like '%'||'돌아'||'%';
 
 
 

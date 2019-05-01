@@ -33,7 +33,7 @@
 					<textarea id="content" class="form-control m-0 h-50" placeholder="내용을 입력하세요" name="content" required="required" rows="50" cols=""></textarea>
 				</div>
 				<!-- 등록 -->
-				<button type="submit" class="mt-4 mb-5 btn btn-warning btn-submit">등록</button>
+				<button type="submit" class="mt-4 mb-5 btn btn-warning btn-submit btn-sm">등록</button>
 			</form>
 		</div>
 		<div class="col-md-3 order-md-2 mb-4 font-jeju">

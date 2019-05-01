@@ -55,14 +55,14 @@
 					</form>
 				<div class="mt-4">
 					<c:if test="${log.memNo==board.memNo }">
-						<button type="button" class="btn btn-warning btn-modify">수정</button>
-						<button type="button" class="btn btn-warning btn-delete">삭제</button>
+						<button type="button" class="btn btn-warning btn-modify btn-sm">수정</button>
+						<button type="button" class="btn btn-warning btn-delete btn-sm">삭제</button>
 					</c:if>
-					<button type="button" class="btn btn-outline-danger btn-likey">♥ 좋아요</button>
+					<button type="button" class="btn btn-outline-danger btn-likey btn-sm">♥ 좋아요</button>
 					<c:if test="${!empty log }">
-						<button type="button" class="btn btn-outline-danger btn-scrap">★ 스크랩</button>
+						<button type="button" class="btn btn-outline-danger btn-scrap btn-sm">★ 스크랩</button>
 					</c:if>
-					<button type="button" class="btn btn-danger btn-report">신고</button>
+					<button type="button" class="btn btn-danger btn-report btn-sm">신고</button>
 				</div>
 				<!-- 댓글달기 -->
 				<div class="list-group mt-4 mb-5">

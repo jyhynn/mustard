@@ -41,4 +41,6 @@ public interface BoardMapper {
 	public int updateAnswer(int qna_no);
 	//실시간 인기글
 	public List<BoardVO> getTrends(); 
+	//검색
+	public List<BoardVO> searching(HashMap<String, Object> hash);
 }

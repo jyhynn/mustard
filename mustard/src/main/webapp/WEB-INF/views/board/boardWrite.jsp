@@ -65,7 +65,7 @@
 					</li>
 				</ul>
 				<!-- 등록 -->
-				<button type="submit" class="mt-4 mb-5 btn btn-warning btn-submit">등록</button>
+				<button type="submit" class="mt-4 mb-5 btn btn-warning btn-submit btn-sm">등록</button>
 			</form>
 		</div>
 		<div class="col-md-3 order-md-2 mb-4 font-jeju">

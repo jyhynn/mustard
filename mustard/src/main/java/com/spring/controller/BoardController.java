@@ -347,6 +347,17 @@ public class BoardController {
 		return service.scrap(article_no,board_no,memNo)==1?"boardScrapSuccess" : "boardScrapFail";
 	}
 	
+	//검색리스트
+	@RequestMapping("/searching")
+	public void searching(int board_no, String keyword, ZipVO zip, Criteria cri, Model model) {
+		log.info(board_no + "-" + keyword + "-" + zip.getShi());
+		List<BoardVO> list = service.searching(board_no, keyword, zip, cri);
+		model.addAttribute("bno", board_no);
+		model.addAttribute("search", list);
+		model.addAttribute("pageMaker", new PageDTO(cri,service.countPage(cri,6, zip)));
+	}
+	
+	
 	// 첨부파일 삭제
 		private void deleteFile(List<BoardAttachVO> attach) {
 			// type이 image라면 썸네일과 원본파일 삭제

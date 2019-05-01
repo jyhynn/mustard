@@ -77,7 +77,7 @@
 				</nav>
 				<!-- /페이징 -->
 				<c:if test="${bno!=2}">	
-					<button type="button" class="mt-4 mb-5 btn btn-warning btn-write"><small>글쓰기</small></button>
+					<button type="button" class="mt-4 mb-5 btn btn-warning btn-write btn-sm"><small>글쓰기</small></button>
 				</c:if>
 			</div>
 			<div class="col-md-3 order-md-2 mb-4 font-jeju">

@@ -33,8 +33,8 @@
 					</form>
 				<div class="mt-4">
 					<c:if test="${log.memNo==ask.memNo }">
-						<button type="button" class="btn btn-warning btn-modify">수정</button>
-						<button type="button" class="btn btn-warning btn-delete">삭제</button>
+						<button type="button" class="btn btn-warning btn-modify btn-sm">수정</button>
+						<button type="button" class="btn btn-warning btn-delete btn-sm">삭제</button>
 					</c:if>
 				</div>
 				<!-- 댓글달기 -->

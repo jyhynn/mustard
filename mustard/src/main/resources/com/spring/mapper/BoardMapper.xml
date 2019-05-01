@@ -147,5 +147,13 @@
 				row_number() over (order by sum(readhit + replycnt + likey) desc) num
  				from board_board group by article_no, board_no, title ) where num < 5]]>
 	</select>
-	
+	<!-- 검색 -->
+	<select id="searching" resultType="com.spring.domain.BoardVO">
+		<![CDATA[
+		select board_no, article_no, title, writer, content, notice_date, notice_updatedate, replycnt, readhit, likey, report, code
+			from (select /*+ INDEX_DESC(spring_board pk_spring_board) */ 
+					rownum rn, board_no, article_no, title, writer, content, notice_date, notice_updatedate, replycnt, readhit, likey, report, code from board_board where
+					 rownum <= #{pageNum} * #{amount} and board_no=#{board_no} and code=#{code} )where rn > (#{pageNum}-1) * #{amount}  and board_no=#{board_no} and code=#{code} and title like '%'||#{keyword}||'%'
+		]]>	
+	</select>
 </mapper>

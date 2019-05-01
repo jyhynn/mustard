@@ -38,13 +38,6 @@
 				</div>
 			</div>
 			<div class="col-lg-5">
-				<!-- 검색창 -->
-				<div class="input-group mb-3">
-				  <input type="text" class="form-control" placeholder="검색" aria-label="검색" aria-describedby="button-addon2">
-				  <div class="input-group-append">
-				    <button class="btn btn-outline-secondary" type="button" id="button-addon2">검색</button>
-				  </div>
-				</div>
 				<!-- 슬라이드 이미지 -->
 				<div id="carouselExampleCaptions" class="carousel slide w-100 mb-3" data-ride="carousel">
 					<ol class="carousel-indicators">
@@ -75,19 +68,19 @@
 				</div>
 				<!-- 공지사항 -->
 				<div class="list-group">
-				  <h7 class="font-weight-light">
+				  <h7 class="font-weight-light mt-2 mr-1 mb-1">
 				  <img src="/resources/icons/info.png" class="icons mr-1 mb-1" alt="...">공지사항 
-				  <c:forEach var="n" items="${noticeMain }">
-				  	<a href="/board/noticeRead?notice_no=${n.notice_no }&board_no=${n.board_no}" class="list-group-item list-group-item-action">${n.title }</a>
-				  </c:forEach>
 				  <a href="/board/noticeList"><img src="/resources/icons/plus.png" class="icons mr-1 mb-1" alt="..."></a></h7>
+				  <c:forEach var="n" items="${noticeMain }">
+				  	<a href="/board/noticeRead?notice_no=${n.notice_no }&board_no=${n.board_no}" class="list-group-item list-group-item-action">- ${n.title }</a>
+				  </c:forEach>
 				</div>
 			</div>
 		</div>
 	<!-- /.row -->
 
 	<!-- 메뉴바 -->
-	<div class="card text-white bg-secondary my-5 py-4 text-center">
+	<div class="text-white bg-secondary py-4 text-center">
 		<ul class="nav nav-pills nav-fill">
 		  <li class="nav-item">
 		    <a href= <c:if test="${empty log}">"/board/boardList?board_no=2&shi=${guest.shi}&gungu=${guest.gungu }&dong=${guest.dong }"</c:if>
@@ -206,13 +199,14 @@
 	</script>
 	<script>
 		$(function(){
+			//공지
 			$.getJSON({
 				url:'main_notice',
 				success:function(data){
 					var str = "";
-					$(data).each(i,obj){
+					$(data).each(function(i,obj){
 						str+="<li><a href=''>" + encodeURIComponent(obj.title) + "</a></li>";			
-					};			
+					});			
 						$("#notice-box").append(obj);
 				}
 			});

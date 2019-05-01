@@ -230,4 +230,15 @@ public class BoardServiceImpl implements BoardService{
 		hash.put("amount", cri.getAmount());
 		return mapper.getListforAdmin(hash);
 	}
+	
+	@Override
+	public List<BoardVO> searching(int board_no, String keyword, ZipVO zip, Criteria cri) {
+		HashMap<String, Object> hash = new HashMap<>();
+		hash.put("code", zipmapper.getZip(zip).getCode());
+		hash.put("board_no", board_no);
+		hash.put("keyword", keyword);
+		hash.put("pageNum", cri.getPageNum());
+		hash.put("amount", cri.getAmount());
+		return mapper.searching(hash);
+	}
 }

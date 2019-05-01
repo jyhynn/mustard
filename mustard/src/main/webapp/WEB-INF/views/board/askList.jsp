@@ -49,7 +49,7 @@
 					</ul>
 				</nav>
 				<!-- /페이징 -->
-				<button type="button" class="mt-4 mb-5 btn btn-warning btn-write">문의하기</button>
+				<button type="button" class="mt-4 mb-5 btn btn-warning btn-write btn-sm">문의하기</button>
 			</div>
 			<div class="col-md-3 order-md-2 mb-4 font-jeju">
 				<%@ include file="../include/trends.jsp"%>

@@ -6,8 +6,8 @@ import lombok.ToString;
 @Data
 @ToString
 public class Criteria {
-	private int pageNum, amount;
-	private String type, keyword; // 검색
+	private int pageNum, amount, board_no;
+	private String keyword; // 검색
 
 	public Criteria() {
 		this(1, 10); // page1 띄우고 10개씩 보여줄것
@@ -19,7 +19,7 @@ public class Criteria {
 		this.amount = amount;
 	}
 
-	public String[] getTypeArr() {
+	/*public String[] getTypeArr() {
 		return type == null ? new String[] {} : type.split("");
-	}
+	}*/
 }

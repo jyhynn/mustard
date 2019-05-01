@@ -39,4 +39,6 @@ public interface BoardService {
 	public List<QnaVO> getWatingList();
 	//실시간 인기글
 	public List<BoardVO> getTrends(); 
+	//검색
+	public List<BoardVO> searching(int board_no, String keyword, ZipVO zip, Criteria cri);
 }
