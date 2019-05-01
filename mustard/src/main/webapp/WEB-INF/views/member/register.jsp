@@ -20,7 +20,7 @@
 		</h1>
 				
 		<h1 class="h3 mb-3 font-weight-normal"></h1>
-		<button class="btn btn-lg btn-block m-2 start-email btn-warning" type="button">이메일로 시작하기</button>
+		<button class="btn btn-block m-2 start-email btn-info bg-mustard white btn-sm" type="button">이메일로 시작하기</button>
 		<!-- <button class="btn btn-lg btn-primary btn-block m-2 start-kakao" type="button">카카오계정으로 시작하기</button> -->
 		<form class="form-signin" id="form-signin" action="reigstMember" method="post">
 			<div class="form-start-email">
@@ -28,7 +28,7 @@
 					<input type="email" id="email" name="email" class="form-control m-2" placeholder="이메일" required autofocus>
 					<label for="email" class="tip tip-email">비밀번호 찾기에 사용</label> <br>
 					<!-- <label for="email" class="tip email-msg"></label> -->
-					<button class="btn btn-lg btn-block m-2 auth-email btn-warning" type="button">이메일 인증하기</button> 
+					<button class="btn btn-lg btn-block m-2 auth-email btn-warning white btn-sm" type="button">이메일 인증하기</button> 
 				</c:if>
 				<c:if test="${email!='' }">
 				<input type="email" id="email" name="email" class="form-control m-2" placeholder="이메일" value="${email }" readonly>
@@ -91,7 +91,7 @@
 				: 마케팅 수신 동의<br>2.목적: 서비스 및 이벤트 정보 안내<br>3.기간: 탈퇴 후 최대 1년<br>
 			</article>
 		</div>
-		<button class="btn btn-lg btn-primary btn-block m-2 goRegist" type="submit">Mustard 가입하기</button> 
+		<button class="btn btn-lg btn-block m-2 goRegist white btn-sm" type="submit">Mustard 가입하기</button> 
 		</form>
 	</div>
 <%@ include file="../include/footer.jsp"%>

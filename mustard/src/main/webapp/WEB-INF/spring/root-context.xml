@@ -47,6 +47,8 @@
 	<tx:annotation-driven />
 	<aop:aspectj-autoproxy />	
 	
+	
+	
 	<!-- Mail 인증 관련 -->
 	<bean id="mailSender"
 		class="org.springframework.mail.javamail.JavaMailSenderImpl">

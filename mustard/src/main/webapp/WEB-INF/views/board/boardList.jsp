@@ -61,7 +61,7 @@
 				<!-- 페이징 -->
 				<nav aria-label="Page navigation example">
 					<ul class="pagination justify-content-center">
-						<c:if test="${pageMaker.prev }">
+						<c:if test="${!empty pageMaker.prev }">
 							<li class="page-item disabled"><a class="page-link" href="${pageMaker.startPage-1 }" tabindex="-1" aria-disabled="true">&laquo;</a></li>
 						</c:if>
 						<c:forEach var="idx" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
@@ -69,7 +69,7 @@
 								<a class="page-link" href="${idx }">${idx }</a>
 							</li>
 						</c:forEach>
-						<c:if test="${pageMaker.next }">
+						<c:if test="${!empty pageMaker.next }">
 							<li class="page-item"><a class="page-link" href="${pageMaker.endPage+1 }">&raquo;</a>
 						</c:if>
 						</li>

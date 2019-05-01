@@ -43,6 +43,9 @@
 						  	<input type="hidden" name="article_no" value="${board.article_no }"/>
 						  	<input type="hidden" name="memNo" id="memNo" value="${board.memNo }"/>
 						  	<input type="hidden" name="board_no" value="${board.board_no }"/>
+						  	<input type="hidden" name="zip.shi" value="${log.zip.shi }"/>
+						  	<input type="hidden" name="zip.gungu" value="${log.zip.gungu }"/>
+						  	<input type="hidden" name="zip.dong" value="${log.zip.dong }"/>
 						  	<hr class="my-4">
 						  	<div class="showImages">
 						  		<div class="showFiles"><ul></ul></div>

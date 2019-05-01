@@ -56,9 +56,10 @@ public class BoardController {
 	@Autowired
 	ZipService zipservice;
 
-	@RequestMapping("/boardList")
-	public void boardlist(int board_no, Model model, ZipVO zip, @ModelAttribute("cri")Criteria cri) throws IOException {
+	@RequestMapping(value="/boardList", produces="text/html;charset=UTF-8")
+	public void boardlist(int board_no, Model model, ZipVO zip, @ModelAttribute("cri")Criteria cri, HttpServletRequest request) throws IOException {
 		log.info("게시판 페이지 나와라 + " + zip.getShi());
+		request.setCharacterEncoding("UTF-8");
 		long code = zipservice.getZip(zip).getCode();
 		//정보게시판 호출시
 		if(board_no==2) {
@@ -166,7 +167,6 @@ public class BoardController {
 			}
 			model.addAttribute("link",link);
 		}else {
-			//zip정보 추가연동해야함-아직안함
 			List<BoardVO> list = service.getList(cri,board_no,zip);
 			model.addAttribute("board", list);
 		}
@@ -202,7 +202,7 @@ public class BoardController {
 		BoardVO board = service.getBaord(article_no, board_no);
 		model.addAttribute("bno", board_no);
 		model.addAttribute("board", board);
-		return "board/boardRead";
+		return "/board/boardRead";
 	}
 	
 	//수정
@@ -228,12 +228,16 @@ public class BoardController {
 		model.addAttribute("bno", board_no);
 	}
 
-	@PostMapping("/boardWrite")
-	public String boardWrite(BoardVO board, Model model) {
+	@PostMapping(value="/goboardWrite", produces="text/plain;charset=UTF-8")
+	public String boardWrite(BoardVO board, RedirectAttributes rttr, HttpServletResponse response) {
+		response.setContentType("text/html;charset=UTF-8");
 		log.info("글 등록해줘라");
 		service.insert(board);
-		model.addAttribute("bno", board.getBoard_no());
-		return "/board/boardList";
+		log.info("글쓰기 시 : " + board.getZip().getShi());
+		rttr.addAttribute("shi", board.getZip().getShi());
+		rttr.addAttribute("gungu", board.getZip().getGungu());
+		rttr.addAttribute("dong", board.getZip().getDong());
+		return "redirect:boardList?board_no=" + board.getBoard_no();
 	}
 	
 	@PostMapping("/boardModify")
@@ -251,16 +255,19 @@ public class BoardController {
 	}
 	
 	@PostMapping("/removeBoard")
-	public String remove(int article_no, int board_no, RedirectAttributes rttr) {
-		
+	public String remove(BoardVO board, RedirectAttributes rttr) {
 		//첨부된 파일 폴더에서 삭제하기
-		List<BoardAttachVO> attachList = service.attachList(article_no, board_no);
-		if(service.delete(article_no, board_no)==1) {
+		List<BoardAttachVO> attachList = service.attachList(board.getArticle_no(), board.getBoard_no());
+		if(service.delete(board.getArticle_no(), board.getBoard_no())==1) {
 			deleteFile(attachList);
 			rttr.addFlashAttribute("result","success");
-			rttr.addAttribute("board_no", board_no);
+			rttr.addAttribute("board_no", board.getBoard_no());
+			rttr.addAttribute("shi", board.getZip().getShi());
+			rttr.addAttribute("gungu", board.getZip().getGungu());
+			rttr.addAttribute("dong", board.getZip().getDong());
+			
 		}
-		return "redirect:getAttachList";
+		return "redirect:boardList?board_no=" + board.getBoard_no();
 	}
 	
 	//문의
@@ -288,7 +295,7 @@ public class BoardController {
 	public String askWrite(QnaVO qna) {
 		log.info("글 등록해줘라");
 		service.insertQna(qna);
-		return "/board/askList";
+		return "redirect:askList";
 	}
 	
 	@PostMapping("/askModify")

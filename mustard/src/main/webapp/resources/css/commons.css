@@ -2,6 +2,11 @@
 .div-inline{
 	display: inline;
 }
+
+body{
+	font-family: '맑은 고딕', 돋움, tahoma;
+}
+
 .bg-gray{
 	background-color: #f5f5f5;
 }

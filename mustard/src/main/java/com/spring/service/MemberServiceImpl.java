@@ -45,7 +45,7 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Override
 	@Transactional
-	public void checkMail(MemberVO email) throws Exception {
+	public void checkMail(MemberVO email) {
 		
 		//db에 회원번호와 이메일 먼저 등록
 		email.setPassword("1111");
@@ -59,20 +59,27 @@ public class MemberServiceImpl implements MemberService{
 		mapper.updateAuthKey(vo);
 		
 		//보낼 mail내용 
-		MailUtils sendMail = new MailUtils(mailSender);
-
-		sendMail.setSubject("[Mustard] 회원가입 이메일 인증");
-		sendMail.setText(new StringBuffer().append("<h1>[이메일 인증]</h1>")
-				.append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
-				.append("<a href='http://localhost:8083/member/emailConfirm?memNo=")
-				.append(vo.getMemNo())
-				.append("&authkey=")
-				.append(authkey)
-				.append("' target='_blenk'>이메일 인증 확인</a>")
-				.toString());
-		sendMail.setFrom("우리동네 ", "우리동네");
-		sendMail.setTo(vo.getEmail());
-		sendMail.send();
+		MailUtils sendMail;
+		try {
+			sendMail = new MailUtils(mailSender);
+			sendMail.setSubject("[우리동네] 회원가입 이메일 인증");
+			sendMail.setText(new StringBuffer().append("<h1>[이메일 인증]</h1>")
+					.append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
+					.append("<a href='http://localhost:8083/member/emailConfirm?memNo=")
+					.append(vo.getMemNo())
+					.append("&authkey=")
+					.append(authkey)
+					.append("' target='_blenk'>이메일 인증 확인</a>")
+					.toString());
+			sendMail.setFrom("bribriana0910p@gmail.com", "우리동네");
+			sendMail.setTo(vo.getEmail());
+			sendMail.send();
+			log.info("메일!!!");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	@Override
@@ -90,6 +97,9 @@ public class MemberServiceImpl implements MemberService{
 	public int registMember(MemberVO vo) {
 		//선택지역코드 zip에서 불러와서 member에 넣기
 		vo.setCode(zipMapper.getZip(vo.getZip()).getCode());
+		if(vo.getNick()==null) {
+			vo.setNick("익명");
+		}
 		return mapper.registMember(vo);
 	}
 

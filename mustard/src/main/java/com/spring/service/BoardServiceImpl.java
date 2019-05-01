@@ -84,6 +84,7 @@ public class BoardServiceImpl implements BoardService{
 			});
 			return 0;
 		}
+		board.setTitle("(수정)" + board.getTitle());
 		return mapper.update(board);
 	}
 
@@ -93,6 +94,7 @@ public class BoardServiceImpl implements BoardService{
 		HashMap<String, Integer> hash = new HashMap<>();
 		hash.put("article_no", article_no);
 		hash.put("board_no", board_no);
+		hash.put("notice_no", article_no);
 		attachMapper.delete(hash);
 		return mapper.delete(hash);
 	}

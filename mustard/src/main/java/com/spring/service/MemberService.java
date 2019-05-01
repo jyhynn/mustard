@@ -10,7 +10,7 @@ import com.spring.domain.ZipVO;
 
 public interface MemberService {
 	
-	public void checkMail(MemberVO vo)  throws Exception;
+	public void checkMail(MemberVO vo);
 	public int updateAuthstatus(MemberVO vo);
 	public MemberVO getEmail(int memNo);
 	public int registMember(MemberVO vo);
