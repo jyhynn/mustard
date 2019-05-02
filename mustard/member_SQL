@@ -33,7 +33,7 @@ create table member_auth(
 	constraint fk_member_auth foreign key(email) references member(email)
 );
 drop table member;
-delete from member where memNo=84;
+delete from member where memNo=88;
 update member set nick='익명' where memNo=42;
 select * from member;
 
