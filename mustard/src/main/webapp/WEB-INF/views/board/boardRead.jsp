@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../include/header.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,32 +15,33 @@
 			<div class="col-md-9 order-md-1 font-jeju">
 				<div class="list-group-item mb-3">
 					<c:if test="${bno==2 }">
-						<h3>정보게시판</h3>
+						<h5>정보게시판</h5>
 					</c:if>
 					<c:if test="${bno==3 }">
-						<h3>지역게시판</h3>
+						<h5>지역게시판</h5>
 					</c:if>
 					<c:if test="${bno==4 }">
-						<h3>홍보게시판</h3>
+						<h5>홍보게시판</h5>
 					</c:if>
 					<c:if test="${bno==5 }">
-						<h3>자유게시판</h3>
+						<h5>자유게시판</h5>
 					</c:if>
 					</div>
 					<form action="boardModify" id="readBoard">
 						<div class="list-group-item">
-							<h4 class="display-7 mb-3">${board.title }</h4>
-						  	<p class="div-inline">${board.notice_date}
-								<div class="dropdown div-inline">
-								  <span class="btn btn-light btn-small" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<h5 class="display-7 mb-2 mt-2">${board.title }</h5>
+						  	<span class="btn btn-sm pl-0 pr-0" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								    ${board.writer }</span>
+						  	<small class="div-inline">
+								   <fmt:formatDate pattern="yy/MM/dd hh:mm" value="${board.notice_date}"/>
+								<div class="dropdown div-inline">
 								  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 								    <button class="dropdown-item controlmember">회원 관리</button>
 								  </div>
-								</div>
+								</div></small>
 						  		<span class="badge badge-light div-inline">조회수 ${board.readhit }</span>
 								<div class="etcRe div-inline"></div>
-								<div class="etcLike div-inline"></div>
+								<div class="etcLike div-inline"></div></small>
 						  	<input type="hidden" name="article_no" value="${board.article_no }"/>
 						  	<input type="hidden" name="memNo" id="memNo" value="${board.memNo }"/>
 						  	<input type="hidden" name="board_no" value="${board.board_no }"/>
@@ -204,9 +206,7 @@ $(function(){
 			success:function(data){
 				var str = "";
 				console.log(data);
-				$(data).each(function(i,obj){
-					str += "<span class='badge badge-light badge-recnt'>댓글 " + obj.replycnt + "</span>";
-				});	
+					str = "<span class='badge badge-light badge-recnt'>댓글 " + obj.replycnt + "</span>";
 				$(".etcRe").html(str);
 			}
 		});//getJSON
@@ -220,9 +220,7 @@ $(function(){
 			success:function(data){
 				var str = "";
 				console.log(data);
-				$(data).each(function(i,obj){
-					str += "<span class='badge badge-light badge-likey'>♥ " + obj.likey + "</p></span>";
-				});	
+					str = "<span class='badge badge-light badge-likey'>♥ " + data + "</span>";
 				$(".etcLike").html(str);
 			}
 		});//getJSON
@@ -249,7 +247,7 @@ $(function(){
 					str += "<input type='hidden' name='memNo' value='" + obj.memNo + "' />";
 					str += "<input type='hidden' name='reply' value='" + obj.reply + "' />";
 					str += "<small class='re_writer'> " + obj.writer + " </small>";
-					str += "<small class='time'> " + obj.replyDate + " </small>";
+					str += "<small class='time'> " + displayTime(obj.replyDate) + " </small>";
 					str += "<small><span class='btn badge badge-light re-likey' data-reno='" + obj.reNo +"'>♥ " + obj.likey + "</span>";
 					str += "<span class='btn badge badge-danger re-report' data-reno='" + obj.reNo +"' data-memno='" + obj.memNo + "'>신고</span>";
 					if(logedMemNo==obj.memNo){
@@ -336,24 +334,54 @@ $(function(){
 	
 	//댓글신고
 	$(".replyBox").on("click",".re-report",function(){
-		var reNo  = $(this).data("reno");
-		var memNo = $(this).data("memno");
-		 $.ajax({
-			type:"post",
-			url : '/replies/reportReply',
-			data : {article_no : articleNo,
-					reNo : reNo,
-					board_no : boardNo,
-					memNo : memNo},	//글쓴이회원번호
-			success:function(data){
-				console.log(data);
-				if(data=='reReportSuccess'){
-					alert("댓글신고가 성공적으로 접수되었습니다. 빠른 시일 내에 조치가 이루어집니다.");
-					showReply();
+		
+		if(confirm("신고하시겠습니까?")){
+			var reNo  = $(this).data("reno");
+			var memNo = $(this).data("memno");
+			 $.ajax({
+				type:"post",
+				url : '/replies/reportReply',
+				data : {article_no : articleNo,
+						reNo : reNo,
+						board_no : boardNo,
+						memNo : memNo},	//글쓴이회원번호
+				success:function(data){
+					console.log(data);
+					if(data=='reReportSuccess'){
+						alert("댓글신고가 성공적으로 접수되었습니다. 빠른 시일 내에 조치가 이루어집니다.");
+						showReply();
+					}
 				}
-			}
-		});	//ajax	
+			});	//ajax				
+		}else{
+			return;
+		}
 	}); 
+	
+	
+	function displayTime(timeValue){
+		//json에서 값이 넘어올 때 date타입은 변경되어서 넘어오기 때문에 
+		var today = new Date();
+		
+		var gap = today.getTime()-timeValue;
+		
+		var dateObj = new Date(timeValue);
+		var str = "";
+		if(gap<(1000*60*60*24)){//오늘 24시간 안에 작성됐을 경우
+			var hh=dateObj.getHours();
+			var mi = dateObj.getMinutes();
+			var ss = dateObj.getSeconds();
+			
+					//시분초가 9가 넘어가면 두자리수가 되니까 그냥 쓰고, 두자리수가 안될경우 앞에 0붙이기
+			return [(hh>9?'':'0')+hh,':',(mi>9?'':'0')+mi,':',(ss>9?'':'0')+ss].join('');
+		}else{//댓글이 달린지 24시간이 지났으면
+			var yy = dateObj.getFullYear();
+			var mm = dateObj.getMonth()+1;
+			var dd = dateObj.getDate();
+			return [yy,'/',(mm>9?'':'0')+mm,'/',(dd>9?'':'0')+dd].join('');
+		}
+
+	}//displayTime
 	
 	//회원관리
 	$(".controlmember").on("click",function(){

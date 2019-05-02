@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../include/header.jsp"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,12 +13,12 @@
 		<div class="row">
 			<div class="col-md-9 order-md-1 font-jeju">
 				<div class="list-group-item mb-3">
-						<h3>공지사항</h3>
+						<h5>공지사항</h5>
 					</div>
 					<form action="noticeModify" id="readNotice">
 						<div class="list-group-item">
-							<h4 class="display-7 mb-3">${notice.title }</h4>
-						  	<p>${notice.notice_date} ${notice.writer } <!-- 조회수 댓글수 스크랩수 신고여부 --></p>
+							<h6 class="display-7 mb-3">${notice.title }</h6>
+						  	<p><fmt:formatDate pattern="yy/MM/dd hh:mm" value="${notice.notice_date}"/> ${notice.writer } <!-- 조회수 댓글수 스크랩수 신고여부 --></p>
 						  	<input type="hidden" name="notice_no" value="${notice.notice_no }"/>
 						  	<input type="hidden" name="memNo" value="${notice.memNo }"/>
 						  	<input type="hidden" name="board_no" value="${notice.board_no }"/>

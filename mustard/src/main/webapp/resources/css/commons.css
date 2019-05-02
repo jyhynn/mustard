@@ -2,6 +2,30 @@
 .div-inline{
 	display: inline;
 }
+body,div,nav,aside,article,h1,h2,h3,h4,ol,ul,li,dl,dt,dd,p,span,form,th,td,input,textarea,select,pre,address { color: #666; font-family: "맑은 고딕", 돋움, tahoma; _font-family: 돋움, tahoma; font-size: 12px; letter-spacing: -1px; }
+address {
+	position: fixed; bottom: 0; width: 100%; border-top: 1px solid #e3e3e3; text-align: center; background-color: #f8f8f8;
+}
+address > ul.links {
+	padding: 20px 0; font-size: 0;
+}
+address > ul.links > li {
+	display: inline-block; margin: 0 5px;
+}
+address > ul.links > li > a {
+	color: #4c4c4c; font-size: 13px;
+}
+address > ul.links > li.copyright > a {
+	font-weight: bold;
+}
+@media only screen and (max-width: 640px) {
+	#container {
+		position: static; width: auto;
+	}
+	address > ul.links {
+		padding: 15px 0;
+	}
+}
 .garo{
     display: -ms-flexbox;
     display: flex;

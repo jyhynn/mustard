@@ -29,7 +29,7 @@
 <div class="container mt-5">
 	<div class="row">
 		<div class="col-md-9 order-md-1 font-jeju ">
-			<h4 class="mb-3">공지사항 등록</h4>
+			<h5 class="mb-3">공지사항 등록</h5>
 			<form id="writeForm" action="noticeWrite" method="post">
 				<div class="list-group-item mb-3 p-0">
 					<input class="custom-form-control" type="text" id="title" name="title" placeholder="제목" required="required"/>

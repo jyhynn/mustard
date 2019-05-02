@@ -113,7 +113,8 @@ public class MemberController {
 				//rttr.addFlashAttribute("error", "LogFailed");
 				return "/member/signin";
 			}else {
-				model.addAttribute("log", logon);				
+				//model.addAttribute("log", logon);		
+				session.setAttribute("log", logon);	
 				rttr.addAttribute("shi", logon.getZip().getShi());
 				rttr.addAttribute("gungu", logon.getZip().getGungu());
 				rttr.addAttribute("dong", logon.getZip().getDong());

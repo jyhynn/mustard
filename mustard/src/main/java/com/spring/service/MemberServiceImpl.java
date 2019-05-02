@@ -97,7 +97,7 @@ public class MemberServiceImpl implements MemberService{
 	public int registMember(MemberVO vo) {
 		//선택지역코드 zip에서 불러와서 member에 넣기
 		vo.setCode(zipMapper.getZip(vo.getZip()).getCode());
-		if(vo.getNick()==null) {
+		if(vo.getNick()==null || vo.getNick()=="") {
 			vo.setNick("익명");
 		}
 		return mapper.registMember(vo);

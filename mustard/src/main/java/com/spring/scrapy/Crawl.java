@@ -32,12 +32,13 @@ public class Crawl {
 //광주		String url = "https://www.gwangju.go.kr/BD_0000000022/boardList.do?menuId=gwangju0306000000";
 //경기도		String url = "https://www.gg.go.kr/integrated-board";
 //강원도		String url = "http://www.provin.gangwon.kr/gw/portal/sub05_01";		//42
-//인천		String url = "http://www.incheon.go.kr/posts/incheon-news/";	
+		String url = "http://www.incheon.go.kr/posts/incheon-news/";	
 //부산		String url = "http://www.busan.go.kr/nbnews";	
 //충남(보류)	String url = "http://www.chungnam.go.kr/cnnet/board.do?mnu_cd=CNNMENU00148#view";
 //충북		String url = "http://www.chungbuk.go.kr/www/selectBbsNttList.do?bbsNo=3260&key=1552";
 //전남		String url = "http://www.jeonnam.go.kr/M7124/boardList.do?menuId=jeonnam0201000000";
-		String url = "http://www.daegu.go.kr/index.do?menu_id=00000854";
+//대구		String url = "http://www.daegu.go.kr/index.do?menu_id=00000854";
+//		String url = "http://www.gyeongnam.go.kr/board/list.gyeong?boardId=BBS_0000057&menuCd=DOM_000000104001001000&contentsSid=717&cpath=";
 		System.out.println("===============");
 		System.out.println("url : " + url);
 		
@@ -52,7 +53,7 @@ public class Crawl {
 			//http://www.provin.gangwon.kr/gw/portal/sub05_01 경로앞에.
 			System.out.println(el.select("a").attr("href"));
 			System.out.println(el.select("a").text());
-		}
+		}*/
 		
 		//인천
 		Elements element = doc.select("div.cms_content");
@@ -60,7 +61,7 @@ public class Crawl {
 			//http://www.incheon.go.kr/posts/incheon-news/ 
 			System.out.println(el.select("a").attr("href"));
 			System.out.println(el.select("a").text());
-		}*/
+		}
 		//tr:nth-child(2)
 		
 		//부산
@@ -71,7 +72,7 @@ public class Crawl {
 			System.out.println(el.select("td.title > a").text());
 		}*/
 		
-		//충남-보류
+		//충남 >> 직링으로 빼기
 		/*Elements element = doc.select("tbody");
 		for(Element el : element.select("tr")) {
 			//http://www.chungnam.go.kr/cnnet/board.do?mnu_url=/cnbbs/view.do
@@ -101,8 +102,14 @@ public class Crawl {
 		System.out.println(el.select("td.title > a").text());
 		}*/
 		
-		
-		
+		//대구 >> 직링으로 빼기
+/*		Elements element = doc.select("tbody");
+		for(Element el : element.select("tr")) {
+			//http://www.gyeongnam.go.kr/
+		System.out.println(el.select("td.title > a").attr("href"));
+		System.out.println(el.select("td.title > a").text());
+		}
+		*/
 		
 		/*Elements element = doc.select("#view_top");
 		String title = element.select("h3").text();

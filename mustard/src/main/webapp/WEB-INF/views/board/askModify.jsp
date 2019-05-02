@@ -36,7 +36,7 @@
 <div class="container mt-5">
 	<div class="row">
 		<div class="col-md-9 order-md-1 font-jeju ">
-			<h3>문의게시판</h3>
+			<h5>문의게시판</h5>
 			<form id="askModify" action="askModify" method="post">
 				<div class="list-group-item mb-3 p-0">
 					<input class="custom-form-control" type="text" id="title" name="title" placeholder="제목" required="required" value="${ask.title }"/>

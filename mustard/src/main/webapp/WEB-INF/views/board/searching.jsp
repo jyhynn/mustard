@@ -29,10 +29,10 @@
 						<a href="boardRead?article_no=${s.article_no }&board_no=${s.board_no}" class="list-group-item list-group-item-action">
 							<div class="d-flex w-100 justify-content-between">
 								<input class="article_no" type="hidden" name="article_no" value="${s.article_no }"/>
-								<h4 class="mb-1">${s.title }</h4>
+								<h6 class="mb-1">${s.title }</h6>
 							</div>
 							<p class="mb-1">${s.content }</p> 
-							<small>${s.notice_date } <span>${s.writer }</span></small>
+							<small><fmt:formatDate pattern="yy/MM/dd hh:mm" value="${s.notice_date }"/> <span>${s.writer }</span></small>
 							<span class="badge badge-light">조회수 ${s.readhit }</span>
 							<span class="badge badge-light">댓글 ${s.replycnt }</span>
 							<span class="badge badge-light">♥ ${s.likey }</span>

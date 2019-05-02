@@ -47,7 +47,7 @@
 					</ol>
 					<div class="carousel-inner">
 						<div class="carousel-item active">
-							<img src="http://placehold.it/900x400" class="d-block w-100" alt="...">
+							<img src="/resources/sample/sample.jpg" class="d-block w-100" alt="...">
 						</div>
 						<div class="carousel-item">
 							<img src="http://placehold.it/900x400" class="d-block w-100" alt="...">
@@ -114,7 +114,7 @@
 			<div class="col-md-3 mb-5">
 				<div class="list-group">
 				  <a href=<c:if test="${empty log}">"/board/boardList?&board_no=2&shi=${guest.shi}&gungu=${guest.gungu }&dong=${guest.dong }"</c:if>
-						  <c:if test="${!empty log}">"/board/boardList?&board_no=2&zip=${log.zip.shi}&gungu=${log.zip.gungu }&dong=${log.zip.dong }"</c:if>
+						  <c:if test="${!empty log}">"/board/boardList?&board_no=2&shi=${log.zip.shi}&gungu=${log.zip.gungu }&dong=${log.zip.dong }"</c:if>
 						  class="list-group-item list-group-item-action">
 						  <img src="/resources/icons/web.png" class="icons mr-1 mb-1" alt="...">정보 게시판
 						  <br><small>게시판으로 바로 이동합니다.</small></a>

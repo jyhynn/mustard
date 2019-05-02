@@ -6,7 +6,7 @@
 <head>
 <!-- Required meta tags -->
 <meta charset="utf-8">
-<title>Mustard</title>
+<title>우리동네</title>
 <link rel="stylesheet" type="text/css" href="/resources/css/commons.css" />
 <link rel="stylesheet" type="text/css" href="/resources/css/boardmain.css" />
 <link href="/resources/css/small-business.css" rel="stylesheet">

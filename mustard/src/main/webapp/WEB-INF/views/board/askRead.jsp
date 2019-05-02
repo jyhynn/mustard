@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../include/header.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,12 +14,12 @@
 		<div class="row">
 			<div class="col-md-9 order-md-1 font-jeju">
 				<div class="list-group-item mb-3">
-					<h3>문의게시판</h3>
+					<h5>문의게시판</h5>
 					</div>
 					<form action="askModify" id="askRead">
 						<div class="list-group-item">
-							<h4 class="display-7 mb-3">${ask.title }</h4>
-						  	<p>${ask.qna_date} ${ask.writer }
+							<h6 class="display-7 mb-3">${ask.title }</h6>
+						  	<p><fmt:formatDate pattern="yy/MM/dd hh:mm" value="${ask.qna_date}"/> ${ask.writer }
 						  		<c:if test="${ask.classify==0 }">
 									<span class="badge badge-light">답변대기중</span>
 								</c:if>
@@ -68,7 +69,7 @@
 $(function(){
 	var qnaNo = ${ask.qna_no };
 	var re_box = $(".replyBox");
-	var logedMemNo = ${log.memNo};
+	var logedMemNo = '${log.memNo}';
 	var logedNick = "${log.nick}";
 
 	showReply();
@@ -102,10 +103,12 @@ $(function(){
 					str += "<input type='hidden' name='memNo' value='" + obj.memNo + "' />";
 					str += "<input type='hidden' name='reply' value='" + obj.reply + "' />";
 					str += "<small class='re_writer'> " + obj.writer + " </small>";
-					str += "<small class='time'> " + obj.replyDate + " </small>";
+					str += "<small class='time'> " + displayTime(obj.replyDate) + " </small>";
 					str += "<small><span class='btn badge badge-light re-likey' data-reno='" + obj.reNo +"'>♥ " + obj.likey + "</span>";
 					str += "<span class='btn badge badge-danger re-report' data-reno='" + obj.reNo +"' data-memno='" + obj.memNo + "'>신고</span>";
-					str += "<c:if test='${log.memNo==" + obj.memNo + "}'><span class='btn badge badge-light re-del' data-reno='" + obj.reNo +"'> X 삭제 </span></c:if></small>";
+					if(logedMemNo==obj.memNo){
+						str += "<span class='btn badge badge-light re-del' data-reno='" + obj.reNo +"'> X 삭제 </span></c:if></small>";
+					}
 					str += "<br><p class='replyContent'>" + obj.reply + "</p></li>";					
 				});	
 			//	console.log(str);
@@ -157,7 +160,26 @@ $(function(){
 			}
 		});	//ajax	
 	}); 
-
+	function displayTime(timeValue){
+		var today = new Date();
+		
+		var gap = today.getTime()-timeValue;
+		
+		var dateObj = new Date(timeValue);
+		var str = "";
+		if(gap<(1000*60*60*24)){//오늘 24시간 안에 작성됐을 경우
+			var hh=dateObj.getHours();
+			var mi = dateObj.getMinutes();
+			var ss = dateObj.getSeconds();	
+					//시분초가 9가 넘어가면 두자리수가 되니까 그냥 쓰고, 두자리수가 안될경우 앞에 0붙이기
+			return [(hh>9?'':'0')+hh,':',(mi>9?'':'0')+mi,':',(ss>9?'':'0')+ss].join('');
+		}else{//댓글이 달린지 24시간이 지났으면
+			var yy = dateObj.getFullYear();
+			var mm = dateObj.getMonth()+1;
+			var dd = dateObj.getDate();
+			return [yy,'/',(mm>9?'':'0')+mm,'/',(dd>9?'':'0')+dd].join('');
+		}
+	}//displayTime
 });
 </script>
 <%@ include file="../include/footer.jsp"%>

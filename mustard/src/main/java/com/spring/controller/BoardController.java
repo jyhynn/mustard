@@ -82,6 +82,14 @@ public class BoardController {
 				break;
 			case "26"://부산
 				url = "http://www.busan.go.kr/nbnews";
+				doc = Jsoup.connect(url).get();
+				element = doc.select("tbody");
+				for(Element el : element.select("tr")) {
+					LinkVO vo = new LinkVO();
+					vo.setHref("http://www.busan.go.kr/" + el.select("td.title > a").attr("href"));
+					vo.setTitle(el.select("td.title > a").text());
+					link.add(vo);
+				}
 				break;
 			case "27"://대구
 				
@@ -92,7 +100,7 @@ public class BoardController {
 				element = doc.select("div.cms_content");
 				for(Element el : element.select("div.post_list")) {
 					LinkVO vo = new LinkVO();
-					vo.setHref("http://www.incheon.go.kr/posts/incheon-news/ " + el.select("a").attr("href"));
+					vo.setHref("http://www.incheon.go.kr/posts/incheon-news/" + el.select("a").attr("href"));
 					vo.setTitle(el.select("a").text());
 					link.add(vo);
 				}
@@ -141,7 +149,15 @@ public class BoardController {
 				}
 				break;
 			case "43"://충북
-				
+				url = "http://www.chungbuk.go.kr/www/selectBbsNttList.do?bbsNo=3260&key=1552";
+				doc = Jsoup.connect(url).get();
+				element = doc.select("tbody.tb");
+				for(Element el : element.select("tr")) {
+					LinkVO vo = new LinkVO();
+					vo.setHref("http://www.chungbuk.go.kr/www/" + el.select("td.subject > a").attr("href"));
+					vo.setTitle(el.select("td.subject > a").text());
+					link.add(vo);
+				}
 				break;
 			case "44"://충남
 				
@@ -150,7 +166,15 @@ public class BoardController {
 				
 				break;
 			case "46"://전남
-				
+				url = "http://www.jeonnam.go.kr/M7124/boardList.do?menuId=jeonnam0201000000";
+				doc = Jsoup.connect(url).get();
+				element = doc.select("tbody");
+				for(Element el : element.select("tr")) {
+					LinkVO vo = new LinkVO();
+					vo.setHref("http://www.jeonnam.go.kr/" + el.select("td.title > a").attr("href"));
+					vo.setTitle(el.select("td.title > a").text());
+					link.add(vo);
+				}
 				break;
 			case "47"://경북
 				
@@ -275,7 +299,7 @@ public class BoardController {
 	public void askList(Model model, @ModelAttribute("cri")Criteria cri, ZipVO zip) {
 		log.info("문의 페이지 나와라");
 		List<QnaVO> list = service.getQnaList(cri);
-		model.addAttribute("board", list);
+		model.addAttribute("ask", list);
 		model.addAttribute("pageMaker", new PageDTO(cri,service.countPage(cri,6, zip)));
 	}
 	
@@ -292,9 +316,12 @@ public class BoardController {
 	}
 
 	@PostMapping("/askWrite")
-	public String askWrite(QnaVO qna) {
+	public String askWrite(QnaVO qna, ZipVO zip, RedirectAttributes rttr) {
 		log.info("글 등록해줘라");
 		service.insertQna(qna);
+		rttr.addAttribute("shi", zip.getShi());
+		rttr.addAttribute("gungu", zip.getGungu());
+		rttr.addAttribute("dong", zip.getDong());
 		return "redirect:askList";
 	}
 	

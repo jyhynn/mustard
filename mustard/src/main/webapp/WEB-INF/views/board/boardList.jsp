@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="../include/header.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,7 +52,7 @@
 								</c:if> --%>
 							</div>
 							<p class="mb-1">${b.content }</p> 
-							<small>${b.notice_date } <span>${b.writer }</span></small>
+							<small><fmt:formatDate pattern="yy/MM/dd hh:mm" value="${b.notice_date }"/> <span>${b.writer }</span></small>
 							<span class="badge badge-light">조회수 ${b.readhit }</span>
 							<span class="badge badge-light">댓글 ${b.replycnt }</span>
 							<span class="badge badge-light">♥ ${b.likey }</span>

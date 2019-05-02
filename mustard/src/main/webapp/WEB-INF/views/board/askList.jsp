@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="../include/header.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,15 +15,15 @@
 		<div class="row">
 			<div class="col-md-9 order-md-1 font-jeju">
 				<div class="list-group-item mb-3">
-					<h3>문의게시판</h3>
+					<h5>문의게시판</h5>
 				</div>
 				<c:forEach var="a" items="${ask }">
 					<a href="askRead?qna_no=${a.qna_no }" class="list-group-item list-group-item-action">
 						<div class="d-flex w-100 justify-content-between">
 							<input class="qna_no" type="hidden" name="qna_no" value="${a.qna_no }"/>
-							<h4 class="mb-1">${a.title }</h4>
+							<h6 class="mb-1">${a.title }</h6>
 						</div>
-						<small>${b.notice_date } <span>${a.writer }</span></small>
+						<small><fmt:formatDate pattern="yy/MM/dd hh:mm" value="${b.notice_date }"/> <span>${a.writer }</span></small>
 						<c:if test="${a.classify==0 }">
 							<span class="badge badge-light">답변대기중</span>
 						</c:if>

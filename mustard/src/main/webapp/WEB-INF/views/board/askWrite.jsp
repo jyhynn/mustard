@@ -26,11 +26,14 @@
 				<div class="list-group-item mb-3 p-0">
 					<input class="custom-form-control" type="text" id="title" name="title" placeholder="제목" required="required"/>
 					<input class="custom-form-control" type="hidden" name="board_no" value="6"/>
-					<input class="custom-form-control" type="hidden" name="writer" value=${log.nick }"/>
+					<input class="custom-form-control" type="hidden" name="writer" value="${log.nick }"/>
 					<input class="custom-form-control" type="hidden" name="memNo" value="${log.memNo }"/>
+					<input class="custom-form-control" type="hidden" name="shi" id="shi" value="${log.zip.shi }"/>
+					<input class="custom-form-control" type="hidden" name="gungu" id="gungu" value="${log.zip.gungu }"/>
+					<input class="custom-form-control" type="hidden" name="dong" id="dong" value="${log.zip.dong }"/>
 					</div>
 				<div class="list-group-item p-0 mb-3">
-					<textarea id="content" class="form-control m-0 h-50" placeholder="내용을 입력하세요" name="content" required="required" rows="50" cols=""></textarea>
+					<textarea id="content" class="form-control m-0 h-50" placeholder="내용을 입력하세요" name="content" required="required" rows="20" cols=""></textarea>
 				</div>
 				<!-- 등록 -->
 				<button type="submit" class="mt-4 mb-5 btn btn-warning btn-submit btn-sm">등록</button>
@@ -53,7 +56,7 @@
 				alert("내용을 입력해주세요.");
 				return;
 			}
-			if("#title").val()!="" && $("#content").val(!=""){
+			if("#title").val()!="" && $("#content").val()!=""){
 				e.submit();
 			}
 		});

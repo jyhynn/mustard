@@ -25,7 +25,8 @@ alter table member add memreport number default 0;
 alter table member add authkey varchar(50);
 alter table member modify authkey varchar(50);
 alter table member add authstatus number(2) default 0;
-update member set memlevel=10 where memNo=1;
+update member set memlevel=10 where memNo=41;
+update member set memNo=1 where memNo=41;
 create table member_auth(
 	email varchar2(50) not null,
 	auth varchar2(50) not null,
@@ -33,5 +34,5 @@ create table member_auth(
 );
 drop table member;
 delete from member where memNo=84;
-update member set nick='익명' where memNo=85;
+update member set nick='익명' where memNo=42;
 select * from member;

@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="../include/header.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,19 +15,19 @@
 		<div class="row">
 			<div class="col-md-9 order-md-1 font-jeju">
 				<div class="list-group-item mb-3">
-					<h3>공지사항</h3>
+					<h5>공지사항</h5>
 				</div>
 				<c:forEach var="n" items="${notice }">
 					<a href="noticeRead?notice_no=${n.notice_no }&board_no=${n.board_no}" class="list-group-item list-group-item-action">
 						<div class="d-flex w-100 justify-content-between">
 							<input class="notice_no" type="hidden" name="notice_no" value="${n.notice_no }"/>
-							<h4 class="mb-1">${n.title }</h4>
+							<h6 class="mb-1">${n.title }</h6>
 							<c:if test="${!empty n.noticeAttach }">
 								<div class="media"></div>
 							</c:if>
 						</div>
 						<p class="mb-1">${n.content }</p> 
-						<small>${n.notice_date } <span>${n.writer }</span></small>
+						<small><fmt:formatDate pattern="yy/MM/dd hh:mm" value="${n.notice_date }"/> <span>${n.writer }</span></small>
 					</a>
 				</c:forEach>
 				<!-- 페이징 -->
