@@ -27,9 +27,9 @@
 									<span class="badge badge-light">답변완료</span>
 								</c:if>
 						  	<input type="hidden" name="qna_no" value="${ask.qna_no }"/>
-						  	<input type="hidden" name="board_no" value="${ask.board_no }"/>
+						  	<input type="hidden" name="board_no" id="board_no" value="${ask.board_no }"/>
 						  	<input type="hidden" name="memNo" id="memNo" value="${ask.memNo }"/>
-						  	<p class="lead">${board.content }</p>
+						  	<h6 class="lead">${ask.content }</h6>
 						</div>
 					</form>
 				<div class="mt-4">
@@ -43,7 +43,7 @@
 					<c:if test="${log.memlevel==10 }">
 						<div class="input-group mb-3">
 							<input id="reply" name="reply" type="text" class="form-control" placeholder="댓글">
-							<div class="input-group-append">
+							<div class="input-group-append"> 
 								<span class="btn btn-warning btn-reply">등록</span>
 							</div>
 						</div>
@@ -71,6 +71,7 @@ $(function(){
 	var re_box = $(".replyBox");
 	var logedMemNo = '${log.memNo}';
 	var logedNick = "${log.nick}";
+	var boardNo = $("#board_no").val();
 
 	showReply();
 	
@@ -90,7 +91,8 @@ $(function(){
 	function showReply(){
 		 $.getJSON({
 			url : '/replies/getReplies',
-			data : {article_no:qnaNo},
+			data : {article_no: qnaNo,
+					board_no : boardNo},
 			success:function(data){
 				var str = "";
 				console.log(data);
@@ -102,14 +104,14 @@ $(function(){
 					str += "<input type='hidden' name='writer' value='" + obj.writer + "' />";
 					str += "<input type='hidden' name='memNo' value='" + obj.memNo + "' />";
 					str += "<input type='hidden' name='reply' value='" + obj.reply + "' />";
-					str += "<small class='re_writer'> " + obj.writer + " </small>";
-					str += "<small class='time'> " + displayTime(obj.replyDate) + " </small>";
-					str += "<small><span class='btn badge badge-light re-likey' data-reno='" + obj.reNo +"'>♥ " + obj.likey + "</span>";
-					str += "<span class='btn badge badge-danger re-report' data-reno='" + obj.reNo +"' data-memno='" + obj.memNo + "'>신고</span>";
+					str += "<p class='re_writer'> " + obj.writer;
+					str += " <span class='time'> " + displayTime(obj.replyDate) + " </span>";
+					str += "<span class='btn badge badge-light re-likey mr-1' data-reno='" + obj.reNo +"'>♥ " + obj.likey + "</span>";
+					str += "<span class='btn badge badge-danger re-report mr-1' data-reno='" + obj.reNo +"' data-memno='" + obj.memNo + "'>신고</span>";
 					if(logedMemNo==obj.memNo){
-						str += "<span class='btn badge badge-light re-del' data-reno='" + obj.reNo +"'> X 삭제 </span></c:if></small>";
+						str += "<span class='btn badge badge-light re-del' data-reno='" + obj.reNo +"'> X 삭제 </span>";
 					}
-					str += "<br><p class='replyContent'>" + obj.reply + "</p></li>";					
+					str += "</p><h6 class='replyContent'>" + obj.reply + "</h6></li>";					
 				});	
 			//	console.log(str);
 				re_box.html(str);
@@ -119,13 +121,13 @@ $(function(){
 	
 	//댓글 입력
 	$(".btn-reply").on("click",function(){
-		if(logedMemNo==null){
+		if(logedMemNo==null || logedMemNo==""){
 			alert("로그인 후 이용가능합니다");
 		}else{
 			$.ajax({
 				type:"post",
 				url : '/replies/insertReply',
-				data : {notice_no : qnaNo,
+				data : {article_no : qnaNo,
 						reply : $("#reply").val(),
 						board_no : boardNo,
 						writer : logedNick,
@@ -133,7 +135,6 @@ $(function(){
 				success:function(data){
 					console.log(data);
 					 $("#reply").val("");
-					 getReplyamount();
 					 showReply();
 				}
 			});

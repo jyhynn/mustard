@@ -8,13 +8,13 @@
 <link rel="stylesheet" type="text/css" href="/resources/css/commons.css">
 <link rel="stylesheet" type="text/css" href="/resources/css/mainstyles.css">
 <script src="/resources/vendor/jquery/jquery.js"></script>
-<title>Insert title here</title>
+<title>우리동네</title>
 <!-- <script src="/resources/jquery-3.3.1.js"></script> -->
 </head>
 <body>
 	<aside>
-    <div class="login">
-      <a href="#" class="logo"><img src="/resources/icons/uri.png" class="logos mr-0 mb-1" alt="..."></a>
+    <div class="login" style="text-align:center">
+      <img src="/resources/icons/uri.png" alt="logo" width="80" height="80" style="margin-bottom:30px">
       <a href="/member/signin" class="button login">로그인</a>
       <a href="/member/register" class="button register">회원가입</a>
       <!-- <p id="facebookLogin" class="facebook">
@@ -22,7 +22,7 @@
         <img src="" class="loading">
       </p> -->
       <p class="find">
-        <a href="/member/forgot">아이디/비밀번호 찾기</a>
+        <a href="#">비밀번호 찾기</a>
       </p>
       <hr>
     </div>
@@ -37,27 +37,19 @@
     </form> 
     <div class="donglist" id="donglist"></div>
      </aside>
-  <!-- <section class="init">
+  <section class="init withaside">
     <div class="wrap">
-      <h1>~~~~~~~어쩌고<br><strong>[사이트이름]</strong></h1>
+          
+      <h1><strong>우리동네</strong>를 <br>구석구석</h1>
       <div class="stores">
         <a href="/page/mlink?lid=web_about&store=playstore"><img src="/resources/playstore.png" alt="Play Store - Google"></a>
         <a href="/page/mlink?lid=web_about&store=appstore"><img src="/resources/appstore.png" alt="AppStore - Apple"></a>
       </div>
-      <hr>
-      <div class="device">
-        <div class="screen">
-          <div class="image frame home-frame"></div>
-          <div class="image content home-content"></div>
-          <div class="image frame board-frame"></div>
-          <div class="image content board-content"></div>
-          <div class="image frame timetable-status"></div>
-          <div class="image frame timetable-frame"></div>
-          <div class="image content timetable-content"></div>
-        </div>
+      	<div class="logoicon">
+	      	<img src="/resources/icons/uri.png" alt="logo" width="350" height="350">
       </div>
     </div>
-  </section> -->
+  </section>
 	<script>
   	$(function(){
   		//호출과 동시에 시 목록 가져오기

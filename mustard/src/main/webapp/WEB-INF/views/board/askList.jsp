@@ -27,15 +27,15 @@
 						<c:if test="${a.classify==0 }">
 							<span class="badge badge-light">답변대기중</span>
 						</c:if>
-						<c:if test="${a.classify==1 }">
+						<c:if test="${a.classify!=0 }">
 							<span class="badge badge-light">답변완료</span>
 						</c:if>
 					</a>
 				</c:forEach>
 				<!-- 페이징 -->
-				<nav aria-label="Page navigation example">
+				<nav aria-label="Page navigation example mt-3">
 					<ul class="pagination justify-content-center">
-						<c:if test="${pageMaker.prev }">
+						<c:if test="${!empty pageMaker.prev }">
 							<li class="page-item disabled"><a class="page-link" href="${pageMaker.startPage-1 }" tabindex="-1" aria-disabled="true">&laquo;</a></li>
 						</c:if>
 						<c:forEach var="idx" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
@@ -43,7 +43,7 @@
 								<a class="page-link" href="${idx }">${idx }</a>
 							</li>
 						</c:forEach>
-						<c:if test="${pageMaker.next }">
+						<c:if test="${!empty pageMaker.next }">
 							<li class="page-item"><a class="page-link" href="${pageMaker.endPage+1 }">&raquo;</a>
 						</c:if>
 						</li>

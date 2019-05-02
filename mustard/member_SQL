@@ -36,3 +36,6 @@ drop table member;
 delete from member where memNo=84;
 update member set nick='익명' where memNo=42;
 select * from member;
+
+select * from reply;
+select * from QNA;

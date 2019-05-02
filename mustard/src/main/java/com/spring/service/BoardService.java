@@ -36,7 +36,7 @@ public interface BoardService {
 	public int insertQna(QnaVO qna);
 	public int updateQna(QnaVO qna);
 	public int deleteAsk(int qna_no);
-	public List<QnaVO> getWatingList();
+	public List<QnaVO> getWatingList(Criteria cri);
 	//실시간 인기글
 	public List<BoardVO> getTrends(); 
 	//검색

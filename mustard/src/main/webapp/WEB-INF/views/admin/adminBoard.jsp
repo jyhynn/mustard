@@ -46,9 +46,9 @@
         </table>
   		</div> 
    <!-- 페이징 -->
-	<nav aria-label="Page navigation example">
+	<nav aria-label="Page navigation example mt-3">
 		<ul class="pagination justify-content-center">
-			<c:if test="${pageMaker3.prev }">
+			<c:if test="${!empty pageMaker3.prev }">
 				<li class="page-item disabled"><a class="page-link" href="${pageMaker3.startPage-1 }" tabindex="-1" aria-disabled="true">&laquo;</a></li>
 			</c:if>
 			<c:forEach var="idx" begin="${pageMaker3.startPage }" end="${pageMaker3.endPage }">
@@ -56,7 +56,7 @@
 					<a class="page-link" href="${idx }">${idx }</a>
 				</li>
 			</c:forEach>
-			<c:if test="${pageMaker3.next }">
+			<c:if test="${!empty pageMaker3.next }">
 				<li class="page-item"><a class="page-link" href="${pageMaker3.endPage+1 }">&raquo;</a>
 			</c:if>
 			</li>
@@ -87,9 +87,9 @@
           </tbody>
         </table>
       </div>
-      <nav aria-label="Page navigation example">
+      <nav aria-label="Page navigation example mt-3">
 		<ul class="pagination justify-content-center">
-			<c:if test="${pageMaker4.prev }">
+			<c:if test="${!empty pageMaker4.prev }">
 				<li class="page-item disabled"><a class="page-link" href="${pageMaker4.startPage-1 }" tabindex="-1" aria-disabled="true">&laquo;</a></li>
 			</c:if>
 			<c:forEach var="idx" begin="${pageMaker4.startPage }" end="${pageMaker4.endPage }">
@@ -97,7 +97,7 @@
 					<a class="page-link" href="${idx }">${idx }</a>
 				</li>
 			</c:forEach>
-			<c:if test="${pageMaker4.next }">
+			<c:if test="${!empty pageMaker4.next }">
 				<li class="page-item"><a class="page-link" href="${pageMaker4.endPage+1 }">&raquo;</a>
 			</c:if>
 			</li>

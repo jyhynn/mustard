@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -97,20 +98,20 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/signin")
-	public String showSignin(String error) {
-		log.info("signin page 나와라");
+	public String showSignin(String error, Model model) {
+		log.info("signin page 나와라" + error);
+		model.addAttribute("error", error);
 		return "/member/signin";
 	}
 	
 	@PostMapping("/signin")
-	public String goSignin(MemberVO vo, RedirectAttributes rttr,Model model, HttpSession session) {
+	public String goSignin(MemberVO vo, RedirectAttributes rttr, Model model, HttpSession session) {
 		log.info("로그인하러 가요~~");
 			//session.invalidate();	//게스트모드 세션 삭제(위치정보 담겨있음)
 			LogOnVO logon = service.signin(vo);
 			if(logon==null) {
 				log.info("로그인실패");
-				rttr.addFlashAttribute("error", "LogFailed");
-				//rttr.addFlashAttribute("error", "LogFailed");
+				model.addAttribute("error", "LogFailed");
 				return "/member/signin";
 			}else {
 				//model.addAttribute("log", logon);		
@@ -129,9 +130,9 @@ public class MemberController {
 	}
 	
 	@GetMapping("/signout")
-	public String signout(MemberVO vo, Model model, HttpSession session) {
+	public String signout(MemberVO vo, Model model, SessionStatus session) {
 		log.info("로그아웃~");
-		session.invalidate();
+		session.setComplete();
 		return "redirect:/home";
 	}
 	

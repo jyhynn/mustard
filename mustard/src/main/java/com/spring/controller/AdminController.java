@@ -40,11 +40,12 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/adminWatingAnswer")
-	public void adminWatingAnswer(Model model, @ModelAttribute("cri") Criteria cri) {
+	public String adminWatingAnswer(Model model, @ModelAttribute("cri") Criteria cri) {
 		//답변대기중인 문의들
-		List<QnaVO> qnas = boardservice.getWatingList();
+		List<QnaVO> qnas = boardservice.getWatingList(cri);
 		model.addAttribute("qnas", qnas);
 		model.addAttribute("pageMaker", new PageDTO(cri, boardservice.count(cri, 6)));
+		return "/admin/adminQna";
 	}
 	
 	@RequestMapping("/adminBoard")

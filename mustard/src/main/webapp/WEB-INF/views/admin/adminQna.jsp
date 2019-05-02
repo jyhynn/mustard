@@ -26,8 +26,8 @@
           <h2>문의 목록</h2>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group mr-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="/admin/adminQna">전체보기</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="/admin/adminWatingAnswer">답변대기중</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary getAll">전체보기</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary getWaitings">답변대기중</button>
           </div>
         </div>
        </div>
@@ -83,4 +83,14 @@
     </main>
   </div>
 </div>
+<script>
+$(function(){
+	$(".getAll").on("click",function(){
+		location.href='/admin/adminQna';
+	});
+	$(".getWaitings").on("click",function(){
+		location.href='/admin/adminWatingAnswer';
+	});
+});
+</script>
 <%@ include file="../include/footer.jsp"%>

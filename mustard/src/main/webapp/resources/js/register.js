@@ -5,7 +5,7 @@
 $(function() {
 	$(".tip").css("display", "none");
 	console.log("email?? >> " + $("#email").val());
-	if ($("#email").val() == "") {
+	if ($("#email").val() == "" || $("#email").val()==null) {
 		$(".form-start-email").css("display", "none");
 		$(".start-email-info").css("display", "none");
 		$(".select-location").css("display","none");
@@ -15,6 +15,7 @@ $(function() {
 		$(".start-email").css("display", "none");
 		$(".start-kakao").css("display", "none");
 		$(".email-msg").show();
+		$(".goRegist").show();
 	}
 	
 	// 각 input영역 클릭시 입력안내문구 나타내기

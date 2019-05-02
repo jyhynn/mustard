@@ -60,7 +60,7 @@
 					</c:forEach>
 				</c:if>
 				<!-- 페이징 -->
-				<nav aria-label="Page navigation example">
+				<nav aria-label="Page navigation example mt-3">
 					<ul class="pagination justify-content-center">
 						<c:if test="${!empty pageMaker.prev }">
 							<li class="page-item disabled"><a class="page-link" href="${pageMaker.startPage-1 }" tabindex="-1" aria-disabled="true">&laquo;</a></li>

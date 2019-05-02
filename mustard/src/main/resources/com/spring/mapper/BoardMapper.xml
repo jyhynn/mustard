@@ -132,11 +132,15 @@
 	</delete>
 	
 	<select id="getWatingList" resultType="com.spring.domain.QnaVO">
-		select * from qna where classify=0
+	<![CDATA[
+		select board_no, qna_no, title, writer, content, memNo, classify, qna_date
+			from (select /*+ INDEX_DESC(qna pk_qna_no) */ 
+					rownum rn, board_no, qna_no, title, writer, content, memNo, classify, qna_date from qna where ]]>
+	<![CDATA[	rownum <= #{pageNum} * #{amount} and classify=0) where rn > (#{pageNum}-1) * #{amount} and classify=0	]]>	
 	</select>
 	
 	<update id="updateAnswer">
-		update qna set classify=classfiy+1 where qna_no=#{qna_no}
+		update qna set classify=classify+1 where qna_no=#{qna_no}
 	</update>
 	
 	<!-- 실시간 인기글 -->

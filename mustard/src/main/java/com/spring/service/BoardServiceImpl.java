@@ -209,8 +209,8 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public List<QnaVO> getWatingList() {
-		return mapper.getWatingList();
+	public List<QnaVO> getWatingList(Criteria cri) {
+		return mapper.getWatingList(cri);
 	}
 
 	@Override

@@ -37,7 +37,7 @@ public interface BoardMapper {
 	public int insertQna(QnaVO qna);
 	public int updateQna(QnaVO qna);
 	public int deleteAsk(int qna_no);
-	public List<QnaVO> getWatingList();
+	public List<QnaVO> getWatingList(Criteria cri);
 	public int updateAnswer(int qna_no);
 	//실시간 인기글
 	public List<BoardVO> getTrends(); 
