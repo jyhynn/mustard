@@ -112,8 +112,9 @@ select board_no, article_no, title, writer, content, notice_date, notice_updated
 					 rownum <= 1 * 5 and board_no=5 and code=1162000500 )where rn > (1-1) * 5  and board_no=5 and code=1162000500 like '%'||'돌아'||'%';
 
 
-
-
+select * from BOARD_BOARD;
+select count(likey) from board_board where article_no=41 and board_no=5;
+select * from reply where board_no=5 and article_no=47 order by reNo;
 
 
 

@@ -41,7 +41,7 @@
 								</div></small>
 						  		<span class="badge badge-light div-inline">조회수 ${board.readhit }</span>
 								<div class="etcRe div-inline"></div>
-								<div class="etcLike div-inline"></div></small>
+								<div class="etcLike div-inline"></div>
 						  	<input type="hidden" name="article_no" value="${board.article_no }"/>
 						  	<input type="hidden" name="memNo" id="memNo" value="${board.memNo }"/>
 						  	<input type="hidden" name="board_no" value="${board.board_no }"/>
@@ -145,20 +145,24 @@ $(function(){
 	});
 
 	//신고
-	$("#btn-report").on("click",function(){
-		 $.ajax({
-			type:"post",
-			url : '/board/reportBoard',
-			data : {article_no : articleNo,
-					board_no : boardNo,
-					memNo : $("#memNo").val()},
-			success:function(data){
-				console.log(data);
-				if(data=='boardReportSuccess'){
-					alert("신고가 성공적으로 접수되었습니다. 빠른 시일 내에 조치가 이루어집니다.");
+	$(".btn-report").on("click",function(){
+		if(confirm("신고하시겠습니까?")){
+			 $.ajax({
+				type:"post",
+				url : '/board/reportBoard',
+				data : {article_no : articleNo,
+						board_no : boardNo,
+						memNo : $("#memNo").val()},
+				success:function(data){
+					console.log(data);
+					if(data=='boardReportSuccess'){
+						alert("신고가 성공적으로 접수되었습니다. 빠른 시일 내에 조치가 이루어집니다.");
+					}
 				}
-			}
-		});	//ajax	
+			});	//ajax	
+		}else{
+			 return;
+		}
 	});
 	
 	//좋아요
@@ -187,7 +191,7 @@ $(function(){
 				url : '/board/scrapBoard',
 				data : {article_no : articleNo,
 						board_no : boardNo,
-						memNo : Number($("#logedmemNo").val())},
+						memNo : Number(logedMemNo)},
 				success:function(data){
 					console.log(data);
 					if(data=='boardScrapSuccess'){
@@ -219,7 +223,7 @@ $(function(){
 						board_no:boardNo},
 			success:function(data){
 				var str = "";
-				console.log(data);
+				console.log("좋아요수" + encodeURIComponent(data));
 					str = "<span class='badge badge-light badge-likey'>♥ " + data + "</span>";
 				$(".etcLike").html(str);
 			}

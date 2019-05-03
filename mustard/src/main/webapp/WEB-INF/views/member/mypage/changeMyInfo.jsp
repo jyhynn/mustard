@@ -26,19 +26,19 @@
 				<ul class="list-group">
 					<li class="list-group-item"><b>이메일 </b> <br>${log.email }</li>
 					<li class="list-group-item"><b>지역 </b> 
-					<div class="select-location">
-						<select name="zip.shi" id="shi" >
-							<option value="${log.zip.shi }">${log.zip.shi }</option>
-						</select> 
-						<select name="zip.gungu" id="gungu" >
-							<option value="${log.zip.gungu }">${log.zip.gungu }</option>
-						</select>
-						<select name="zip.dong" id="dong" >
-							<option value="${log.zip.dong }">${log.zip.dong }</option>
-						</select>
-						<button type="button" class="btn btn-outline-info change-loc">위치 변경</button>
-						<button type="button" class="btn btn-outline-info go-change-loc">위치 변경</button>
-					</div>
+						<div class="select-location">
+							<select name="zip.shi" id="shi" >
+								<option value="${log.zip.shi }">${log.zip.shi }</option>
+							</select> 
+							<select name="zip.gungu" id="gungu" >
+								<option value="${log.zip.gungu }">${log.zip.gungu }</option>
+							</select>
+							<select name="zip.dong" id="dong" >
+								<option value="${log.zip.dong }">${log.zip.dong }</option>
+							</select>
+							<button type="button" class="btn btn-outline-info change-loc">위치 변경</button>
+							<button type="button" class="btn btn-outline-info go-change-loc">위치 변경</button>
+						</div>
 					</li>
 					<li class="list-group-item"><b>비밀번호 </b> 
 						<form id="chpw">
@@ -62,16 +62,17 @@
 		$(function(){
 			var logedMemNo = ${log.memNo};
 			var logedPassword = "${log.password}";
+			var currentPwd = '${log.password}';
 			$("#passwordCheck").css("display","none");
 			$("#newPassword").css("display","none");
 			$(".go-change-loc").css("display","none");
 			$(".go-change-pw").css("display","none");
 			$(".currentPassword").css("display","none");
 			$(".currentPasswordCheck").css("display","none");
-			var currentPwd = '${log.password}';
 			 $("select[name='zip.shi']").attr("disabled",true);
 			 $("select[name='zip.gungu']").attr("disabled",true);
 			 $("select[name='zip.dong']").attr("disabled",true);
+			 $(".select-location").show();
 			
 			//지역변경
 			$(".change-loc").on("click",function(){

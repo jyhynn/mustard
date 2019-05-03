@@ -80,7 +80,7 @@
 	</update>
 	
 	<select id="getLikeyamount" resultType="java.lang.Integer"> 
-		select count(likey) from board_board where article_no=#{article_no} and board_no=#{board_no}
+		select likey from board_board where article_no=#{article_no} and board_no=#{board_no}
 	</select>
 	
 	<!-- 스크랩 -->

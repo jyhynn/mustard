@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body style="text-align:center">
+<body style="text-align:center; margin-top:7%;">
   <form class="form-signin" action="signin" method="post">
   <img class="mb-4" src="/resources/icons/uri.png" alt="logo" width="150" height="150" style="margin:50px">
   

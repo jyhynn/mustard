@@ -50,7 +50,7 @@
 							<img src="/resources/sample/sample.jpg" class="d-block w-100" alt="...">
 						</div>
 						<div class="carousel-item">
-							<img src="http://placehold.it/900x400" class="d-block w-100" alt="...">
+							<img src="/resources/sample/sample2.jpg" class="d-block w-100" alt="...">
 						</div>
 						<div class="carousel-item">
 							<img src="http://placehold.it/900x400" class="d-block w-100" alt="...">

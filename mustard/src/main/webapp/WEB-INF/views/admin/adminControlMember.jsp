@@ -23,8 +23,8 @@
     </nav>
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
        <h2>개별회원관리</h2>
-      <div class="table-responsive">
-        <table class="table table-striped table-sm">
+      <div class="">
+        <table class="table table-striped table-sm h-auto">
           <thead>
             <tr>
               <th>#</th>
