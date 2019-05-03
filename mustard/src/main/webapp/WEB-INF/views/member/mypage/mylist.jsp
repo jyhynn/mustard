@@ -31,7 +31,7 @@
 					</c:if>
 				</div>
 				<c:forEach var="m" items="${mylist }">
-					<a href="boardRead?article_no=${m.article_no }&board_no=${m.board_no}" class="list-group-item list-group-item-action">
+					<a href="/board/boardRead?article_no=${m.article_no }&board_no=${m.board_no}" class="list-group-item list-group-item-action">
 						<div class="d-flex w-100 justify-content-between">
 							<input class="article_no" type="hidden" name="article_no" value="${m.article_no }"/>
 							<h4 class="mb-1">${m.title }</h4>

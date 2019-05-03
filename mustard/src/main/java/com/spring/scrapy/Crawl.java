@@ -32,13 +32,17 @@ public class Crawl {
 //광주		String url = "https://www.gwangju.go.kr/BD_0000000022/boardList.do?menuId=gwangju0306000000";
 //경기도		String url = "https://www.gg.go.kr/integrated-board";
 //강원도		String url = "http://www.provin.gangwon.kr/gw/portal/sub05_01";		//42
-		String url = "http://www.incheon.go.kr/posts/incheon-news/";	
+//인천		String url = "http://www.incheon.go.kr/posts/incheon-news/";	
 //부산		String url = "http://www.busan.go.kr/nbnews";	
 //충남(보류)	String url = "http://www.chungnam.go.kr/cnnet/board.do?mnu_cd=CNNMENU00148#view";
 //충북		String url = "http://www.chungbuk.go.kr/www/selectBbsNttList.do?bbsNo=3260&key=1552";
 //전남		String url = "http://www.jeonnam.go.kr/M7124/boardList.do?menuId=jeonnam0201000000";
 //대구		String url = "http://www.daegu.go.kr/index.do?menu_id=00000854";
-//		String url = "http://www.gyeongnam.go.kr/board/list.gyeong?boardId=BBS_0000057&menuCd=DOM_000000104001001000&contentsSid=717&cpath=";
+//경남		String url = "http://www.gyeongnam.go.kr/board/list.gyeong?boardId=BBS_0000057&menuCd=DOM_000000104001001000&contentsSid=717&cpath=";
+//대전		String url = "https://www.daejeon.go.kr/drh/board/boardNormalList.do;jsessionid=lzu87aJcEQcabAUEKFVCNUfyh7fxEKOhRhXSgZV8bi8vutOKUb3Bg0KkFX1Gddk0.WEB1_servlet_engine1?boardId=normal_0096&menuSeq=1631";		
+//경북		String url = "http://www.gb.go.kr/Main/page.do?mnu_uid=2076&BD_CODE=bbs_gongji";		
+//세종		String url = "https://www.sejong.go.kr/cop/bbs/BBSMSTR_000000000080/selectBoardList.do";		
+		String url = "https://www.jeju.go.kr/news/news/news.htm";		
 		System.out.println("===============");
 		System.out.println("url : " + url);
 		
@@ -55,13 +59,13 @@ public class Crawl {
 			System.out.println(el.select("a").text());
 		}*/
 		
-		//인천
+		/*//인천
 		Elements element = doc.select("div.cms_content");
 		for(Element el : element.select("div.post_list")) {
 			//http://www.incheon.go.kr/posts/incheon-news/ 
 			System.out.println(el.select("a").attr("href"));
 			System.out.println(el.select("a").text());
-		}
+		}*/
 		//tr:nth-child(2)
 		
 		//부산
@@ -110,6 +114,48 @@ public class Crawl {
 		System.out.println(el.select("td.title > a").text());
 		}
 		*/
+		
+		
+		/*//경남 >> 보류
+		Elements element = doc.select("tbody");
+		for(Element el : element.select("tr")) {
+			//http://www.incheon.go.kr/posts/incheon-news/ 
+			System.out.println(el.select("td.title > a").attr("href"));
+			System.out.println(el.select("td.title > a").text());
+		}*/
+		
+		//대전
+		/*Elements element = doc.select("tbody");
+		for(Element el : element.select("tr")) {
+			//https://www.daejeon.go.kr
+			System.out.println(el.select("td.subject > a").attr("href"));
+			System.out.println(el.select("td.subject > a").text());
+		}*/
+		
+		/*//경북
+		Elements element = doc.select("tbody");
+		for(Element el : element.select("tr")) {
+			//http://www.gb.go.kr/Main   .없애야함
+			System.out.println(el.select("td.b_subject > a").attr("href"));
+			System.out.println(el.select("td.b_subject > a").text());
+		}*/
+		
+		/*//세종
+		Elements element = doc.select("tbody");
+		for(Element el : element.select("tr")) {
+			//https://www.sejong.go.kr
+			System.out.println(el.select("span.link > a").attr("href"));
+			System.out.println(el.select("span.link > a").text());
+		}*/
+		
+		Elements element = doc.select("tbody");
+		for(Element el : element.select("tr")) {
+			//https://www.jeju.go.kr
+			System.out.println(el.select("td.title > a").attr("href"));
+			System.out.println(el.select("td.title > a").text());
+		}
+		
+		
 		
 		/*Elements element = doc.select("#view_top");
 		String title = element.select("h3").text();

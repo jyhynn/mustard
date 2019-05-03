@@ -18,7 +18,8 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg white fixed-top font-jeju">
 	<div class="container">
-		<a class="navbar-brand" href="/">
+		<a class="navbar-brand" href=<c:if test="${!empty log }">"/?shi=${log.zip.shi }&gungu=${log.zip.gungu}&dong=${log.zip.dong}" </c:if>
+					<c:if test="${empty log }">"/" </c:if>>
 		<img src="/resources/icons/uri.png" class="logos mr-0" alt="..."></a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

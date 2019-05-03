@@ -1,6 +1,7 @@
 package com.spring.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -57,8 +58,10 @@ public class BoardController {
 	ZipService zipservice;
 
 	@RequestMapping(value="/boardList", produces="text/html;charset=UTF-8")
-	public void boardlist(int board_no, Model model, ZipVO zip, @ModelAttribute("cri")Criteria cri, HttpServletRequest request) throws IOException {
+	public String boardlist(int board_no, Model model, ZipVO zip, @ModelAttribute("cri")Criteria cri, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		log.info("게시판 페이지 나와라 + " + zip.getShi());
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
 		request.setCharacterEncoding("UTF-8");
 		long code = zipservice.getZip(zip).getCode();
 		//정보게시판 호출시
@@ -92,18 +95,24 @@ public class BoardController {
 				}
 				break;
 			case "27"://대구
-				
+				url = "http://www.daegu.go.kr/index.do?menu_id=00000854";
+				//바로 주소이동
+				out.println("<script>location.href='" + url + "';</script>");
+				out.flush();
 				break;
 			case "28"://인천
 				url = "http://www.incheon.go.kr/posts/incheon-news/";
-				doc = Jsoup.connect(url).get();
+				/*doc = Jsoup.connect(url).get();
 				element = doc.select("div.cms_content");
 				for(Element el : element.select("div.post_list")) {
 					LinkVO vo = new LinkVO();
 					vo.setHref("http://www.incheon.go.kr/posts/incheon-news/" + el.select("a").attr("href"));
 					vo.setTitle(el.select("a").text());
 					link.add(vo);
-				}
+				}*/
+				//바로 주소이동
+				out.println("<script>location.href='" + url + "';</script>");
+				out.flush();
 				break;
 			case "29"://광주
 				url = "https://www.gwangju.go.kr/BD_0000000022/boardList.do?menuId=gwangju0306000000";
@@ -117,13 +126,34 @@ public class BoardController {
 				}
 				break;
 			case "30"://대전
-				
+				url = "https://www.daejeon.go.kr/drh/board/boardNormalList.do;jsessionid=lzu87aJcEQcabAUEKFVCNUfyh7fxEKOhRhXSgZV8bi8vutOKUb3Bg0KkFX1Gddk0.WEB1_servlet_engine1?boardId=normal_0096&menuSeq=1631";	
+				doc = Jsoup.connect(url).get();
+				element = doc.select("tbody");
+				for(Element el : element.select("tr")) {
+					//https://www.daejeon.go.kr
+					LinkVO vo = new LinkVO();
+					vo.setHref("https://www.daejeon.go.kr"+el.select("td.subject > a").attr("href"));
+					vo.setTitle(el.select("td.subject > a").text());
+					link.add(vo);
+				}
 				break;
 			case "31"://울산
-				
+				url = "http://www.ulsan.go.kr/rep/notice";
+				//바로 주소이동
+				out.println("<script>location.href='" + url + "';</script>");
+				out.flush();
 				break;
 			case "36"://세종
-				
+				url = "https://www.sejong.go.kr/cop/bbs/BBSMSTR_000000000080/selectBoardList.do";	
+				doc = Jsoup.connect(url).get();
+				element = doc.select("tbody");
+				for(Element el : element.select("tr")) {
+					//https://www.sejong.go.kr
+					LinkVO vo = new LinkVO();
+					vo.setHref("https://www.sejong.go.kr"+el.select("span.link > a").attr("href"));
+					vo.setTitle(el.select("span.link > a").text());
+					link.add(vo);
+				}
 				break;
 			case "41"://경기
 				url = "https://www.gg.go.kr/integrated-board";
@@ -160,10 +190,16 @@ public class BoardController {
 				}
 				break;
 			case "44"://충남
-				
+				url = "http://www.chungnam.go.kr/cnnet/board.do?mnu_cd=CNNMENU00148#view";
+				//바로 주소이동
+				out.println("<script>location.href='" + url + "';</script>");
+				out.flush();
 				break;
 			case "45"://전북
-				
+				url = "http://www.jeonbuk.go.kr/board/list.jeonbuk;jsessionid=gmRrtTH19RR8aYmD7vjIz2hcZTeOLVscDJGmAbH9YU2CHNAhUl2vRMt8eF3baG7J.was01_se";
+				//바로 주소이동
+				out.println("<script>location.href='" + url + "';</script>");
+				out.flush();
 				break;
 			case "46"://전남
 				url = "http://www.jeonnam.go.kr/M7124/boardList.do?menuId=jeonnam0201000000";
@@ -177,16 +213,34 @@ public class BoardController {
 				}
 				break;
 			case "47"://경북
-				
+				url = "http://www.gb.go.kr/Main/page.do?mnu_uid=2076&BD_CODE=bbs_gongji";		
+				doc = Jsoup.connect(url).get();
+				element = doc.select("tbody");
+				for(Element el : element.select("tr")) {
+					//http://www.gb.go.kr/Main   .없애야함
+					LinkVO vo = new LinkVO();
+					vo.setHref("http://www.gb.go.kr/Main"+(el.select("td.b_subject > a").attr("href")).substring(1));
+					vo.setTitle(el.select("td.b_subject > a").text());
+					link.add(vo);
+				}
 				break;
 			case "48"://경남
-				
+				url = "http://www.gyeongnam.go.kr/board/list.gyeong?boardId=BBS_0000057&menuCd=DOM_000000104001001000&contentsSid=717&cpath=";
+				//바로 주소이동
+				out.println("<script>location.href='" + url + "';</script>");
+				out.flush();
 				break;
 			case "50"://제주
-				
-				break;
-
-			default:
+				url = "https://www.jeju.go.kr/news/news/news.htm";		
+				doc = Jsoup.connect(url).get();
+				element = doc.select("tbody");
+				for(Element el : element.select("tr")) {
+					LinkVO vo = new LinkVO();
+					//https://www.jeju.go.kr
+					vo.setHref("https://www.jeju.go.kr"+el.select("td.title > a").attr("href"));
+					vo.setTitle(el.select("td.title > a").text());
+					link.add(vo);
+				}
 				break;
 			}
 			model.addAttribute("link",link);
@@ -197,6 +251,7 @@ public class BoardController {
 		
 		model.addAttribute("bno", board_no);
 		model.addAttribute("pageMaker", new PageDTO(cri,service.countPage(cri,1,zip)));
+		return "/board/boardList";
 	}
 
 	//게시글 읽기
