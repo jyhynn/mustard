@@ -7,11 +7,11 @@ import com.spring.domain.BoardNoticeVO;
 
 public interface BoardNoticeMapper {
 
-	public List<BoardNoticeVO> getList(HashMap<String, Integer> hash); 
+	public List<BoardNoticeVO> getList(); 
 	public List<BoardNoticeVO> getListforMain(); 
 	public BoardNoticeVO getNotice(HashMap<String, Integer> hash);
 	public int insert(BoardNoticeVO notice);
 	public int update(BoardNoticeVO notice);
 	public int delete(int notice_no, int board_no);
-	public int countPage(HashMap<String, Integer> hash);
+	public int countPage();
 }

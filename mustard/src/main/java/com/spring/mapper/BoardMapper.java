@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.spring.domain.BoardNoticeVO;
 import com.spring.domain.BoardVO;
-import com.spring.domain.Criteria;
 import com.spring.domain.QnaVO;
 import com.spring.domain.ScrapVO;
 
@@ -34,15 +33,18 @@ public interface BoardMapper {
 	public int getAllList(HashMap<String, Object> hash);
 	public List<BoardVO> getListPaging(HashMap<String, Object> hash);
 	//문의게시판
-	public List<QnaVO> getQnaList(Criteria cri);
+	public List<QnaVO> getQnaList();
+	public int getQnaAmount();
 	public QnaVO getAsk(int qna_no);
 	public int insertQna(QnaVO qna);
 	public int updateQna(QnaVO qna);
 	public int deleteAsk(int qna_no);
-	public List<QnaVO> getWatingList(Criteria cri);
+	public List<QnaVO> getWatingList();
+	public int getWatingAmount();
 	public int updateAnswer(int qna_no);
 	//실시간 인기글
 	public List<BoardVO> getTrends(); 
 	//검색
 	public List<BoardVO> searching(HashMap<String, Object> hash);
+	public int searchList(HashMap<String, Object> hash);
 }

@@ -35,9 +35,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.spring.domain.BoardAttachVO;
 import com.spring.domain.BoardVO;
 import com.spring.domain.Common;
-import com.spring.domain.Criteria;
 import com.spring.domain.LinkVO;
-import com.spring.domain.PageDTO;
 import com.spring.domain.Paging;
 import com.spring.domain.QnaVO;
 import com.spring.domain.ZipVO;
@@ -60,7 +58,7 @@ public class BoardController {
 	ZipService zipservice;
 
 	@RequestMapping(value="/boardList", produces="text/html;charset=UTF-8")
-	public String boardlist(int board_no, Model model, ZipVO zip, @ModelAttribute("cri")Criteria cri, String page/*, HttpServletRequest request*/, HttpServletResponse response) throws IOException {
+	public String boardlist(int board_no, Model model, ZipVO zip, String page/*, HttpServletRequest request*/, HttpServletResponse response) throws IOException {
 		log.info("게시판 페이지 나와라 + " + zip.getShi());
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
@@ -247,7 +245,6 @@ public class BoardController {
 			}
 			model.addAttribute("link",link);
 		}else {
-			
 			//페이징
 			int nowPage = 1; // 기본으로 보여질 페이지
 			if (page != null && !page.isEmpty()) {	//페이지값이 안넘어 왔을때
@@ -361,18 +358,30 @@ public class BoardController {
 			rttr.addAttribute("shi", board.getZip().getShi());
 			rttr.addAttribute("gungu", board.getZip().getGungu());
 			rttr.addAttribute("dong", board.getZip().getDong());
-			
 		}
 		return "redirect:boardList?board_no=" + board.getBoard_no();
 	}
 	
 	//문의
 	@GetMapping("/askList")
-	public void askList(Model model, @ModelAttribute("cri")Criteria cri, ZipVO zip) {
+	public String askList(Model model, ZipVO zip, String page) {
 		log.info("문의 페이지 나와라");
-		List<QnaVO> list = service.getQnaList(cri);
+
+		int nowPage = 1;
+		if (page != null && !page.isEmpty()) {	
+			nowPage = Integer.parseInt(page);
+		} else {
+			page = "1";
+		}
+		
+		int row_total = service.getQnaAmount();
+		String pageMenu = Paging.getPaging("/board/askList", nowPage, row_total,Common.Reply.BLOCKLIST, Common.Reply.BLOCKPAGE);
+		
+		model.addAttribute("page", page);
+		model.addAttribute("pageMenu", pageMenu);
+		List<QnaVO> list = service.getQnaList();
 		model.addAttribute("ask", list);
-		model.addAttribute("pageMaker", new PageDTO(cri,service.countPage(cri,6, zip)));
+		return "/board/askList";
 	}
 	
 	@RequestMapping(value= {"/askRead","/askModify"})
@@ -448,14 +457,30 @@ public class BoardController {
 	
 	//검색리스트
 	@RequestMapping("/searching")
-	public void searching(int board_no, String keyword, ZipVO zip, Criteria cri, Model model) {
+	public String searching(int board_no, String keyword, ZipVO zip, String page, Model model) {
 		log.info(board_no + "-" + keyword + "-" + zip.getShi());
-		List<BoardVO> list = service.searching(board_no, keyword, zip, cri);
+		
+		//페이징
+		int nowPage = 1; 
+		if (page != null && !page.isEmpty()) {
+			nowPage = Integer.parseInt(page);
+		} else {
+			page = "1";
+		}
+		// 전체게시물 수 구하기
+		int row_total = service.searchList(board_no, keyword, zip);
+		// 현재 페이지 메뉴 생성
+		String pageMenu = Paging.getPaging("/board/searching?board_no=" + board_no + "&shi=" + zip.getShi() + "&gungu=" + zip.getGungu() + "&dong=" + zip.getDong(), nowPage, row_total,
+				Common.Reply.BLOCKLIST, Common.Reply.BLOCKPAGE);
+		
+		model.addAttribute("page", page);
+		model.addAttribute("pageMenu", pageMenu);
+		List<BoardVO> list = service.searching(board_no, keyword, zip, nowPage);
 		model.addAttribute("bno", board_no);
 		model.addAttribute("search", list);
-		model.addAttribute("pageMaker", new PageDTO(cri,service.countPage(cri,6, zip)));
+		return "/board/searching";
 	}
-	
+
 	
 	// 첨부파일 삭제
 		private void deleteFile(List<BoardAttachVO> attach) {

@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.spring.domain.BoardVO;
-import com.spring.domain.Criteria;
+import com.spring.domain.Common;
 import com.spring.domain.MemberVO;
-import com.spring.domain.PageDTO;
+import com.spring.domain.Paging;
 import com.spring.domain.QnaVO;
 import com.spring.domain.ZipVO;
 import com.spring.service.BoardService;
@@ -30,45 +30,84 @@ public class AdminController {
 	private MemberService memberservice;
 	@Autowired
 	private BoardService boardservice;
+	
 	@RequestMapping(value= {"/adminQna", "/adminMain"})
-	public void adminQna(Model model, @ModelAttribute("cri") Criteria cri) {
-		//새로 올라온 문의
-		//답변한 문의 필터링 기능
-		List<QnaVO> qnas = boardservice.getQnaList(cri);
+	public String adminQna(Model model, String page) {
+		//전체 문의
+		int nowPage = 1;
+		if (page != null && !page.isEmpty()) {
+			nowPage = Integer.parseInt(page);
+		} else {
+			page = "1";
+		}
+		int row_total = boardservice.getQnaAmount();
+		String pageMenu = Paging.getPaging("/admin/adminQna", nowPage, row_total,Common.Reply.BLOCKLIST, Common.Reply.BLOCKPAGE);
+		model.addAttribute("page", page);
+		model.addAttribute("pageMenu", pageMenu);
+		List<QnaVO> qnas = boardservice.getQnaList();
 		model.addAttribute("qnas", qnas);
-		model.addAttribute("pageMaker", new PageDTO(cri, boardservice.count(cri, 6)));
+		
+		return "/admin/adminQna";
 	}
 	
 	@RequestMapping("/adminWatingAnswer")
-	public String adminWatingAnswer(Model model, @ModelAttribute("cri") Criteria cri) {
+	public String adminWatingAnswer(Model model, String page) {
 		//답변대기중인 문의들
-		List<QnaVO> qnas = boardservice.getWatingList(cri);
+		int nowPage = 1;
+		if (page != null && !page.isEmpty()) {
+			nowPage = Integer.parseInt(page);
+		} else {
+			page = "1";
+		}
+		int row_total = boardservice.getWatingAmount();
+		String pageMenu = Paging.getPaging("/admin/adminQna", nowPage, row_total,Common.Reply.BLOCKLIST, Common.Reply.BLOCKPAGE);
+		model.addAttribute("page", page);
+		model.addAttribute("pageMenu", pageMenu);
+		List<QnaVO> qnas = boardservice.getWatingList();
 		model.addAttribute("qnas", qnas);
-		model.addAttribute("pageMaker", new PageDTO(cri, boardservice.count(cri, 6)));
+	
 		return "/admin/adminQna";
 	}
 	
 	@RequestMapping("/adminBoard")
-	public void adminBoard(Model model, @ModelAttribute("cri") Criteria cri, ZipVO zip) {
+	public String adminBoard(Model model, ZipVO zip, String page, int board_no) {
 		//게시판별 전체 목록
-		List<BoardVO> board3 = boardservice.getListforAdmin(3, cri);
-		List<BoardVO> board4 = boardservice.getListforAdmin(4, cri);
-		List<BoardVO> board5 = boardservice.getListforAdmin(5, cri);
-		model.addAttribute("board3", board3);
-		model.addAttribute("board4", board4);
-		model.addAttribute("board5", board5);
-		model.addAttribute("pageMaker3", new PageDTO(cri, boardservice.count(cri, 3)));
-		model.addAttribute("pageMaker4", new PageDTO(cri, boardservice.count(cri, 4)));
-		model.addAttribute("pageMaker5", new PageDTO(cri, boardservice.count(cri, 5)));
+		int nowPage = 1;
+		if (page != null && !page.isEmpty()) {
+			nowPage = Integer.parseInt(page);
+		} else {
+			page = "1";
+		}
+		int row_total = boardservice.count(board_no);
+		String pageMenu = Paging.getPaging("/admin/adminBoard?board_no=" + board_no, nowPage, row_total,Common.Admin.BLOCKLIST, Common.Admin.BLOCKPAGE);
+		model.addAttribute("page", page);
+		model.addAttribute("pageMenu", pageMenu);
+		List<BoardVO> board = boardservice.getListforAdmin(board_no);
+		model.addAttribute("board", board);
+		model.addAttribute("board_no", board_no);
+		return "/admin/adminBoard";
 	}
 	
-	@RequestMapping("/adminMember")
-	public void adminMember(Model model, @ModelAttribute("cri") Criteria cri) {
-		//회원 전체 목록
-		List<MemberVO> members = memberservice.getAllMembers(cri);
+	@RequestMapping("/adminMember") //회원 전체 목록
+	public String adminMember(Model model, String page) {
+		int nowPage = 1;
+		if (page != null && !page.isEmpty()) {
+			nowPage = Integer.parseInt(page);
+		} else {
+			page = "1";
+		}
+		
+		int row_total = memberservice.MemberAmount();
+		String pageMenu = Paging.getPaging("/admin/adminMember", nowPage, row_total,Common.Reply.BLOCKLIST, Common.Reply.BLOCKPAGE);
+		
+		model.addAttribute("page", page);
+		model.addAttribute("pageMenu", pageMenu);
+		List<MemberVO> members = memberservice.getAllMembers();
 		model.addAttribute("members", members);
-		model.addAttribute("pageMaker", new PageDTO(cri, memberservice.countPage(cri)));
+		
+		return "/admin/adminMember";
 	}
+	
 	@RequestMapping("/adminReports")
 	public void adminReports(Model model) {
 		//신고된 게시글 목록

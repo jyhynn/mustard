@@ -4,11 +4,10 @@ import java.util.List;
 
 import com.spring.domain.AttachNoticeVO;
 import com.spring.domain.BoardNoticeVO;
-import com.spring.domain.Criteria;
 
 public interface BoardNoticeService {
 
-	public List<BoardNoticeVO> getList(Criteria cri, int board_no); 
+	public List<BoardNoticeVO> getList(); 
 	public List<BoardNoticeVO> getListforMain(); 
 	public BoardNoticeVO getNotice(int notice_no, int board_no);
 	public void insert(BoardNoticeVO notice);
@@ -18,5 +17,5 @@ public interface BoardNoticeService {
 	public List<AttachNoticeVO> attachList(int notice_no, int board_no);
 	public List<AttachNoticeVO> getAttachs();
 	//페이지 카운팅
-	public int countPage(Criteria cri, int board_no);
+	public int countPage();
 }

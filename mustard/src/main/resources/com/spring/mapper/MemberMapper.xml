@@ -23,13 +23,11 @@
 	</select>
 	
 	<select id="getAllMembers" resultType="com.spring.domain.MemberVO">
-		<![CDATA[ select memNo, name, email, nick, code, regdate, authstatus, memlevel, memreport 
-		from (select rownum rn, memNo, name, email, nick, code, regdate, authstatus, memlevel, memreport from member where
-			rownum <= #{pageNum} * #{amount}) where rn > (#{pageNum}-1) * #{amount} ]]>	
+		select memNo, name, email, nick, code, regdate, authstatus, memlevel, memreport from member
 	</select>
-
-	<select id="countPage" resultType="int">
-		select count(*) from member where memNo > 0
+	
+	<select id="MemberAmount" resultType="java.lang.Integer">
+		select count(*) from member
 	</select>
 
 	<select id="getEmail" resultType="com.spring.domain.MemberVO">

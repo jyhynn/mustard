@@ -13,10 +13,11 @@
 <body>
 	<div class="container mt-5">
 		<div class="row">
-			<div class="col-md-9 order-md-1 font-jeju">
+			<div class="col-md-9 order-md-1 font-jeju mb-5">
 				<div class="list-group-item mb-3">
 					<h5>공지사항</h5>
 				</div>
+				<div class="mt-3 mb-3">
 				<c:forEach var="n" items="${notice }">
 					<a href="noticeRead?notice_no=${n.notice_no }&board_no=${n.board_no}" class="list-group-item list-group-item-action">
 						<div class="d-flex w-100 justify-content-between">
@@ -30,22 +31,10 @@
 						<small><fmt:formatDate pattern="yy/MM/dd hh:mm" value="${n.notice_date }"/> <span>${n.writer }</span></small>
 					</a>
 				</c:forEach>
+				</div>
 				<!-- 페이징 -->
-				<nav aria-label="Page navigation example mt-3">
-					<ul class="pagination justify-content-center">
-						<c:if test="${!empty pageMaker.prev }">
-							<li class="page-item disabled"><a class="page-link" href="${pageMaker.startPage-1 }" tabindex="-1" aria-disabled="true">&laquo;</a></li>
-						</c:if>
-						<c:forEach var="idx" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
-							<li class="page-item ${pageMaker.cri.pageNum==idx?'active':'' }">
-								<a class="page-link" href="${idx }">${idx }</a>
-							</li>
-						</c:forEach>
-						<c:if test="${!empty pageMaker.next }">
-							<li class="page-item"><a class="page-link" href="${pageMaker.endPage+1 }">&raquo;</a>
-						</c:if>
-						</li>
-					</ul>
+				<nav aria-label="Page navigation example m-3">
+					<ul class="pagination justify-content-center">${pageMenu }</ul>
 				</nav>
 				<!-- /페이징 -->
 				<c:if test="${log.memlevel==10 }">
@@ -56,7 +45,7 @@
 				<%@ include file="../include/trends.jsp"%>
 			</div>
 		</div>
-	</div>
+	</div>	
 	<script>
 		$(function() {
 			var noticeNo = $(".notice_no").val();

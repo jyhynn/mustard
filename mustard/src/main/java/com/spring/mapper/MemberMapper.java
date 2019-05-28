@@ -2,8 +2,6 @@ package com.spring.mapper;
 
 import java.util.HashMap;
 import java.util.List;
-
-import com.spring.domain.Criteria;
 import com.spring.domain.LogOnVO;
 import com.spring.domain.MemberVO;
 
@@ -23,8 +21,8 @@ public interface MemberMapper {
 	public int changePwd(HashMap<String, Object> hash);
 	public int changeLoc(HashMap<String, Object> hash);
 	public int removeMember(int memNo);
-	public List<MemberVO> getAllMembers(Criteria cri);
-	public int countPage(Criteria cri);
+	public List<MemberVO> getAllMembers();
+	public int MemberAmount();
 	public int controlDown(int memNo);
 	public int controlUp(int memNo);
 }

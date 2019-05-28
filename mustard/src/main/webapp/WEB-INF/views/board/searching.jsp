@@ -24,6 +24,7 @@
 						<h5>자유게시판</h5>
 					</c:if>
 				</div>
+				<div class="mb-3">
 				<c:if test="${bno!=2}">	
 					<c:forEach var="s" items="${search }">
 						<a href="boardRead?article_no=${s.article_no }&board_no=${s.board_no}" class="list-group-item list-group-item-action">
@@ -39,21 +40,11 @@
 						</a>
 					</c:forEach>
 				</c:if>
+				</div>
 				<!-- 페이징 -->
-				<nav aria-label="Page navigation example">
-					<ul class="pagination justify-content-center">
-						<c:if test="${!empty pageMaker.prev }">
-							<li class="page-item disabled"><a class="page-link" href="${pageMaker.startPage-1 }" tabindex="-1" aria-disabled="true">&laquo;</a></li>
-						</c:if>
-						<c:forEach var="idx" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
-							<li class="page-item ${pageMaker.cri.pageNum==idx?'active':'' }">
-								<a class="page-link" href="${idx }">${idx }</a>
-							</li>
-						</c:forEach>
-						<c:if test="${!empty pageMaker.next }">
-							<li class="page-item"><a class="page-link" href="${pageMaker.endPage+1 }">&raquo;</a>
-						</c:if>
-						</li>
+				<nav aria-label="Page navigation example m-3">
+  					<ul class="pagination justify-content-center">
+							${pageMenu }
 					</ul>
 				</nav>
 				<!-- /페이징 -->

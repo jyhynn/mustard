@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.domain.BoardVO;
-import com.spring.domain.Criteria;
 import com.spring.domain.LogOnVO;
 import com.spring.domain.MailUtils;
 import com.spring.domain.MemberVO;
@@ -183,13 +182,13 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public List<MemberVO> getAllMembers(Criteria cri) {
-		return mapper.getAllMembers(cri);
+	public List<MemberVO> getAllMembers() {
+		return mapper.getAllMembers();
 	}
 
 	@Override
-	public int countPage(Criteria cri) {
-		return mapper.countPage(cri);
+	public int MemberAmount() {
+		return mapper.MemberAmount();
 	}
 
 	@Override

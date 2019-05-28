@@ -15,14 +15,10 @@
 	<select id="getAllList" resultType="java.lang.Integer">
 		select count(*) from board_board where board_no=#{board_no} and code=#{code}
 	</select>
-	
+
 	<select id="getListforAdmin" resultType="com.spring.domain.BoardVO">	<!-- <![CDATA[이 안에 있는 꺽쇠가 태그가 아님을 명시]]> -->
-	<![CDATA[
-		select board_no, article_no, title, writer, memNo, content, notice_date, notice_updatedate, replycnt, readhit, likey, report, code
-			from (select /*+ INDEX_DESC(board_notice pk_board_notice) */ 
-					rownum rn, board_no, article_no, title, writer, memNo, content, notice_date, notice_updatedate, replycnt, readhit, likey, report, code from board_board where ]]>
-	<![CDATA[	rownum <= #{pageNum} * #{amount} and board_no=#{board_no}) where rn > (#{pageNum}-1) * #{amount} and board_no=#{board_no}	]]>	
-	</select>
+		select * from board_board where board_no=#{board_no}
+	</select>	
 	
 	<select id="getListforMain" resultType="com.spring.domain.BoardVO">
 		<![CDATA[
@@ -110,12 +106,20 @@
 	</select>
 	
 	<!-- 문의게시판 -->
-	<select id="getQnaList" resultType="com.spring.domain.QnaVO">
+	<!-- <select id="getQnaList" resultType="com.spring.domain.QnaVO">
 		<![CDATA[
 		select board_no, qna_no, title, writer, content, memNo, classify, qna_date
 			from (select /*+ INDEX_DESC(qna pk_qna_no) */ 
 					rownum rn, board_no, qna_no, title, writer, content, memNo, classify, qna_date from qna where ]]>
 	<![CDATA[	rownum <= #{pageNum} * #{amount}) where rn > (#{pageNum}-1) * #{amount}	]]>	
+	</select> -->
+	
+	<select id="getQnaAmount" resultType="java.lang.Integer">
+		select count(*) from qna
+	</select>
+	
+	<select id="getQnaList" resultType="com.spring.domain.QnaVO">
+		select * from qna
 	</select>
 	
 	<select id="getAsk" resultType="com.spring.domain.QnaVO">
@@ -138,11 +142,11 @@
 	</delete>
 	
 	<select id="getWatingList" resultType="com.spring.domain.QnaVO">
-	<![CDATA[
-		select board_no, qna_no, title, writer, content, memNo, classify, qna_date
-			from (select /*+ INDEX_DESC(qna pk_qna_no) */ 
-					rownum rn, board_no, qna_no, title, writer, content, memNo, classify, qna_date from qna where ]]>
-	<![CDATA[	rownum <= #{pageNum} * #{amount} and classify=0) where rn > (#{pageNum}-1) * #{amount} and classify=0	]]>	
+		select * from qna where classify=0
+	</select>
+	
+	<select id="getWatingAmount" resultType="java.lang.Integer">
+		select count(*) from qna where classify=0
 	</select>
 	
 	<update id="updateAnswer">
@@ -157,13 +161,15 @@
 				row_number() over (order by sum(readhit + replycnt + likey) desc) num
  				from board_board group by article_no, board_no, title ) where num < 5]]>
 	</select>
-	<!-- 검색 -->
+	<!-- 검색 -->	
 	<select id="searching" resultType="com.spring.domain.BoardVO">
-		<![CDATA[
-		select board_no, article_no, title, writer, content, notice_date, notice_updatedate, replycnt, readhit, likey, report, code
-			from (select /*+ INDEX_DESC(spring_board pk_spring_board) */ 
-					rownum rn, board_no, article_no, title, writer, content, notice_date, notice_updatedate, replycnt, readhit, likey, report, code from board_board where
-					 rownum <= #{pageNum} * #{amount} and board_no=#{board_no} and code=#{code} )where rn > (#{pageNum}-1) * #{amount}  and board_no=#{board_no} and code=#{code} and title like '%'||#{keyword}||'%'
-		]]>	
+		select * from ( select rank() over(order by article_no desc) no,
+		b.* from(select * from board_board where board_no=#{board_no} and code=#{code} ) b ) where no between #{start} and #{end} and title like '%'||#{keyword}||'%'
 	</select>
+	
+	<!-- 전체 게시물 수 --> 
+	<select id="searchList" resultType="java.lang.Integer">
+		select count(*) from board_board where board_no=#{board_no} and code=#{code} and title like '%'||#{keyword}||'%'
+	</select>
+	
 </mapper>

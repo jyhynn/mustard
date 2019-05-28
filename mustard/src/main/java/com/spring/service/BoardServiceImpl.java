@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.spring.domain.BoardAttachVO;
 import com.spring.domain.BoardVO;
 import com.spring.domain.Common;
-import com.spring.domain.Criteria;
 import com.spring.domain.QnaVO;
 import com.spring.domain.ScrapVO;
 import com.spring.domain.ZipVO;
@@ -35,12 +34,10 @@ public class BoardServiceImpl implements BoardService{
 	private ZipMapper zipmapper;
 
 	@Override
-	public List<BoardVO> getList(Criteria cri, int board_no, ZipVO zip) {
+	public List<BoardVO> getList(int board_no, ZipVO zip) {
 		HashMap<String, Object> hash = new HashMap<>();
 		hash.put("code", zipmapper.getZip(zip).getCode());
 		hash.put("board_no", board_no);
-		hash.put("pageNum", cri.getPageNum());
-		hash.put("amount", cri.getAmount());
 		return mapper.getList(hash);
 	}
 
@@ -139,12 +136,10 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public int countPage(Criteria cri, int board_no, ZipVO zip) {
+	public int countPage(int board_no, ZipVO zip) {
 		HashMap<String, Object> hash = new HashMap<>();
 		hash.put("code", zipmapper.getZip(zip).getCode());
 		hash.put("board_no", board_no);
-		hash.put("pageNum", cri.getPageNum());
-		hash.put("amount", cri.getAmount());
 		return mapper.countPage(hash);
 	}
 	
@@ -205,8 +200,13 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public List<QnaVO> getQnaList(Criteria cri) {
-		return mapper.getQnaList(cri);
+	public List<QnaVO> getQnaList() {
+		return mapper.getQnaList();
+	}
+	
+	@Override
+	public int getQnaAmount() {
+		return mapper.getQnaAmount();
 	}
 	
 	@Override
@@ -235,36 +235,50 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public List<QnaVO> getWatingList(Criteria cri) {
-		return mapper.getWatingList(cri);
+	public List<QnaVO> getWatingList() {
+		return mapper.getWatingList();
+	}
+	
+	@Override
+	public int getWatingAmount() {
+		return mapper.getWatingAmount();
 	}
 
 	@Override
-	public int count(Criteria cri, int board_no) {
+	public int count(int board_no) {
 		HashMap<String, Integer> hash = new HashMap<>();
 		hash.put("board_no", board_no);
-		hash.put("pageNum", cri.getPageNum());
-		hash.put("amount", cri.getAmount());
 		return mapper.count(hash);
 	}
 
 	@Override
-	public List<BoardVO> getListforAdmin(int board_no, Criteria cri) {
+	public List<BoardVO> getListforAdmin(int board_no) {
 		HashMap<String, Integer> hash = new HashMap<>();
 		hash.put("board_no", board_no);
-		hash.put("pageNum", cri.getPageNum());
-		hash.put("amount", cri.getAmount());
 		return mapper.getListforAdmin(hash);
 	}
 	
 	@Override
-	public List<BoardVO> searching(int board_no, String keyword, ZipVO zip, Criteria cri) {
+	public List<BoardVO> searching(int board_no, String keyword, ZipVO zip, int nowPage) {
+
+		int start = (nowPage -1) * Common.Reply.BLOCKLIST + 1;	
+		int end = start + Common.Reply.BLOCKLIST -1;
+		
+		HashMap<String, Object> hash = new HashMap<>();
+		hash.put("start", start);
+		hash.put("end", end);
+		hash.put("code", zipmapper.getZip(zip).getCode());
+		hash.put("board_no", board_no);
+		hash.put("keyword", keyword);
+		return mapper.searching(hash);
+	}
+	
+	@Override
+	public int searchList(int board_no, String keyword, ZipVO zip) {
 		HashMap<String, Object> hash = new HashMap<>();
 		hash.put("code", zipmapper.getZip(zip).getCode());
 		hash.put("board_no", board_no);
 		hash.put("keyword", keyword);
-		hash.put("pageNum", cri.getPageNum());
-		hash.put("amount", cri.getAmount());
-		return mapper.searching(hash);
+		return mapper.searchList(hash);
 	}
 }

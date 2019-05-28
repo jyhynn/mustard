@@ -67,7 +67,6 @@
 							${pageMenu }
 					</ul>
 				</nav>
-				
 				<!-- /페이징 -->
 				<c:if test="${bno!=2}">	
 					<button type="button" class="mb-5 btn btn-warning btn-write btn-sm"><small>글쓰기</small></button>

@@ -7,15 +7,11 @@
 	</select> -->
 	
 	<select id="getList" resultType="com.spring.domain.BoardNoticeVO">	<!-- <![CDATA[이 안에 있는 꺽쇠가 태그가 아님을 명시]]> -->
-	<![CDATA[
-		select board_no, notice_no, title, writer, content, notice_date, notice_updatedate, replycnt
-			from (select /*+ INDEX_DESC(board_notice pk_board_notice) */ 
-					rownum rn, board_no, notice_no, title, writer, content, notice_date, notice_updatedate, replycnt from board_notice where ]]>
-	<![CDATA[	rownum <= #{pageNum} * #{amount} and board_no=#{board_no}) where rn > (#{pageNum}-1) * #{amount} and board_no=#{board_no}	]]>	
+		select board_no, notice_no, title, writer, content, notice_date, notice_updatedate, replycnt from board_notice
 	</select>
 		
-	<select id="countPage" resultType="int">
-		select count(*) from board_notice where notice_no > 0 and board_no=#{board_no}
+	<select id="countPage" resultType="java.lang.Integer">
+		select count(*) from board_notice
 	</select>
 	
 	

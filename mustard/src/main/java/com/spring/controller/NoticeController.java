@@ -17,8 +17,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.domain.AttachNoticeVO;
 import com.spring.domain.BoardNoticeVO;
-import com.spring.domain.Criteria;
-import com.spring.domain.PageDTO;
+import com.spring.domain.BoardVO;
+import com.spring.domain.Common;
+import com.spring.domain.Paging;
 import com.spring.service.BoardNoticeService;
 import com.spring.service.MemberService;
 
@@ -35,11 +36,21 @@ public class NoticeController {
 	MemberService memberService;
 
 	@RequestMapping("/noticeList")
-	public void noticelist(Model model, @ModelAttribute("cri")Criteria cri) {
+	public String noticelist(Model model, String page) {
 		log.info("공지사항 페이지 나와라");
-		List<BoardNoticeVO> list = service.getList(cri,1);
+		int nowPage = 1;
+		if (page != null && !page.isEmpty()) {	
+			nowPage = Integer.parseInt(page);
+		} else {
+			page = "1";
+		}
+		int row_total = service.countPage();
+		String pageMenu = Paging.getPaging("/board/noticeList", nowPage, row_total,Common.Reply.BLOCKLIST, Common.Reply.BLOCKPAGE);
+		model.addAttribute("page", page);
+		model.addAttribute("pageMenu", pageMenu);
+		List<BoardNoticeVO> list = service.getList();
 		model.addAttribute("notice", list);
-		model.addAttribute("pageMaker", new PageDTO(cri,service.countPage(cri,1)));
+		return "/board/noticeList";
 	}
 	
 	@RequestMapping("/getAttachs")

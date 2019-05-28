@@ -3,7 +3,6 @@ package com.spring.service;
 import java.util.List;
 
 import com.spring.domain.BoardVO;
-import com.spring.domain.Criteria;
 import com.spring.domain.LogOnVO;
 import com.spring.domain.MemberVO;
 import com.spring.domain.ZipVO;
@@ -22,8 +21,8 @@ public interface MemberService {
 	public int changePwd(int memNo, String newpassword);
 	public int changeLoc(int memNo, ZipVO zip);
 	public int removeMember(int memNo);
-	public List<MemberVO> getAllMembers(Criteria cri);
-	public int countPage(Criteria cri);
+	public List<MemberVO> getAllMembers();
+	public int MemberAmount();
 	public List<MemberVO> memberReported();
 	public int controlDown(int memNo)  throws Exception ;
 	public int controlUp(int memNo);
