@@ -31,6 +31,8 @@ public interface BoardMapper {
 	public List<ScrapVO> getScraps(int memNo);
 	public List<BoardVO> getIWrote(int memNo);
 	public int updateReplyDeleted(HashMap<String, Integer> hash);
+	public int getAllList(HashMap<String, Object> hash);
+	public List<BoardVO> getListPaging(HashMap<String, Object> hash);
 	//문의게시판
 	public List<QnaVO> getQnaList(Criteria cri);
 	public QnaVO getAsk(int qna_no);

@@ -13,7 +13,7 @@
 <body>
 	<div class="container mt-5">
 		<div class="row">
-			<div class="col-md-9 order-md-1 font-jeju">
+			<div class="col-md-9 order-md-1 font-jeju mb-5">
 				<div class="list-group-item mb-3">
 					<c:if test="${bno==2 }">
 						<h5>정보게시판</h5>
@@ -41,44 +41,36 @@
 						</c:forEach>
 					</div>
 				</c:if>
-				<c:if test="${bno!=2}">	
-					<c:forEach var="b" items="${board }">
-						<a href="boardRead?article_no=${b.article_no }&board_no=${b.board_no}" class="list-group-item list-group-item-action">
-							<div class="d-flex w-100 justify-content-between">
-								<input class="article_no" type="hidden" name="article_no" value="${n.article_no }"/>
-								<h4 class="mb-1">${b.title }</h4>
-								<%-- <c:if test="${!empty b.attach }">
-									<div class="media"></div>
-								</c:if> --%>
-							</div>
-							<p class="mb-1">${b.content }</p> 
-							<small><fmt:formatDate pattern="yy/MM/dd hh:mm" value="${b.notice_date }"/> <span>${b.writer }</span></small>
-							<span class="badge badge-light">조회수 ${b.readhit }</span>
-							<span class="badge badge-light">댓글 ${b.replycnt }</span>
-							<span class="badge badge-light">♥ ${b.likey }</span>
-						</a>
-					</c:forEach>
-				</c:if>
-				<!-- 페이징 -->
-				<nav aria-label="Page navigation example mt-3">
-					<ul class="pagination justify-content-center">
-						<c:if test="${!empty pageMaker.prev }">
-							<li class="page-item disabled"><a class="page-link" href="${pageMaker.startPage-1 }" tabindex="-1" aria-disabled="true">&laquo;</a></li>
-						</c:if>
-						<c:forEach var="idx" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
-							<li class="page-item ${pageMaker.cri.pageNum==idx?'active':'' }">
-								<a class="page-link" href="${idx }">${idx }</a>
-							</li>
+				<div class="mt-3 mb-3">
+					<c:if test="${bno!=2}">	
+						<c:forEach var="b" items="${board }">
+							<a href="boardRead?article_no=${b.article_no }&board_no=${b.board_no}" class="list-group-item list-group-item-action">
+								<div class="d-flex w-100 justify-content-between">
+									<input class="article_no" type="hidden" name="article_no" value="${n.article_no }"/>
+									<h4 class="mb-1">${b.title }</h4>
+									<%-- <c:if test="${!empty b.attach }">
+										<div class="media"></div>
+									</c:if> --%>
+								</div>
+								<p class="mb-1">${b.content }</p> 
+								<small><fmt:formatDate pattern="yy/MM/dd hh:mm" value="${b.notice_date }"/> <span>${b.writer }</span></small>
+								<span class="badge badge-light">조회수 ${b.readhit }</span>
+								<span class="badge badge-light">댓글 ${b.replycnt }</span>
+								<span class="badge badge-light">♥ ${b.likey }</span>
+							</a>
 						</c:forEach>
-						<c:if test="${!empty pageMaker.next }">
-							<li class="page-item"><a class="page-link" href="${pageMaker.endPage+1 }">&raquo;</a>
-						</c:if>
-						</li>
+					</c:if>
+				</div>
+				<!-- 페이징 -->
+				<nav aria-label="Page navigation example m-3">
+  					<ul class="pagination justify-content-center">
+							${pageMenu }
 					</ul>
 				</nav>
+				
 				<!-- /페이징 -->
 				<c:if test="${bno!=2}">	
-					<button type="button" class="mt-4 mb-5 btn btn-warning btn-write btn-sm"><small>글쓰기</small></button>
+					<button type="button" class="mb-5 btn btn-warning btn-write btn-sm"><small>글쓰기</small></button>
 				</c:if>
 			</div>
 			<div class="col-md-3 order-md-2 mb-4 font-jeju">

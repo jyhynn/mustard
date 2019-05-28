@@ -27,6 +27,8 @@ public interface BoardService {
 	public List<BoardAttachVO> attachList(int notice_no, int board_no);
 	public List<BoardAttachVO> getAttachs();
 	//페이지 카운팅
+	public int getAllList(int board_no, ZipVO zip);
+	public List<BoardVO> getListPaging(int nowPage, int board_no, long code);
 	public int count(Criteria cri, int board_no);
 	public int countPage(Criteria cri, int board_no, ZipVO zip);
 	public int updateReadhit(int article_no, int board_no);

@@ -34,9 +34,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.domain.BoardAttachVO;
 import com.spring.domain.BoardVO;
+import com.spring.domain.Common;
 import com.spring.domain.Criteria;
 import com.spring.domain.LinkVO;
 import com.spring.domain.PageDTO;
+import com.spring.domain.Paging;
 import com.spring.domain.QnaVO;
 import com.spring.domain.ZipVO;
 import com.spring.service.BoardService;
@@ -58,11 +60,11 @@ public class BoardController {
 	ZipService zipservice;
 
 	@RequestMapping(value="/boardList", produces="text/html;charset=UTF-8")
-	public String boardlist(int board_no, Model model, ZipVO zip, @ModelAttribute("cri")Criteria cri, HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public String boardlist(int board_no, Model model, ZipVO zip, @ModelAttribute("cri")Criteria cri, String page/*, HttpServletRequest request*/, HttpServletResponse response) throws IOException {
 		log.info("게시판 페이지 나와라 + " + zip.getShi());
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
-		request.setCharacterEncoding("UTF-8");
+		//request.setCharacterEncoding("UTF-8");
 		long code = zipservice.getZip(zip).getCode();
 		//정보게시판 호출시
 		if(board_no==2) {
@@ -245,12 +247,27 @@ public class BoardController {
 			}
 			model.addAttribute("link",link);
 		}else {
-			List<BoardVO> list = service.getList(cri,board_no,zip);
+			
+			//페이징
+			int nowPage = 1; // 기본으로 보여질 페이지
+			if (page != null && !page.isEmpty()) {	//페이지값이 안넘어 왔을때
+				nowPage = Integer.parseInt(page);
+			} else {
+				page = "1";
+			}
+			// 전체게시물 수 구하기
+			int row_total = service.getAllList(board_no, zip);
+			// 현재 페이지 메뉴 생성
+			String pageMenu = Paging.getPaging("/board/boardList?board_no=" + board_no + "&shi=" + zip.getShi() + "&gungu=" + zip.getGungu() + "&dong=" + zip.getDong(), nowPage, row_total,
+					Common.Reply.BLOCKLIST, Common.Reply.BLOCKPAGE);
+			
+			model.addAttribute("page", page);
+			model.addAttribute("pageMenu", pageMenu);
+			List<BoardVO> list = service.getListPaging(nowPage, board_no, code);
 			model.addAttribute("board", list);
 		}
 		
 		model.addAttribute("bno", board_no);
-		model.addAttribute("pageMaker", new PageDTO(cri,service.countPage(cri,1,zip)));
 		return "/board/boardList";
 	}
 
